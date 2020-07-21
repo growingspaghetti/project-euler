@@ -18,7 +18,7 @@ pub fn largest_prime_factor_of_the_number_600851475143() -> u64 {
             diviser += 1;
         } else {
             max_factor = n;
-            n = n / diviser;
+            n /= diviser;
         }
     }
     max_factor
