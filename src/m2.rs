@@ -23,19 +23,16 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000() -> i64 {
     let mut sum = 0;
     let mut prepre = 0i64;
     let mut pre = 0i64;
-    loop {
+    while pre < 4_000_000 {
+        if pre % 2 == 0 {
+            sum += pre;
+        }
         {
             let tuple = fib(prepre, pre);
             prepre = tuple.0;
             pre = tuple.1;
         }
         println!("num {}", pre);
-        if pre > 4_000_000 {
-            break;
-        }
-        if pre % 2 == 0 {
-            sum += pre;
-        }
     }
     sum
 }
@@ -69,7 +66,10 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> i64 {
     let mut preprepre = 0i64;
     let mut prepre = 1i64;
     let mut pre = 1i64;
-    loop {
+    while preprepre < 4_000_000 {
+        if preprepre % 2 == 0 {
+            sum += preprepre;
+        }
         {
             let tuple = fib(preprepre, prepre, pre);
             preprepre = tuple.0;
@@ -77,12 +77,6 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> i64 {
             pre = tuple.2
         }
         println!("num {}", preprepre);
-        if preprepre > 4_000_000 {
-            break;
-        }
-        if preprepre % 2 == 0 {
-            sum += preprepre;
-        }
     }
     sum
 }
