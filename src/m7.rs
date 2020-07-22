@@ -53,7 +53,8 @@
 //! mean   [3.9112 ms 3.9586 ms] std. dev.      [82.632 us 162.57 us]
 //! median [3.8762 ms 3.9051 ms] med. abs. dev. [42.126 us 87.216 us]
 //! ```
-//! See [](./m3.rs)
+//! [https://brilliant.org/wiki/sieve-of-eratosthenes/](https://brilliant.org/wiki/sieve-of-eratosthenes/)
+//! See [./m3.rs](./m3.rs)
 
 /// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 ///

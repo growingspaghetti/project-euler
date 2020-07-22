@@ -19,3 +19,4 @@ cargo doc --open
 | 8 | Largest product in a series         | [Largest product in a series](src/m8.rs)         |
 | 9 | Special Pythagorean triplet         | [Special Pythagorean triplet](src/m9.rs)         |
 | 10 | Summation of primes         | [Summation of primes](src/m10.rs)         |
+| 11 | Largest product in a grid         | [Largest product in a grid](src/m11.rs)         |
