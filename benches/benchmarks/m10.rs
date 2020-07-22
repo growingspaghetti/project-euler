@@ -5,6 +5,7 @@ criterion_group!(
     bench_sum_of_all_the_primes_below_two_million,
     bench_sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len,
     bench_sum_of_all_the_primes_below_two_million_modified_skip3_as_well,
+    bench_sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut,
     bench_sum_of_all_the_primes_below_two_million_bit_vec,
 );
 
@@ -27,6 +28,15 @@ fn bench_sum_of_all_the_primes_below_two_million_modified_skip3_as_well(c: &mut 
     c.bench_function(
         "sum_of_all_the_primes_below_two_million_modified_skip3_as_well",
         |b| b.iter(sum_of_all_the_primes_below_two_million_modified_skip3_as_well),
+    );
+}
+
+fn bench_sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut(
+    c: &mut Criterion,
+) {
+    c.bench_function(
+        "sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut",
+        |b| b.iter(sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut),
     );
 }
 
