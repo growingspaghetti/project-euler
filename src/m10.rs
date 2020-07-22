@@ -1,54 +1,66 @@
 //! ```
-//! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- sum_of_all_the_primes_below_two --verbose
+//! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- sum_of_all_the_primes_below --verbose --baseline new
 //!    Compiling project-euler v0.1.0 (/media/dev/project-euler)
-//!     Finished bench [optimized] target(s) in 8.79s
-//!      Running target/release/deps/bench_main-67a8f1edf18141ba
+//!     Finished bench [optimized] target(s) in 8.94s
+//!      Running target/release/deps/bench_main-e043d12d7fc498f6
 //! Benchmarking sum_of_all_the_primes_below_two_million
 //! Benchmarking sum_of_all_the_primes_below_two_million: Warming up for 3.0000 s
-//!
-//! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 67.2s, or reduce sample count to 10.
-//! Benchmarking sum_of_all_the_primes_below_two_million: Collecting 100 samples in estimated 67.207 s (100 iterations)
+//! Benchmarking sum_of_all_the_primes_below_two_million: Collecting 100 samples in estimated 5.5181 s (500 iterations)
 //! Benchmarking sum_of_all_the_primes_below_two_million: Analyzing
 //! sum_of_all_the_primes_below_two_million
-//!                         time:   [671.28 ms 673.75 ms 676.66 ms]
-//!                         change: [+0.4567% +0.8653% +1.3365%] (p = 0.00 < 0.05)
-//!                         Change within noise threshold.
-//! Found 8 outliers among 100 measurements (8.00%)
-//!   2 (2.00%) high mild
-//!   6 (6.00%) high severe
-//! mean   [671.28 ms 676.66 ms] std. dev.      [8.1250 ms 18.921 ms]
-//! median [669.37 ms 671.18 ms] med. abs. dev. [4.1897 ms 6.7778 ms]
+//!                         time:   [10.938 ms 10.996 ms 11.062 ms]
+//!                         change: [-0.7710% +0.0000% +0.7731%] (p = 1.00 > 0.05)
+//!                         No change in performance detected.
+//! Found 11 outliers among 100 measurements (11.00%)
+//!   7 (7.00%) high mild
+//!   4 (4.00%) high severe
+//! mean   [10.938 ms 11.062 ms] std. dev.      [203.51 us 426.69 us]
+//! median [10.853 ms 10.911 ms] med. abs. dev. [76.156 us 159.30 us]
 //!
-//! Benchmarking sum_of_all_the_primes_below_two_million_modified
-//! Benchmarking sum_of_all_the_primes_below_two_million_modified: Warming up for 3.0000 s
-//!
-//! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 66.9s, or reduce sample count to 10.
-//! Benchmarking sum_of_all_the_primes_below_two_million_modified: Collecting 100 samples in estimated 66.888 s (100 iterations)
-//! Benchmarking sum_of_all_the_primes_below_two_million_modified: Analyzing
-//! sum_of_all_the_primes_below_two_million_modified
-//!                         time:   [666.89 ms 667.58 ms 668.28 ms]
-//!                         change: [-0.1841% -0.0395% +0.1020%] (p = 0.60 > 0.05)
+//! Benchmarking sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len
+//! Benchmarking sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len: Warming up for 3.0000 s
+//! Benchmarking sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len: Collecting 100 samples in estimated 5.7125 s (700 iterations)
+//! Benchmarking sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len: Analyzing
+//! sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len
+//!                         time:   [8.1322 ms 8.1670 ms 8.2040 ms]
+//!                         change: [-0.6384% +0.0000% +0.5891%] (p = 1.00 > 0.05)
 //!                         No change in performance detected.
 //! Found 1 outliers among 100 measurements (1.00%)
 //!   1 (1.00%) high mild
-//! mean   [666.89 ms 668.28 ms] std. dev.      [3.0265 ms 4.1454 ms]
-//! median [666.39 ms 668.56 ms] med. abs. dev. [2.8950 ms 4.4666 ms]
+//! mean   [8.1322 ms 8.2040 ms] std. dev.      [155.50 us 208.59 us]
+//! median [8.0526 ms 8.1572 ms] med. abs. dev. [77.613 us 201.05 us]
 //!
 //! Benchmarking sum_of_all_the_primes_below_two_million_modified_skip3_as_well
 //! Benchmarking sum_of_all_the_primes_below_two_million_modified_skip3_as_well: Warming up for 3.0000 s
-//!
-//! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 68.8s, or reduce sample count to 10.
-//! Benchmarking sum_of_all_the_primes_below_two_million_modified_skip3_as_well: Collecting 100 samples in estimated 68.767 s (100 iterations)
+//! Benchmarking sum_of_all_the_primes_below_two_million_modified_skip3_as_well: Collecting 100 samples in estimated 5.5461 s (800 iterations)
 //! Benchmarking sum_of_all_the_primes_below_two_million_modified_skip3_as_well: Analyzing
 //! sum_of_all_the_primes_below_two_million_modified_skip3_as_well
-//!                         time:   [685.39 ms 686.07 ms 686.74 ms]
-//! Found 1 outliers among 100 measurements (1.00%)
+//!                         time:   [6.8694 ms 6.8949 ms 6.9232 ms]
+//!                         change: [-0.5597% +0.0000% +0.5735%] (p = 1.00 > 0.05)
+//!                         No change in performance detected.
+//! Found 2 outliers among 100 measurements (2.00%)
 //!   1 (1.00%) high mild
-//! mean   [685.39 ms 686.74 ms] std. dev.      [2.9463 ms 3.9102 ms]
-//! median [685.33 ms 686.79 ms] med. abs. dev. [2.3510 ms 4.1134 ms]
-//! ```
+//!   1 (1.00%) high severe
+//! mean   [6.8694 ms 6.9232 ms] std. dev.      [101.00 us 178.85 us]
+//! median [6.8400 ms 6.8768 ms] med. abs. dev. [72.980 us 126.71 us]
 //!
-//! See [./m7.rs]
+//! Benchmarking sum_of_all_the_primes_below_two_million_bit_vec
+//! Benchmarking sum_of_all_the_primes_below_two_million_bit_vec: Warming up for 3.0000 s
+//! Benchmarking sum_of_all_the_primes_below_two_million_bit_vec: Collecting 100 samples in estimated 5.2538 s (500 iterations)
+//! Benchmarking sum_of_all_the_primes_below_two_million_bit_vec: Analyzing
+//! sum_of_all_the_primes_below_two_million_bit_vec
+//!                         time:   [10.400 ms 10.459 ms 10.532 ms]
+//!                         change: [-0.9085% +0.0000% +0.9251%] (p = 1.00 > 0.05)
+//!                         No change in performance detected.
+//! Found 8 outliers among 100 measurements (8.00%)
+//!   5 (5.00%) high mild
+//!   3 (3.00%) high severe
+//! mean   [10.400 ms 10.532 ms] std. dev.      [188.60 us 496.90 us]
+//! median [10.327 ms 10.404 ms] med. abs. dev. [102.93 us 192.92 us]
+//!
+//! ```
+//! When you mark numbers in the matrix as non-prime in the bottom up approach, the is_prime() logic and its loop are not required.
+//! See ()[./m7.rs]
 
 /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 ///
@@ -60,39 +72,14 @@
 /// ```
 pub fn sum_of_all_the_primes_below_two_million() -> u64 {
     let mut matrix = [true; 2_000_000 + 1]; // n: 2_000_001 i: 0..=2_000_000
-    fn is_prime(i: u64) -> bool {
-        if i == 0 || i == 1 {
-            false
-        } else if i == 2 || i == 3 {
-            true
-        } else if i % 2 == 0 {
-            false
-        } else if i < 9 {
-            true
-        } else if i % 3 == 0 || i % 5 == 0 || i % 7 == 0 {
-            false
-        } else {
-            let mut d = 3u64;
-            let max = (i as f64).sqrt().ceil() as u64;
-            loop {
-                if d > max {
-                    break true;
-                }
-                if i % d == 0 {
-                    break false;
-                }
-                d += 2;
-            }
-        }
-    }
     let mut sum = 2u64; // because the first prime 2 is skipped and starts with 3
     matrix[0] = false;
     matrix[1] = false;
     for i in (3..matrix.len()).step_by(2) {
-        if matrix[i] && is_prime(i as u64) {
+        if matrix[i] {
             sum += i as u64;
-            for i in (2 * i..matrix.len()).step_by(i) {
-                matrix[i] = false;
+            for j in (2 * i..matrix.len()).step_by(i) {
+                matrix[j] = false;
             }
         }
     }
@@ -104,44 +91,19 @@ pub fn sum_of_all_the_primes_below_two_million() -> u64 {
 /// Find the sum of all the primes below two million.
 ///
 /// ```rust
-/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_modified;
-/// assert_eq!(sum_of_all_the_primes_below_two_million_modified(), 142913828922);
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len(), 142913828922);
 /// ```
-pub fn sum_of_all_the_primes_below_two_million_modified() -> u64 {
+pub fn sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len() -> u64 {
     let mut matrix = [true; 2_000_000 + 1]; // n: 2_000_001 i: 0..=2_000_000
-    fn is_prime(i: u64) -> bool {
-        if i == 0 || i == 1 {
-            false
-        } else if i == 2 || i == 3 {
-            true
-        } else if i % 2 == 0 {
-            false
-        } else if i < 9 {
-            true
-        } else if i % 3 == 0 || i % 5 == 0 || i % 7 == 0 {
-            false
-        } else {
-            let mut d = 3u64;
-            let max = (i as f64).sqrt().ceil() as u64;
-            loop {
-                if d > max {
-                    break true;
-                }
-                if i % d == 0 {
-                    break false;
-                }
-                d += 2;
-            }
-        }
-    }
     let mut sum = 2u64; // because the first prime 2 is skipped and starts with 3
     matrix[0] = false;
     matrix[1] = false;
     for i in (3..matrix.len()).step_by(2) {
-        if matrix[i] && is_prime(i as u64) {
+        if matrix[i] {
             sum += i as u64;
-            for i in (i * i..matrix.len()).step_by(i) {
-                matrix[i] = false;
+            for j in (i * i..matrix.len()).step_by(i) {
+                matrix[j] = false;
             }
         }
     }
@@ -158,31 +120,6 @@ pub fn sum_of_all_the_primes_below_two_million_modified() -> u64 {
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well() -> u64 {
     let mut matrix = [true; 2_000_000 + 1]; // n: 2_000_001 i: 0..=2_000_000
-    fn is_prime(i: u64) -> bool {
-        if i == 0 || i == 1 {
-            false
-        } else if i == 2 || i == 3 {
-            true
-        } else if i % 2 == 0 {
-            false
-        } else if i < 9 {
-            true
-        } else if i % 3 == 0 || i % 5 == 0 || i % 7 == 0 {
-            false
-        } else {
-            let mut d = 3u64;
-            let max = (i as f64).sqrt().ceil() as u64;
-            loop {
-                if d > max {
-                    break true;
-                }
-                if i % d == 0 {
-                    break false;
-                }
-                d += 2;
-            }
-        }
-    }
     let mut sum = 5u64; // because the first primes sum([2,3]) are skipped and starts with [5,
     matrix[0] = false;
     matrix[1] = false;
@@ -194,10 +131,10 @@ pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well() -> u64 {
         if index >= matrix.len() {
             break sum;
         }
-        if matrix[index] && is_prime(index as u64) {
+        if matrix[index] {
             sum += index as u64;
-            for i in (index * index..matrix.len()).step_by(index) {
-                matrix[i] = false;
+            for j in (index * index..matrix.len()).step_by(index) {
+                matrix[j] = false;
             }
         }
         if flag_four {
@@ -208,4 +145,30 @@ pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well() -> u64 {
             flag_four = true;
         }
     }
+}
+
+/// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+///
+/// Find the sum of all the primes below two million.
+///
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_bit_vec;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_bit_vec(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_bit_vec() -> u64 {
+    use bit_vec::BitVec;
+    let mut bv = BitVec::from_elem(2_000_000 + 1, true);
+    let len = bv.len();
+    let mut sum = 2u64; // because the first prime 2 is skipped and starts with 3
+    bv.set(0, false);
+    bv.set(1, false);
+    for i in (3..len).step_by(2) {
+        if bv[i] {
+            sum += i as u64;
+            for j in (i * i..len).step_by(i) {
+                bv.set(j, false)
+            }
+        }
+    }
+    sum
 }
