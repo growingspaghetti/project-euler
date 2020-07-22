@@ -8,4 +8,5 @@ criterion_main!(
     benchmarks::m3::largest_prime_factor,
     benchmarks::m4::largest_palindrome_product,
     benchmarks::m5::least_common_multiple,
+    benchmarks::m6::square_pyramidal_number,
 );

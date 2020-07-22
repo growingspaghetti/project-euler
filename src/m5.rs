@@ -5,7 +5,7 @@
 //!      Running target/release/deps/bench_main-67a8f1edf18141ba
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_brute
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_brute: Warming up for 3.0000 s
-//! 
+//!
 //! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 173.6s, or reduce sample count to 10.
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_brute: Collecting 100 samples in estimated 173.61 s (100 iterations)
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_brute: Analyzing
@@ -15,7 +15,7 @@
 //!                         No change in performance detected.
 //! mean   [1.7640 s 1.7849 s] std. dev.      [47.055 ms 60.372 ms]
 //! median [1.7329 s 1.7853 s] med. abs. dev. [29.680 ms 78.021 ms]
-//! 
+//!
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes: Warming up for 3.0000 s
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes: Collecting 100 samples in estimated 5.0100 s (1040300 iterations)
@@ -30,7 +30,7 @@
 //! slope  [4.6418 us 4.6824 us] R^2            [0.9505523 0.9501683]
 //! mean   [4.6487 us 4.6958 us] std. dev.      [89.969 ns 148.02 ns]
 //! median [4.6256 us 4.6712 us] med. abs. dev. [61.261 ns 102.76 ns]
-//! 
+//!
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd: Warming up for 3.0000 s
 //! Benchmarking smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd: Collecting 100 samples in estimated 5.0009 s (8797100 iterations)
@@ -118,22 +118,22 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes()
 /// assert_eq!(smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd(), 232792560);
 /// ```
 pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd() -> u64 {
-	// https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
-	// 1. least common multiple(a, b) * greatest common divisor(a, b) = a * b
-	//   ex, lcm(24, 14) = lcm(2^3*3^1, 2^1*7^1) = 2^3*3*7 = 168
-	//       gcd(24, 14) = 2
-	//       24 * 14 = 336 = 168 * 2
-	// https://en.wikipedia.org/wiki/Greatest_common_divisor#Euclid's_algorithm
-	// 2. greatest common divisor has Euclid's_algorithm
-	//   ex, 24 / 14 = q:1 r:10
-	//       10 < 14
-	//       14 / 10 = q:1 r:4
-	//        4 < 10
-	//       10 /  4 = q:2 r:2
-	//        2 <  4
-	//        4 /  2 = q:2 r:0
-	//             2#this dividor is the gcd of 14 and 24
-	fn greatest_common_factor(a: u64, b: u64) -> u64 {
+    // https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
+    // 1. least common multiple(a, b) * greatest common divisor(a, b) = a * b
+    //   ex, lcm(24, 14) = lcm(2^3*3^1, 2^1*7^1) = 2^3*3*7 = 168
+    //       gcd(24, 14) = 2
+    //       24 * 14 = 336 = 168 * 2
+    // https://en.wikipedia.org/wiki/Greatest_common_divisor#Euclid's_algorithm
+    // 2. greatest common divisor has Euclid's_algorithm
+    //   ex, 24 / 14 = q:1 r:10
+    //       10 < 14
+    //       14 / 10 = q:1 r:4
+    //        4 < 10
+    //       10 /  4 = q:2 r:2
+    //        2 <  4
+    //        4 /  2 = q:2 r:0
+    //             2#this dividor is the gcd of 14 and 24
+    fn greatest_common_factor(a: u64, b: u64) -> u64 {
         if b > a {
             greatest_common_factor(b, a)
         } else if b == 0 {

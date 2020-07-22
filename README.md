@@ -3,6 +3,10 @@ cargo new project-euler --lib
 touch src/main.rs
 ```
 
+```
+cargo doc --open
+```
+
 | No | Title                      | Source code                             |
 |----|----------------------------|-----------------------------------------|
 | 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](src/m1.rs)       |
