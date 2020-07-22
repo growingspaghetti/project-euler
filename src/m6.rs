@@ -16,7 +16,7 @@
 //! slope  [5.5059 ns 5.6627 ns] R^2            [0.5889933 0.5853011]
 //! mean   [5.5156 ns 5.6455 ns] std. dev.      [261.63 ps 386.99 ps]
 //! median [5.4516 ns 5.4970 ns] med. abs. dev. [142.02 ps 224.85 ps]
-//! 
+//!
 //! Benchmarking difference_between_the_sum_of_the_squares_square_pyramidal_number
 //! Benchmarking difference_between_the_sum_of_the_squares_square_pyramidal_number: Warming up for 3.0000 s
 //! Benchmarking difference_between_the_sum_of_the_squares_square_pyramidal_number: Collecting 100 samples in estimated 5.0000 s (1268065100 iterations)

@@ -14,3 +14,5 @@ cargo doc --open
 | 3  | Largest prime factor       | [Largest prime factor](src/m3.rs)       |
 | 4  | Largest palindrome product | [Largest palindrome product](src/m4.rs) |
 | 5  | Smallest multiple          | [Smallest multiple](src/m5.rs)          |
+| 6 | Sum square difference | [Sum square difference](src/m6.rs) |
+| 7 | 10001st prime         | [10001st prime](src/m7.rs)         |

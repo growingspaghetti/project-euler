@@ -9,4 +9,5 @@ criterion_main!(
     benchmarks::m4::largest_palindrome_product,
     benchmarks::m5::least_common_multiple,
     benchmarks::m6::square_pyramidal_number,
+    benchmarks::m7::sieve_of_eratosthenes,
 );

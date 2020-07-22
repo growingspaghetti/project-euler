@@ -4,6 +4,7 @@ pub mod m3;
 pub mod m4;
 pub mod m5;
 pub mod m6;
+pub mod m7;
 
 #[cfg(test)]
 mod tests {
