@@ -15,7 +15,7 @@
 //!   4 (4.00%) high mild
 //! mean   [14.857 ms 14.954 ms] std. dev.      [206.77 us 285.30 us]
 //! median [14.792 ms 14.936 ms] med. abs. dev. [179.14 us 290.55 us]
-//! 
+//!
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_mod3
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_mod3: Warming up for 3.0000 s
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_mod3: Collecting 100 samples in estimated 5.7103 s (400 iterations)
@@ -28,7 +28,7 @@
 //!   4 (4.00%) high mild
 //! mean   [14.191 ms 14.265 ms] std. dev.      [156.59 us 220.70 us]
 //! median [14.150 ms 14.245 ms] med. abs. dev. [126.61 us 202.42 us]
-//! 
+//!
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_6k_p1_m1
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_6k_p1_m1: Warming up for 3.0000 s
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_6k_p1_m1: Collecting 100 samples in estimated 5.8043 s (400 iterations)
@@ -41,7 +41,7 @@
 //!   1 (1.00%) high mild
 //! mean   [14.366 ms 14.445 ms] std. dev.      [168.65 us 233.28 us]
 //! median [14.314 ms 14.419 ms] med. abs. dev. [124.76 us 230.74 us]
-//! 
+//!
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix: Warming up for 3.0000 s
 //! Benchmarking the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix: Collecting 100 samples in estimated 5.4940 s (400 iterations)

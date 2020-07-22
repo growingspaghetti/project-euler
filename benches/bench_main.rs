@@ -10,4 +10,5 @@ criterion_main!(
     benchmarks::m5::least_common_multiple,
     benchmarks::m6::square_pyramidal_number,
     benchmarks::m7::sieve_of_eratosthenes,
+    benchmarks::m8::adjacent_digits,
 );

@@ -16,3 +16,4 @@ cargo doc --open
 | 5  | Smallest multiple          | [Smallest multiple](src/m5.rs)          |
 | 6 | Sum square difference | [Sum square difference](src/m6.rs) |
 | 7 | 10001st prime         | [10001st prime](src/m7.rs)         |
+| 8 | Largest product in a series         | [Largest product in a series](src/m8.rs)         |
