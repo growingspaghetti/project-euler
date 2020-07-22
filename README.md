@@ -18,3 +18,4 @@ cargo doc --open
 | 7 | 10001st prime         | [10001st prime](src/m7.rs)         |
 | 8 | Largest product in a series         | [Largest product in a series](src/m8.rs)         |
 | 9 | Special Pythagorean triplet         | [Special Pythagorean triplet](src/m9.rs)         |
+| 10 | Summation of primes         | [Summation of primes](src/m10.rs)         |

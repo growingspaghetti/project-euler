@@ -92,8 +92,8 @@ pub fn pythagorean_triplet_and_1000(sum: u32) -> u32 {
 /// Find the product abc.
 ///
 /// ```rust
-/// use self::project_euler::m9::pythagorean_triplet_and_1000;
-/// assert_eq!(pythagorean_triplet_and_1000(1000), 31875000);
+/// use self::project_euler::m9::pythagorean_triplet_and_1000_triangle_means_500;
+/// assert_eq!(pythagorean_triplet_and_1000_triangle_means_500(1000), 31875000);
 /// ```
 pub fn pythagorean_triplet_and_1000_triangle_means_500(sum: u32) -> u32 {
     // a < b < c <= if a^2 < b^2 < c^2
