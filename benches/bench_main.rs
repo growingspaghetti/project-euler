@@ -13,4 +13,5 @@ criterion_main!(
     benchmarks::m8::adjacent_digits,
     benchmarks::m9::pythagorean_triples,
     benchmarks::m10::eratosthenes_modified,
+    benchmarks::m12::number_of_divisors,
 );

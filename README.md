@@ -20,3 +20,4 @@ cargo doc --open
 | 9 | Special Pythagorean triplet         | [Special Pythagorean triplet](src/m9.rs)         |
 | 10 | Summation of primes         | [Summation of primes](src/m10.rs)         |
 | 11 | Largest product in a grid         | [Largest product in a grid](src/m11.rs)         |
+| 12 | Highly divisible triangular number         | [Highly divisible triangular number](src/m12.rs)         |
