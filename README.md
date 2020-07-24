@@ -21,3 +21,4 @@ cargo doc --open
 | 10 | Summation of primes         | [Summation of primes](src/m10.rs)         |
 | 11 | Largest product in a grid         | [Largest product in a grid](src/m11.rs)         |
 | 12 | Highly divisible triangular number         | [Highly divisible triangular number](src/m12.rs)         |
+| 13 | Large sum         | [Large sum](src/m13.rs)         |

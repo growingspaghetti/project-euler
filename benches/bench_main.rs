@@ -14,4 +14,5 @@ criterion_main!(
     benchmarks::m9::pythagorean_triples,
     benchmarks::m10::eratosthenes_modified,
     benchmarks::m12::number_of_divisors,
+    benchmarks::m13::splice_gigantic_number,
 );

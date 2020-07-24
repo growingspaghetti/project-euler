@@ -8,14 +8,14 @@
 //!    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!    |
 //!    = note: `#[warn(dead_code)]` on by default
-//! 
+//!
 //! warning: 1 warning emitted
-//! 
+//!
 //!     Finished bench [optimized] target(s) in 10.16s
 //!      Running target/release/deps/bench_main-e043d12d7fc498f6
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_divisor_counting_sqrt
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_divisor_counting_sqrt: Warming up for 3.0000 s
-//! 
+//!
 //! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 51.1s, or reduce sample count to 10.
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_divisor_counting_sqrt: Collecting 100 samples in estimated 51.098 s (100 iterations)
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_divisor_counting_sqrt: Analyzing
@@ -28,10 +28,10 @@
 //!   3 (3.00%) high severe
 //! mean   [494.89 ms 496.25 ms] std. dev.      [2.6261 ms 4.3068 ms]
 //! median [494.05 ms 495.56 ms] med. abs. dev. [1.8988 ms 3.2427 ms]
-//! 
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series: Warming up for 3.0000 s
-//! 
+//!
 //! Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 49.9s, or reduce sample count to 10.
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series: Collecting 100 samples in estimated 49.857 s (100 iterations)
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series: Analyzing
@@ -43,8 +43,8 @@
 //!   4 (4.00%) high mild
 //! mean   [499.30 ms 502.03 ms] std. dev.      [5.5989 ms 8.3139 ms]
 //! median [496.94 ms 499.06 ms] med. abs. dev. [2.7832 ms 5.6601 ms]
-//! 
-//! 
+//!
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series_n_n1
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series_n_n1: Warming up for 3.0000 s
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_brute_arithmetic_series_n_n1: Collecting 100 samples in estimated 5.1798 s (400 iterations)
@@ -57,7 +57,7 @@
 //!   5 (5.00%) high mild
 //! mean   [12.616 ms 12.713 ms] std. dev.      [196.15 us 294.28 us]
 //! median [12.550 ms 12.639 ms] med. abs. dev. [131.65 us 240.55 us]
-//! 
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors: Warming up for 3.0000 s
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors: Collecting 100 samples in estimated 7.3389 s (200 iterations)
@@ -71,7 +71,7 @@
 //!   6 (6.00%) high severe
 //! mean   [36.700 ms 37.033 ms] std. dev.      [601.07 us 1.0772 ms]
 //! median [36.499 ms 36.721 ms] med. abs. dev. [330.75 us 567.19 us]
-//! 
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1: Warming up for 3.0000 s
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1: Collecting 100 samples in estimated 8.5486 s (200 iterations)
@@ -85,7 +85,7 @@
 //!   1 (1.00%) high severe
 //! mean   [42.582 ms 42.819 ms] std. dev.      [414.23 us 807.16 us]
 //! median [42.452 ms 42.606 ms] med. abs. dev. [271.19 us 530.76 us]
-//! 
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_small_...
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_small_...: Warming up for 3.0000 s
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_small_...: Collecting 100 samples in estimated 5.0858 s (2100 iterations)
@@ -96,7 +96,7 @@
 //!                         No change in performance detected.
 //! mean   [2.3708 ms 2.4102 ms] std. dev.      [87.994 us 114.78 us]
 //! median [2.3431 ms 2.4187 ms] med. abs. dev. [93.268 us 145.90 us]
-//! 
+//!
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_s...
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_s...: Warming up for 3.0000 s
 //! Benchmarking the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_s...: Collecting 100 samples in estimated 5.2480 s (1600 iterations)
