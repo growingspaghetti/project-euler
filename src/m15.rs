@@ -2,66 +2,82 @@
 //! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- routes_are_there_through_a_ --verbose --baseline new
 //!    Compiling project-euler v0.1.0 (/media/dev/project-euler)
 //!
-//!     Finished bench [optimized] target(s) in 13.38s
-//!      Running target/release/deps/bench_main-6ef44f4b2c4834b9
+//! Finished bench [optimized] target(s) in 0.05s
+//! Running target/release/deps/bench_main-6ef44f4b2c4834b9
 //! Benchmarking routes_are_there_through_a_20_20_grid_walk_through
 //! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Warming up for 3.0000 s
-//! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Collecting 100 samples in estimated 5.0003 s (5479250 iterations)
+//! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Collecting 100 samples in estimated 5.0041 s (5757000 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Analyzing
 //! routes_are_there_through_a_20_20_grid_walk_through
-//!                         time:   [875.91 ns 882.23 ns 889.69 ns]
-//!                         change: [-2.2238% +0.0000% +2.1750%] (p = 1.00 > 0.05)
-//!                         No change in performance detected.
-//! Found 2 outliers among 100 measurements (2.00%)
-//!   2 (2.00%) high severe
-//! slope  [875.91 ns 889.69 ns] R^2            [0.7513561 0.7496487]
-//! mean   [903.87 ns 933.07 ns] std. dev.      [50.366 ns 97.510 ns]
-//! median [878.30 ns 922.12 ns] med. abs. dev. [32.585 ns 73.029 ns]
+//! 				   time:   [861.71 ns 865.02 ns 868.81 ns]
+//! 				   change: [-0.9824% +0.0000% +1.0046%] (p = 1.00 > 0.05)
+//! 				   No change in performance detected.
+//! Found 11 outliers among 100 measurements (11.00%)
+//! 6 (6.00%) high mild
+//! 5 (5.00%) high severe
+//! slope  [861.71 ns 868.81 ns] R^2            [0.9497085 0.9491258]
+//! mean   [866.92 ns 879.65 ns] std. dev.      [20.603 ns 43.963 ns]
+//! median [857.31 ns 865.61 ns] med. abs. dev. [7.7015 ns 16.662 ns]
 //!
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination: Warming up for 3.0000 s
-//! Benchmarking routes_are_there_through_a_20_20_grid_combination: Collecting 100 samples in estimated 5.0000 s (2547699750 iterations)
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination: Collecting 100 samples in estimated 5.0000 s (2593669900 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination
-//!                         time:   [1.9286 ns 1.9371 ns 1.9466 ns]
-//!                         change: [-1.0789% +0.0000% +1.0714%] (p = 1.00 > 0.05)
-//!                         No change in performance detected.
+//! 				   time:   [1.9110 ns 1.9170 ns 1.9237 ns]
+//! 				   change: [-0.7170% +0.0000% +0.7033%] (p = 1.00 > 0.05)
+//! 				   No change in performance detected.
 //! Found 5 outliers among 100 measurements (5.00%)
-//!   2 (2.00%) high mild
-//!   3 (3.00%) high severe
-//! slope  [1.9286 ns 1.9466 ns] R^2            [0.9173010 0.9166915]
-//! mean   [1.9490 ns 1.9778 ns] std. dev.      [56.254 ps 89.220 ps]
-//! median [1.9198 ns 1.9659 ns] med. abs. dev. [33.320 ps 78.824 ps]
+//! 4 (4.00%) high mild
+//! 1 (1.00%) high severe
+//! slope  [1.9110 ns 1.9237 ns] R^2            [0.9730688 0.9727294]
+//! mean   [1.9230 ns 1.9423 ns] std. dev.      [36.045 ps 63.408 ps]
+//! median [1.9034 ns 1.9231 ns] med. abs. dev. [13.032 ps 37.264 ps]
 //!
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Warming up for 3.0000 s
-//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Collecting 100 samples in estimated 5.0037 s (5762050 iterations)
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Collecting 100 samples in estimated 5.0007 s (5863050 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination_small_numbers
-//!                         time:   [857.41 ns 861.84 ns 866.81 ns]
-//!                         change: [-0.9182% +0.0000% +0.9109%] (p = 1.00 > 0.05)
-//!                         No change in performance detected.
+//! 				   time:   [845.60 ns 848.75 ns 852.27 ns]
+//! 				   change: [-0.9554% +0.0000% +0.9305%] (p = 1.00 > 0.05)
+//! 				   No change in performance detected.
 //! Found 7 outliers among 100 measurements (7.00%)
-//!   6 (6.00%) high mild
-//!   1 (1.00%) high severe
-//! slope  [857.41 ns 866.81 ns] R^2            [0.9414973 0.9407726]
-//! mean   [862.48 ns 873.72 ns] std. dev.      [21.501 ns 35.551 ns]
-//! median [852.68 ns 864.21 ns] med. abs. dev. [12.150 ns 24.515 ns]
+//! 6 (6.00%) high mild
+//! 1 (1.00%) high severe
+//! slope  [845.60 ns 852.27 ns] R^2            [0.9620602 0.9615935]
+//! mean   [851.68 ns 863.38 ns] std. dev.      [17.942 ns 43.125 ns]
+//! median [842.65 ns 850.19 ns] med. abs. dev. [6.7854 ns 16.410 ns]
+//!
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series: Warming up for 3.0000 s
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series: Collecting 100 samples in estimated 5.0006 s (19508150 iterations)
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series: Analyzing
+//! routes_are_there_through_a_20_20_grid_combination_small_numbers_series
+//! 				   time:   [253.91 ns 254.73 ns 255.63 ns]
+//! 				   change: [-0.7901% +0.0000% +0.7313%] (p = 1.00 > 0.05)
+//! 				   No change in performance detected.
+//! Found 5 outliers among 100 measurements (5.00%)
+//! 3 (3.00%) high mild
+//! 2 (2.00%) high severe
+//! slope  [253.91 ns 255.63 ns] R^2            [0.9714490 0.9711834]
+//! mean   [255.27 ns 258.12 ns] std. dev.      [4.5618 ns 10.125 ns]
+//! median [253.13 ns 255.44 ns] med. abs. dev. [2.4928 ns 5.0815 ns]
 //!
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Warming up for 3.0000 s
-//! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Collecting 100 samples in estimated 5.0002 s (61332250 iterations)
+//! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Collecting 100 samples in estimated 5.0000 s (61832200 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination_perfect_square
-//!                         time:   [80.940 ns 81.343 ns 81.790 ns]
-//!                         change: [-0.6828% +0.0000% +0.6899%] (p = 1.00 > 0.05)
-//!                         No change in performance detected.
-//! Found 3 outliers among 100 measurements (3.00%)
-//!   2 (2.00%) high mild
-//!   1 (1.00%) high severe
-//! slope  [80.940 ns 81.790 ns] R^2            [0.9394077 0.9386556]
-//! mean   [81.339 ns 82.138 ns] std. dev.      [1.6115 ns 2.4606 ns]
-//! median [80.639 ns 81.631 ns] med. abs. dev. [1.0131 ns 2.0575 ns]
+//! 				   time:   [80.339 ns 80.565 ns 80.805 ns]
+//! 				   change: [-0.6864% +0.0000% +0.6664%] (p = 0.99 > 0.05)
+//! 				   No change in performance detected.
+//! Found 5 outliers among 100 measurements (5.00%)
+//! 2 (2.00%) high mild
+//! 3 (3.00%) high severe
+//! slope  [80.339 ns 80.805 ns] R^2            [0.9787235 0.9785826]
+//! mean   [80.667 ns 81.427 ns] std. dev.      [1.2798 ns 2.5809 ns]
+//! median [80.018 ns 80.826 ns] med. abs. dev. [660.10 ps 1.5764 ns]
 //! ```
 //!
 //! ![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Walking_on_Pascal%27s_Triangle_SVG.svg/529px-Walking_on_Pascal%27s_Triangle_SVG.svg.png)
@@ -221,6 +237,38 @@ pub fn routes_are_there_through_a_20_20_grid_combination_small_numbers() -> u64 
             sum /= d;
         }
         sum
+    }
+    nck(40, 20) as u64
+}
+
+/// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+/// ![](https://projecteuler.net/project/images/p015.png)
+/// How many such routes are there through a 20×20 grid?
+///
+/// ```rust
+/// use self::project_euler::m15::routes_are_there_through_a_20_20_grid_combination_small_numbers_series;
+/// assert_eq!(routes_are_there_through_a_20_20_grid_combination_small_numbers_series(), 137846528820);
+/// ```
+pub fn routes_are_there_through_a_20_20_grid_combination_small_numbers_series() -> u64 {
+    // https://mathworld.wolfram.com/BinomialCoefficient.html
+    // nCk (n k) 20+20C20 (40 20) n! / k! * n-k! = 40! / (20! * 20!)
+    //
+    // n! / k!(n-k)! = n-0 * n-1 * n-2 * .. * n-k+1(excluding 1..=k but 0..k) / k!
+    //
+    // nCk = pre: nCk-1 * ((n-k+1)/k)
+    //  and it means
+    //    =  nCk-2 * ((n-k-1+1)/k-1) * ((n-k+1)/k)
+    //    =  nCk-3 * ((n-k-2+1)/k-2) * ((n-k-1+1)/k-1) * ((n-k+1)/k)
+    // 40C20 = 40C19 * (40-20+1/20)
+    // 40C19 = 40C18 * (40-19+1/19)
+    // 40C2  = 40C2  * (40-2+1/2)
+    // 40C1  = 40C0  * (40-1+1/1) = 40 anyway
+    // 40C0  = 1 (take all is the one and only way)
+    fn nck(n: u128, k: u128) -> f64 {
+        if k == 1 {
+            return n as f64;
+        }
+        nck(n, k - 1) * ((n - k + 1) as f64 / k as f64)
     }
     nck(40, 20) as u64
 }

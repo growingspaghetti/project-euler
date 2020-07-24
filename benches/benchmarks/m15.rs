@@ -5,6 +5,7 @@ criterion_group!(
     bench_routes_are_there_through_a_20_20_grid_walk_through,
     bench_routes_are_there_through_a_20_20_grid_combination,
     bench_routes_are_there_through_a_20_20_grid_combination_small_numbers,
+    bench_routes_are_there_through_a_20_20_grid_combination_small_numbers_series,
     bench_routes_are_there_through_a_20_20_grid_combination_perfect_square,
 );
 
@@ -26,6 +27,13 @@ fn bench_routes_are_there_through_a_20_20_grid_combination_small_numbers(c: &mut
     c.bench_function(
         "routes_are_there_through_a_20_20_grid_combination_small_numbers",
         |b| b.iter(routes_are_there_through_a_20_20_grid_combination_small_numbers),
+    );
+}
+
+fn bench_routes_are_there_through_a_20_20_grid_combination_small_numbers_series(c: &mut Criterion) {
+    c.bench_function(
+        "routes_are_there_through_a_20_20_grid_combination_small_numbers_series",
+        |b| b.iter(routes_are_there_through_a_20_20_grid_combination_small_numbers_series),
     );
 }
 

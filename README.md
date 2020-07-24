@@ -23,4 +23,5 @@ cargo doc --open
 | 12 | Highly divisible triangular number         | [Highly divisible triangular number](src/m12.rs)         | 495.54 ms -> 12.663 ms (brute force), 36.857 ms (1000 primes), 2.3902 ms (ten primes) |
 | 13 | Large sum         | [Large sum](src/m13.rs)         | 213.29 us -> 8.9126 us  |
 | 14 | Longest Collatz sequence         | [Longest Collatz sequence](src/m14.rs)         | 215.79 ms -> 95.136 ms, 343.39 ms -> 586.73 ms (hashmap, deterioration) |
-| 15 | Lattice paths         | [Lattice paths](src/m15.rs)         | 882.23 ns -> 1.9371 ns -> 81.343 ns |
+| 15 | Lattice paths         | [Lattice paths](src/m15.rs)         | 865.02 ns -> 1.9170 ns, 254.73 ns, 80.565 ns |
+| 16 | Power digit sum         | [Power digit sum](src/m16.rs)         | 284.10 us |
