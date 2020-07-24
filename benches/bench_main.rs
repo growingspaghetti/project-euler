@@ -16,4 +16,5 @@ criterion_main!(
     benchmarks::m12::number_of_divisors,
     benchmarks::m13::splice_gigantic_number,
     benchmarks::m14::collatz_cache,
+    benchmarks::m15::ne_lattice_paths,
 );

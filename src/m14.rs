@@ -386,16 +386,16 @@ pub fn collatz_under_one_million_produces_the_longest_chain_cache_rec_3n_1_2_ski
         }
     };
 
-	// when number is i%2=0 [2, 4, 6 .. 500_000 .. 999998],
-	// condition num%2=0, collatz(num) proceeds to collatz(num/2)
-	//      and steps are         a+1         <-               a
-	// therefore,         collatz(2) is 1 more step advanced than collatz(1),
-	//                    collatz(4) is 1 more step advanced than collatz(2),
-	//              collatz(500_000) is 1 more step advanced than collatz(250_000),
-	//            collatz(1_000_000) is 1 more step advanced than collatz(500_000).
-	// for we consider collatz(999_999), even numbers from 2..999998/2 are ruled out.
-	//  it's true for the rest as well.
-	//               collatz(999998) is 1 more step advanced than collatz(499999).
+    // when number is i%2=0 [2, 4, 6 .. 500_000 .. 999998],
+    // condition num%2=0, collatz(num) proceeds to collatz(num/2)
+    //      and steps are         a+1         <-               a
+    // therefore,         collatz(2) is 1 more step advanced than collatz(1),
+    //                    collatz(4) is 1 more step advanced than collatz(2),
+    //              collatz(500_000) is 1 more step advanced than collatz(250_000),
+    //            collatz(1_000_000) is 1 more step advanced than collatz(500_000).
+    // for we consider collatz(999_999), even numbers from 2..999998/2 are ruled out.
+    //  it's true for the rest as well.
+    //               collatz(999998) is 1 more step advanced than collatz(499999).
     let mut longest_step = 0u64;
     let mut max_num = 0u64;
     for i in 500_000..1_000_000u64 {
