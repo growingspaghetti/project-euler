@@ -1,5 +1,5 @@
 //! ```txt
-//! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- sum_of_one_hundred_50_digit_numbers --verbose 
+//! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- sum_of_one_hundred_50_digit_numbers --verbose
 //!    Compiling project-euler v0.1.0 (/media/dev/project-euler)
 //!     Finished bench [optimized] target(s) in 10.72s
 //!      Running target/release/deps/bench_main-e043d12d7fc498f6
@@ -15,7 +15,7 @@
 //! slope  [212.69 us 213.89 us] R^2            [0.9821820 0.9821698]
 //! mean   [214.49 us 216.57 us] std. dev.      [4.0413 us 6.4420 us]
 //! median [213.58 us 214.59 us] med. abs. dev. [2.0604 us 3.4595 us]
-//! 
+//!
 //! Benchmarking sum_of_one_hundred_50_digit_numbers_u64
 //! Benchmarking sum_of_one_hundred_50_digit_numbers_u64: Warming up for 3.0000 s
 //! Benchmarking sum_of_one_hundred_50_digit_numbers_u64: Collecting 100 samples in estimated 5.0072 s (560550 iterations)
