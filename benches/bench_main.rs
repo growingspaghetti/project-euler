@@ -18,4 +18,5 @@ criterion_main!(
     benchmarks::m14::collatz_cache,
     benchmarks::m15::ne_lattice_paths,
     benchmarks::m16::two_power_thousand,
+    benchmarks::m18::triangle_path_max,
 );

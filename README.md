@@ -26,3 +26,4 @@ cargo doc --open
 | 15 | Lattice paths         | [Lattice paths](src/m15.rs)         | 865.02 ns -> 1.9170 ns, 254.73 ns, 80.565 ns |
 | 16 | Power digit sum         | [Power digit sum](src/m16.rs)         | 284.10 us -> 55.454 us |
 | 17 | Number letter counts         | [Number letter counts](src/m17.rs)         |  |
+| 18 | Maximum path sum I         | [Maximum path sum I](src/m18.rs)         | 1.9201 us |
