@@ -28,3 +28,4 @@ cargo doc --open
 | 17 | Number letter counts         | [Number letter counts](src/m17.rs)         |  |
 | 18 | Maximum path sum I         | [Maximum path sum I](src/m18.rs)         | 1.9201 us |
 | 19 | Counting Sundays        | [Counting Sundays](src/m19.rs)         | |
+| 20 | Factorial digit sum        | [Factorial digit sum](src/m20.rs)         | |
