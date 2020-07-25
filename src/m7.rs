@@ -1,4 +1,4 @@
-//! ```
+//! ```txt
 //! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- the_10001st_prime_number --verbose --baseline new
 //!     Finished bench [optimized] target(s) in 0.13s
 //!      Running target/release/deps/bench_main-e043d12d7fc498f6

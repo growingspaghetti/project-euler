@@ -74,7 +74,7 @@
 //!
 //! ```
 //! When you mark numbers in the matrix as non-prime in the bottom up approach, the is_prime() logic and its loop are not required.
-//! See ()[./m7.rs]
+//! See (m7)[./m7.rs]
 
 /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 ///
