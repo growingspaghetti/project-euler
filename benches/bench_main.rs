@@ -20,4 +20,5 @@ criterion_main!(
     benchmarks::m16::two_power_thousand,
     benchmarks::m18::triangle_path_max,
     benchmarks::m21::sigma_function,
+    benchmarks::m22::selection_sort,
 );
