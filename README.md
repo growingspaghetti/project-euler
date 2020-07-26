@@ -30,4 +30,5 @@ cargo doc --open
 | 19 | Counting Sundays        | [Counting Sundays](src/m19.rs)         | |
 | 20 | Factorial digit sum        | [Factorial digit sum](src/m20.rs)         | |
 | 21 |  Amicable numbers       | [Amicable numbers](src/m21.rs)         | 333.42 ms -> 233.36 ms -> 3.7326 ms |
-| 21 |  Names scores       | [Names scores](src/m22.rs)         | 1.0419 ms (std), 210.01 ms -> 170.67 ms -> 2.1485 ms |
+| 22 |  Names scores       | [Names scores](src/m22.rs)         | 1.0419 ms (std), 210.01 ms -> 170.67 ms -> 2.1485 ms |
+| 23 |  Non-abundant sums      | [Non-abundant sums](src/m23.rs)         |  |
