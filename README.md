@@ -32,3 +32,5 @@ cargo doc --open
 | 21 |  Amicable numbers       | [Amicable numbers](src/m21.rs)         | 333.42 ms -> 233.36 ms -> 3.7326 ms |
 | 22 |  Names scores       | [Names scores](src/m22.rs)         | 1.0419 ms (std), 210.01 ms -> 170.67 ms -> 2.1485 ms |
 | 23 |  Non-abundant sums      | [Non-abundant sums](src/m23.rs)         |  |
+| 24 |  Lexicographic permutations      | [Lexicographic permutations](src/m24.rs)         | 39.383 ms -> 182.03 ns |
+| 25 | 1000-digit Fibonacci number | [1000-digit Fibonacci number](src/m25.rs) | 2.2420 ms -> 17.320 us |

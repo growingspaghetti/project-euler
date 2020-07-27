@@ -21,4 +21,6 @@ criterion_main!(
     benchmarks::m18::triangle_path_max,
     benchmarks::m21::sigma_function,
     benchmarks::m22::selection_sort,
+    benchmarks::m24::permutation_range,
+    benchmarks::m25::fibonacci_general_expression,
 );

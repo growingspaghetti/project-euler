@@ -47,7 +47,8 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000() -> i64 {
     let fib = |prepre: i64, pre: i64| -> (i64, i64) {
         match (prepre, pre) {
             (0, 0) => (0, 1),
-            (0, 1) => (1, 2),
+            // (0, 1) => (1, 1),
+            // (1, 1) => (1, 2),
             // (1, 2) => (2, 3),
             // (2, 3) => (3, 5),
             // (3, 5) => (5, 8),
