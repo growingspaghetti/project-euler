@@ -1,7 +1,7 @@
-//! ```                                                                                                                                                                                                 
+//! ```
 //! ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- index_of_fibonacci_sequence_to_contain_1000 --verbose --baseline new
 //!    Compiling project-euler v0.1.0 (/media/dev/project-euler)
-//! 
+//!
 //!     Finished bench [optimized] target(s) in 13.82s
 //!      Running target/release/deps/bench_main-6ef44f4b2c4834b9
 //! Benchmarking index_of_fibonacci_sequence_to_contain_1000_digits_brute
@@ -17,7 +17,7 @@
 //!   3 (3.00%) high severe
 //! mean   [2.2339 ms 2.2512 ms] std. dev.      [31.455 us 55.586 us]
 //! median [2.2201 ms 2.2331 ms] med. abs. dev. [15.503 us 31.494 us]
-//! 
+//!
 //! Benchmarking index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio
 //! Benchmarking index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio: Warming up for 3.0000 s
 //! Benchmarking index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio: Collecting 100 samples in estimated 5.0155 s (277750 iterations)
