@@ -23,4 +23,5 @@ criterion_main!(
     benchmarks::m22::selection_sort,
     benchmarks::m24::permutation_range,
     benchmarks::m25::fibonacci_general_expression,
+    benchmarks::m27::primes_for_consecutive_values_of_n,
 );

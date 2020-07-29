@@ -35,3 +35,4 @@ cargo doc --open
 | 24 |  Lexicographic permutations      | [Lexicographic permutations](src/m24.rs)         | 39.383 ms -> 182.03 ns |
 | 25 | 1000-digit Fibonacci number | [1000-digit Fibonacci number](src/m25.rs) | 2.2420 ms -> 17.320 us |
 | 26 | Reciprocal cycles | [Reciprocal cycles](src/m26.rs) | |
+| 27 | Quadratic primes | [Quadratic primes](src/m27.rs) | 93.446 ms -> 21.558 ms -> 8.0667 ms |
