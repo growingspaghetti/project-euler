@@ -1,5 +1,5 @@
 //!```txt
-//!ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- of_primes_for_consecutive_values_of_n --verbose 
+//!ryoji@ubuntu:/media/dev/project-euler$ cargo bench --bench bench_main -- of_primes_for_consecutive_values_of_n --verbose
 //!   Compiling project-euler v0.1.0 (/media/dev/project-euler)
 //!
 //!    Finished bench [optimized] target(s) in 15.27s

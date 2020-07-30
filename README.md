@@ -36,3 +36,4 @@ cargo doc --open
 | 25 | 1000-digit Fibonacci number | [1000-digit Fibonacci number](src/m25.rs) | 2.2420 ms -> 17.320 us |
 | 26 | Reciprocal cycles | [Reciprocal cycles](src/m26.rs) | |
 | 27 | Quadratic primes | [Quadratic primes](src/m27.rs) | 93.446 ms -> 21.558 ms -> 8.0667 ms |
+| 28 | Number spiral diagonals | [Number spiral diagonals](src/m28.rs) | 3.7760 ms -> 7.3503 us -> 2.2267 ns |
