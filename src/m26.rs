@@ -40,7 +40,7 @@ pub fn the_longest_recurring_cycle() -> (u32, u32) {
                     number_having_longest_recurring_cycle = divisor;
                     longest_recurring_cycle = recurring_cycle;
                 }
-                //println!("{} {:?}", d, dividends);
+                //println!("{} {:?}", divisor, dividends);
                 break;
             }
             dividends.push(dividend);

@@ -25,4 +25,5 @@ criterion_main!(
     benchmarks::m25::fibonacci_general_expression,
     benchmarks::m27::primes_for_consecutive_values_of_n,
     benchmarks::m28::sum_of_the_numbers_on_the_diagonals,
+    benchmarks::m29::integer_combinations_of_pow,
 );
