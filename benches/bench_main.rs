@@ -26,4 +26,6 @@ criterion_main!(
     benchmarks::m27::primes_for_consecutive_values_of_n,
     benchmarks::m28::sum_of_the_numbers_on_the_diagonals,
     benchmarks::m29::integer_combinations_of_pow,
+    benchmarks::m30::sum_of_dth_powers,
+    benchmarks::m31::change_making_problem,
 );

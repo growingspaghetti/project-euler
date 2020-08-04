@@ -38,4 +38,5 @@ cargo doc --open
 | 27 | Quadratic primes | [Quadratic primes](src/m27.rs) | 93.446 ms -> 21.558 ms -> 8.0667 ms |
 | 28 | Number spiral diagonals | [Number spiral diagonals](src/m28.rs) | 3.7760 ms -> 7.3503 us -> 2.2267 ns |
 | 29 | Distinct powers | [Distinct powers](src/m29.rs) | 15.813 ms -> 2.0975 ms -> 1.1515 ms |
-| 30 | Digit fifth powers | [Digit fifth powers](src/m30.rs) |  |
+| 30 | Digit fifth powers | [Digit fifth powers](src/m30.rs) | 22.395 ms -> 10.193 ms |
+| 31 | Coin sums | [Coin sums](src/m31.rs) | 3.4913 ms -> 3.7455 us, 16.639 ms -> 25.304 us |
