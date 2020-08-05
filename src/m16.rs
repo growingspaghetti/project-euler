@@ -158,6 +158,7 @@ pub fn the_sum_of_the_digits_of_the_number_2_1000_change_of_base_formula() -> u3
 /// use self::project_euler::m16::the_sum_of_the_digits_of_the_number_2_1000_u64;
 /// assert_eq!(the_sum_of_the_digits_of_the_number_2_1000_u64(), 1366);
 /// ```
+#[allow(clippy::needless_range_loop)]
 pub fn the_sum_of_the_digits_of_the_number_2_1000_u64() -> u64 {
     fn multiply_by_two(containers: &mut std::vec::Vec<u64>) {
         let mut carry = 0u64;
@@ -200,15 +201,15 @@ pub fn the_sum_of_the_digits_of_the_number_2_1000_u64() -> u64 {
 // https://stackoverflow.com/a/59123630
 // https://stackoverflow.com/questions/57637354/how-to-run-for-loop-on-elements-of-a-vector-and-change-the-vector-inside-the-for
 // for container in containers {
-// 	*container = *container * 2 + carry;
-// 	if *container > 10_000_000_000 {
-// 		// use the fact that carry is always 1 and never be any other numbers
-// 		*container -= 10_000_000_000;
-// 		carry = 1;
-// 	} else {
-// 		carry = 0;
-// 	}
+//     *container = *container * 2 + carry;
+//     if *container > 10_000_000_000 {
+//         // use the fact that carry is always 1 and never be any other numbers
+//         *container -= 10_000_000_000;
+//         carry = 1;
+//     } else {
+//         carry = 0;
+//     }
 // }
 // if carry > 0 { // error here
-// 	containers.push(1);
+//     containers.push(1);
 // }

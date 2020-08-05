@@ -40,6 +40,7 @@
 /// use self::project_euler::m24::millionth_lexicographic_permutation_brute;
 /// assert_eq!(millionth_lexicographic_permutation_brute(), 2783915460);
 /// ```
+#[allow(clippy::needless_range_loop)]
 pub fn millionth_lexicographic_permutation_brute() -> u64 {
     let mut counter = 1u64;
     let check_digit_used = &mut [false; 10];

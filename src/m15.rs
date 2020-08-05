@@ -9,9 +9,9 @@
 //! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Collecting 100 samples in estimated 5.0041 s (5757000 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_walk_through: Analyzing
 //! routes_are_there_through_a_20_20_grid_walk_through
-//! 				   time:   [861.71 ns 865.02 ns 868.81 ns]
-//! 				   change: [-0.9824% +0.0000% +1.0046%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [861.71 ns 865.02 ns 868.81 ns]
+//!                    change: [-0.9824% +0.0000% +1.0046%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 11 outliers among 100 measurements (11.00%)
 //! 6 (6.00%) high mild
 //! 5 (5.00%) high severe
@@ -24,9 +24,9 @@
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination: Collecting 100 samples in estimated 5.0000 s (2593669900 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination
-//! 				   time:   [1.9110 ns 1.9170 ns 1.9237 ns]
-//! 				   change: [-0.7170% +0.0000% +0.7033%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [1.9110 ns 1.9170 ns 1.9237 ns]
+//!                    change: [-0.7170% +0.0000% +0.7033%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 5 outliers among 100 measurements (5.00%)
 //! 4 (4.00%) high mild
 //! 1 (1.00%) high severe
@@ -39,9 +39,9 @@
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Collecting 100 samples in estimated 5.0007 s (5863050 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination_small_numbers
-//! 				   time:   [845.60 ns 848.75 ns 852.27 ns]
-//! 				   change: [-0.9554% +0.0000% +0.9305%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [845.60 ns 848.75 ns 852.27 ns]
+//!                    change: [-0.9554% +0.0000% +0.9305%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 7 outliers among 100 measurements (7.00%)
 //! 6 (6.00%) high mild
 //! 1 (1.00%) high severe
@@ -54,9 +54,9 @@
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series: Collecting 100 samples in estimated 5.0006 s (19508150 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_small_numbers_series: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination_small_numbers_series
-//! 				   time:   [253.91 ns 254.73 ns 255.63 ns]
-//! 				   change: [-0.7901% +0.0000% +0.7313%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [253.91 ns 254.73 ns 255.63 ns]
+//!                    change: [-0.7901% +0.0000% +0.7313%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 5 outliers among 100 measurements (5.00%)
 //! 3 (3.00%) high mild
 //! 2 (2.00%) high severe
@@ -69,9 +69,9 @@
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Collecting 100 samples in estimated 5.0000 s (61832200 iterations)
 //! Benchmarking routes_are_there_through_a_20_20_grid_combination_perfect_square: Analyzing
 //! routes_are_there_through_a_20_20_grid_combination_perfect_square
-//! 				   time:   [80.339 ns 80.565 ns 80.805 ns]
-//! 				   change: [-0.6864% +0.0000% +0.6664%] (p = 0.99 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [80.339 ns 80.565 ns 80.805 ns]
+//!                    change: [-0.6864% +0.0000% +0.6664%] (p = 0.99 > 0.05)
+//!                    No change in performance detected.
 //! Found 5 outliers among 100 measurements (5.00%)
 //! 2 (2.00%) high mild
 //! 3 (3.00%) high severe

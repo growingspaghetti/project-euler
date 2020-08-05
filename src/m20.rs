@@ -11,6 +11,7 @@
 /// use self::project_euler::m20::sum_of_the_digits_in_the_number_factorial_100;
 /// assert_eq!(sum_of_the_digits_in_the_number_factorial_100(), 6485);
 /// ```
+#[allow(clippy::needless_range_loop)]
 pub fn sum_of_the_digits_in_the_number_factorial_100() -> u64 {
     fn multiply_by_num(containers: &mut std::vec::Vec<u64>, num: u64) {
         let mut carry = 0u64;

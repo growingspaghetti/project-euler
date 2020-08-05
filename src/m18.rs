@@ -85,7 +85,7 @@ const TRIANGLE: &[&[u8]] = &[
 pub fn the_maximum_total_from_top_to_bottom_of_the_triangle() -> u64 {
     // 3
     // 7 4
-    // 2 4 6s
+    // 2 4 6
     // 8 5 9 3
 
     // triangle of single values to triangle of sum

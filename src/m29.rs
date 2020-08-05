@@ -9,9 +9,9 @@
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute: Collecting 100 samples in estimated 7.0014 s (300 iterations)
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute: Analyzing
 //! distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute
-//! 				   time:   [23.220 ms 23.308 ms 23.406 ms]
-//! 				   change: [-0.5484% +0.0000% +0.5579%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [23.220 ms 23.308 ms 23.406 ms]
+//!                    change: [-0.5484% +0.0000% +0.5579%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 13 outliers among 100 measurements (13.00%)
 //! 9 (9.00%) high mild
 //! 4 (4.00%) high severe
@@ -23,9 +23,9 @@
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string: Collecting 100 samples in estimated 5.7543 s (400 iterations)
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string: Analyzing
 //! distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string
-//! 				   time:   [15.327 ms 15.813 ms 16.345 ms]
-//! 				   change: [-4.6019% +0.0000% +4.7903%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [15.327 ms 15.813 ms 16.345 ms]
+//!                    change: [-4.6019% +0.0000% +4.7903%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 10 outliers among 100 measurements (10.00%)
 //! 9 (9.00%) high mild
 //! 1 (1.00%) high severe
@@ -37,9 +37,9 @@
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors: Collecting 100 samples in estimated 5.0527 s (2400 iterations)
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors: Analyzing
 //! distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors
-//! 				   time:   [2.0836 ms 2.0975 ms 2.1134 ms]
-//! 				   change: [-1.0003% +0.0000% +1.0350%] (p = 0.99 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [2.0836 ms 2.0975 ms 2.1134 ms]
+//!                    change: [-1.0003% +0.0000% +1.0350%] (p = 0.99 > 0.05)
+//!                    No change in performance detected.
 //! Found 11 outliers among 100 measurements (11.00%)
 //! 7 (7.00%) high mild
 //! 4 (4.00%) high severe
@@ -53,9 +53,9 @@
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort: Collecting 100 samples in estimated 5.8477 s (5050 iterations)
 //! Benchmarking distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort: Analyzing
 //! distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort
-//! 				   time:   [1.1459 ms 1.1515 ms 1.1574 ms]
-//! 				   change: [-1.0250% +0.0000% +1.1051%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [1.1459 ms 1.1515 ms 1.1574 ms]
+//!                    change: [-1.0250% +0.0000% +1.1051%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 6 outliers among 100 measurements (6.00%)
 //! 5 (5.00%) high mild
 //! 1 (1.00%) high severe
@@ -83,6 +83,7 @@
 /// use self::project_euler::m29::distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute;
 /// assert_eq!(distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute(), 9183);
 /// ```
+#[allow(clippy::needless_range_loop)]
 pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute() -> u64 {
     fn multiply(containers: &mut std::vec::Vec<u64>, num: u64) {
         let mut carry = 0u64;
@@ -150,6 +151,7 @@ pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute() -> u64 {
 /// use self::project_euler::m29::distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string;
 /// assert_eq!(distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string(), 9183);
 /// ```
+#[allow(clippy::needless_range_loop)]
 pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string() -> u64 {
     fn multiply(containers: &mut std::vec::Vec<u64>, num: u64) {
         let mut carry = 0u64;

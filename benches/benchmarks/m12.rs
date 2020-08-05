@@ -14,6 +14,7 @@ criterion_group!(
 
 use project_euler::m12::*;
 
+#[allow(dead_code)]
 fn bench_the_first_triangle_number_to_have_over_five_hundred_divisors_brute(c: &mut Criterion) {
     c.bench_function(
         "the_first_triangle_number_to_have_over_five_hundred_divisors_brute",

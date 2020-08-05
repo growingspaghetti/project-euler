@@ -10,9 +10,9 @@
 //! Benchmarking the_total_of_all_the_name_scores_std: Collecting 100 samples in estimated 5.2274 s (5050 iterations)
 //! Benchmarking the_total_of_all_the_name_scores_std: Analyzing
 //! the_total_of_all_the_name_scores_std
-//! 				   time:   [1.0369 ms 1.0419 ms 1.0477 ms]
-//! 				   change: [-1.2218% +0.0000% +1.2229%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [1.0369 ms 1.0419 ms 1.0477 ms]
+//!                    change: [-1.2218% +0.0000% +1.2229%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 6 outliers among 100 measurements (6.00%)
 //! 3 (3.00%) high mild
 //! 3 (3.00%) high severe
@@ -27,9 +27,9 @@
 //! Benchmarking the_total_of_all_the_name_scores_std_unstable_sort: Collecting 100 samples in estimated 6.1276 s (5050 iterations)
 //! Benchmarking the_total_of_all_the_name_scores_std_unstable_sort: Analyzing
 //! the_total_of_all_the_name_scores_std_unstable_sort
-//! 				   time:   [1.2229 ms 1.2426 ms 1.2629 ms]
-//! 				   change: [-1.9828% +0.0000% +2.0760%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [1.2229 ms 1.2426 ms 1.2629 ms]
+//!                    change: [-1.9828% +0.0000% +2.0760%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 15 outliers among 100 measurements (15.00%)
 //! 11 (11.00%) high mild
 //! 4 (4.00%) high severe
@@ -44,9 +44,9 @@
 //! Benchmarking the_total_of_all_the_name_scores_bubble_sort: Collecting 100 samples in estimated 21.016 s (100 iterations)
 //! Benchmarking the_total_of_all_the_name_scores_bubble_sort: Analyzing
 //! the_total_of_all_the_name_scores_bubble_sort
-//! 				   time:   [208.30 ms 210.01 ms 211.94 ms]
-//! 				   change: [-1.2467% +0.0000% +1.2719%] (p = 0.99 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [208.30 ms 210.01 ms 211.94 ms]
+//!                    change: [-1.2467% +0.0000% +1.2719%] (p = 0.99 > 0.05)
+//!                    No change in performance detected.
 //! Found 12 outliers among 100 measurements (12.00%)
 //! 3 (3.00%) high mild
 //! 9 (9.00%) high severe
@@ -60,9 +60,9 @@
 //! Benchmarking the_total_of_all_the_name_scores_selection_sort: Collecting 100 samples in estimated 17.159 s (100 iterations)
 //! Benchmarking the_total_of_all_the_name_scores_selection_sort: Analyzing
 //! the_total_of_all_the_name_scores_selection_sort
-//! 				   time:   [169.40 ms 170.67 ms 172.17 ms]
-//! 				   change: [-1.1567% +0.0000% +1.1350%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [169.40 ms 170.67 ms 172.17 ms]
+//!                    change: [-1.1567% +0.0000% +1.1350%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 8 outliers among 100 measurements (8.00%)
 //! 4 (4.00%) high mild
 //! 4 (4.00%) high severe
@@ -74,9 +74,9 @@
 //! Benchmarking the_total_of_all_the_name_scores_quick_sort: Collecting 100 samples in estimated 5.0644 s (2400 iterations)
 //! Benchmarking the_total_of_all_the_name_scores_quick_sort: Analyzing
 //! the_total_of_all_the_name_scores_quick_sort
-//! 				   time:   [2.1177 ms 2.1485 ms 2.1818 ms]
-//! 				   change: [-2.1096% +0.0000% +2.0284%] (p = 1.00 > 0.05)
-//! 				   No change in performance detected.
+//!                    time:   [2.1177 ms 2.1485 ms 2.1818 ms]
+//!                    change: [-2.1096% +0.0000% +2.0284%] (p = 1.00 > 0.05)
+//!                    No change in performance detected.
 //! Found 12 outliers among 100 measurements (12.00%)
 //! 6 (6.00%) high mild
 //! 6 (6.00%) high severe

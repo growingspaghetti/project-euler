@@ -79,6 +79,7 @@
 /// assert_eq!(how_many_different_ways_can_2_be_made_brute(), 73682);
 /// ```
 #[rustfmt::skip]
+#[allow(clippy::identity_op)]
 pub fn how_many_different_ways_can_2_be_made_brute() -> u32 {
     let target = 200u32;
     let mut ways = 0u32;
@@ -188,6 +189,34 @@ pub fn change_of_five_cents() -> u8 {
         }
     }
     max
+    // An easy case to consider is sum(3) with coins d1,d2,d3
+    //    sum0 sum1 sum2 sum3
+    // d0    0    i    i    i
+    // d1    1
+    //
+    //    sum0 sum1 sum2 sum3
+    // d0    0    0    0    0
+    // d1    1    1    1    1
+    // d2    1
+    // d3    1
+    //
+    //    sum0 sum1 sum2 sum3
+    // d0    0    0    0    0
+    // d1    1    1    1    1
+    // d2    1    1    2    2
+    // d3    1    1    2    3
+    //
+    //    sum0 sum1 sum2 sum3
+    // d0    0    0    0    0
+    // d1    1 sum0+^  1    1
+    // d2    1    1 sum0+^  2
+    // d3    1    1    2 sum0+^ .. sum([1,1,1]),sum([2,1]),sum([3])
+    //
+    //    sum0 sum1 sum2 sum3
+    // d0    0    0    0    0
+    // d1    1 sum0+^  1    1
+    // d2    1    ^ sum0+^ sum1+^
+    // d3    1    ^    ^ sum0+^ .. sum([1,1,1]),sum([2,1]),sum([3])
 }
 
 /// In the United Kingdom the currency is made up of pound (£) and pence (p). There are eight coins in general circulation:

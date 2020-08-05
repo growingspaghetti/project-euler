@@ -129,6 +129,7 @@ pub fn pythagorean_triplet_and_1000_triangle_means_500(sum: u32) -> u32 {
 /// use self::project_euler::m9::pythagorean_triplet_and_1000_triangle_euclid;
 /// assert_eq!(pythagorean_triplet_and_1000_triangle_euclid(1000), 31875000);
 /// ```
+#[allow(clippy::many_single_char_names)]
 pub fn pythagorean_triplet_and_1000_triangle_euclid(sum: u32) -> u32 {
     // https://en.wikipedia.org/wiki/Pythagorean_triple#Generating_a_triple
     // a = m^2 - n^2, b = 2mn, c = m^2 + n^2

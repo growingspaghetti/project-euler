@@ -66,31 +66,31 @@ pub fn english_one_to_one_thousand() -> u64 {
 
 //Rust tip - I couldn't make it work
 // let build_words = |i:usize| -> &[String] {
-// 	match i {
-// 		0..=19 => &[zero_tp_19[i].to_string()],
-// 		20..=99 => {
-// 			let p1 = i % 10;
-// 			let p2 = i / 10;
-// 			&[twenty_ninety[p2].to_string(), zero_tp_19[p1].to_string()]
-// 		},
-// 		_ if i % 100 == 0 => {
-// 			let d = i / 100;
-// 			&[zero_tp_19[d].to_string(), hundred.to_string()]
-// 		},
-// 		101..=999 => {
-// 			let p3 = i / 100;
-// 			let p2p1 = i - p3 * 100;
-// 			match p2p1 {
-// 				1..=19 => &[zero_tp_19[p3].to_string(), hundred.to_string(), and.to_string(), zero_tp_19[p2p1].to_string()],
-// 				20..=99 => {
-// 					let p1 = p2p1 % 10;
-// 					let p2 = p2p1 / 10;
-// 					&[zero_tp_19[p3].to_string(), hundred.to_string(), and.to_string(), twenty_ninety[p2].to_string(), zero_tp_19[p1].to_string()]
-// 				},
-// 				_ => &[]
-// 			}
-// 		}
-// 		1000 => &[one.to_string(), thousand.to_string()],
-// 		_ => &[],
-// 	}
+//     match i {
+//         0..=19 => &[zero_tp_19[i].to_string()],
+//         20..=99 => {
+//             let p1 = i % 10;
+//             let p2 = i / 10;
+//             &[twenty_ninety[p2].to_string(), zero_tp_19[p1].to_string()]
+//         },
+//         _ if i % 100 == 0 => {
+//             let d = i / 100;
+//             &[zero_tp_19[d].to_string(), hundred.to_string()]
+//         },
+//         101..=999 => {
+//             let p3 = i / 100;
+//             let p2p1 = i - p3 * 100;
+//             match p2p1 {
+//                 1..=19 => &[zero_tp_19[p3].to_string(), hundred.to_string(), and.to_string(), zero_tp_19[p2p1].to_string()],
+//                 20..=99 => {
+//                     let p1 = p2p1 % 10;
+//                     let p2 = p2p1 / 10;
+//                     &[zero_tp_19[p3].to_string(), hundred.to_string(), and.to_string(), twenty_ninety[p2].to_string(), zero_tp_19[p1].to_string()]
+//                 },
+//                 _ => &[]
+//             }
+//         }
+//         1000 => &[one.to_string(), thousand.to_string()],
+//         _ => &[],
+//     }
 // };
