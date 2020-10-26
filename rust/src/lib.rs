@@ -29,6 +29,7 @@ pub mod m6;
 pub mod m7;
 pub mod m8;
 pub mod m81;
+pub mod m82;
 pub mod m9;
 
 #[cfg(test)]
