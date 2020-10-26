@@ -49,4 +49,16 @@ cargo doc --open
 
 | No | Title                      | Source code                             | Benchmarks |
 |----|----------------------------|-----------------------------------------|------------|
-| 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](golang/internal/answer)       | 2.089 us -> 9.27 ns |
+| 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](go/internal/answer)       | 2.089 us -> 9.27 ns |
+
+# TypeScript
+
+```
+deno test https://github.com/growingspaghetti/project-euler/typescript/m001a.ts
+```
+
+| No | Title                      | Source code                             |
+|----|----------------------------|-----------------------------------------|
+| 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](typescript)       |
+
+# Java
