@@ -54,7 +54,7 @@ cargo doc --open
 # TypeScript
 
 ```
-deno test https://github.com/growingspaghetti/project-euler/typescript/m001a.ts
+deno test https://raw.githubusercontent.com/growingspaghetti/project-euler/master/typescript/m001b.ts
 ```
 
 | No | Title                      | Source code                             |
@@ -62,3 +62,8 @@ deno test https://github.com/growingspaghetti/project-euler/typescript/m001a.ts
 | 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](typescript)       |
 
 # Java
+
+| No | Title                      | Source code                             | Benchmarks |
+|----|----------------------------|-----------------------------------------|------------|
+| 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](java/src/main/java/com/github/growingspaghetti/) | 1.836 us -> 0.673 ns (not much meaning to measure) |
+
