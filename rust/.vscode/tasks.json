@@ -1,0 +1,30 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "criterion",
+            "type": "shell",
+            "command": "cargo bench --bench bench_main -- ${input:name}  --baseline new",
+            "problemMatcher": []
+        },
+        {
+            "label": "criterion under selected text",
+            "type": "shell",
+            "command": "cargo bench --bench bench_main -- ${selectedText} --save-baseline new",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "name",
+            "description": "benchmark name",
+        }
+    ]
+}

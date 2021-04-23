@@ -78,6 +78,29 @@ pub fn sum_of_all_the_multiples_of_3_or_5_below_1000_iter() -> i32 {
     (0..1000).filter(|&x| x % 5 == 0 || x % 3 == 0).sum()
 }
 
+struct ArithmeticProgression {
+    first: i32,
+    last: i32,
+    diff: i32,
+}
+
+impl ArithmeticProgression {
+    fn new(first: i32, less_than: i32, diff: i32) -> ArithmeticProgression {
+        ArithmeticProgression {
+            first: first,
+            diff: diff,
+            last: {
+                let lt_or_equal = less_than - 1;
+                lt_or_equal - (lt_or_equal - first) % diff
+            },
+        }
+    }
+    fn arithmetic_series(&self) -> i32 {
+        let terms = (self.last - self.first) / self.diff + 1;
+        (self.first + self.last) * terms / 2
+    }
+}
+
 /// If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 ///
 /// Find the sum of all the multiples of 3 or 5 below 1000.
@@ -86,14 +109,32 @@ pub fn sum_of_all_the_multiples_of_3_or_5_below_1000_iter() -> i32 {
 /// use self::project_euler::m1::sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series;
 /// assert_eq!(sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series(), 233168);
 /// ```
-pub fn sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series() -> i32 {
+pub fn sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_seriesa() -> i32 {
     // 0  3  6  9 .. 999 = 3 * [0 1 2 3 ... 333] = 3 * (0+333 #doubling) * 334#n / 2#halving
     // 0  5 10 15 .. 995 = 5 * [0 1 2 3 ... 199] = 5 * (0+199 #doubling) * 200#n / 2#halving
     // 0 15 30 45 .. 999-999%15#last = 15 * [0 1 2 3 ... last/15]
-    let arithmetic_series = |common_difference: i32| -> i32 {
+    let arithmetic_seriesa = |common_difference: i32| -> i32 {
         let last = 999 - 999 % common_difference;
         let n = last / common_difference + 1;
         last * n / 2
     };
-    arithmetic_series(3) + arithmetic_series(5) - arithmetic_series(15)
+    fn arithmetic_series(lt: i32, diff: i32) -> i32 {
+        let lt_or_equal = lt - 1;
+        let last = lt_or_equal - lt_or_equal % diff;
+        let step = last / diff + 1;
+        last * step / 2
+    }
+    arithmetic_series(1000, 3) + arithmetic_series(1000, 5) - arithmetic_series(1000, 15)
+}
+
+///
+/// ```rust
+/// use self::project_euler::m1::sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series;
+/// assert_eq!(sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series(), 233168);
+/// ```
+pub fn sum_of_all_the_multiples_of_3_or_5_below_1000_arithmetic_series() -> i32 {
+    let three = ArithmeticProgression::new(0, 1000, 3).arithmetic_series();
+    let five = ArithmeticProgression::new(0, 1000, 5).arithmetic_series();
+    let fifteen = ArithmeticProgression::new(0, 1000, 15).arithmetic_series();
+    three + five - fifteen
 }
