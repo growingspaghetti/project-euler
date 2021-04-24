@@ -67,6 +67,30 @@ pub fn largest_prime_factor_of_the_number_600851475143() -> u64 {
     max_factor
 }
 
+// largest_prime_factor_of_the_number_600851475143_2_2_3_5_1_60
+//                         time:   [73.492 us 73.776 us 74.051 us]
+//                         change: [-0.4297% +0.0000% +0.4565%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+///
+/// ```rust
+/// use self::project_euler::m3::largest_prime_factor_of_the_number_600851475143_2_2_3_5_1_60;
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_2_2_3_5_1_60(600851475143u64), 6857);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_2_2_3_5_1_60(60), 5);
+/// ```
+pub fn largest_prime_factor_of_the_number_600851475143_2_2_3_5_1_60(mut n: u64) -> u64 {
+    assert!(n > 1);
+    let mut divisor = 2u64;
+    while n != 1 {
+        if n % divisor == 0 {
+            n /= divisor;
+        } else {
+            divisor += 1;
+        }
+    }
+    divisor
+}
+
 /// The prime factors of 13195 are 5, 7, 13 and 29.
 ///
 /// What is the largest prime factor of the number 600851475143 ?
@@ -110,13 +134,16 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12() -> u64
 ///
 /// ```rust
 /// use self::project_euler::m3::largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab;
-/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(), 6857);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(600851475143u64), 6857);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(60), 5);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(5), 5);
 /// ```
-pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab() -> u64 {
-    let mut n = 600851475143u64;
+pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(mut n: u64) -> u64 {
+    //let mut n = 600851475143u64;
     let mut divisor = 3u64;
     let mut max_factor;
 
+    let side = (n as f64).sqrt() as u64;
     if n % 2 == 0 {
         n /= 2;
         max_factor = 2;
@@ -132,8 +159,7 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab() -
     //  pattern 1: a = sqrt(n) && b = sqrt(n)
     //  pattern 2: a <= sqrt(n) || b <= sqrt(n)
     //  impossible: a > sqrt(n) && b >= sqrt(n)
-    let a = (n as f64).sqrt() as u64;
-    while n > 1 && divisor <= a {
+    while n > 1 && divisor <= side {
         if n % divisor == 0 {
             n /= divisor;
             max_factor = divisor;
@@ -144,5 +170,117 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab() -
             divisor += 2
         }
     }
-    max_factor
+    if n == 1 {
+        max_factor
+    } else {
+        n
+    }
 }
+
+
+
+// largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes                        
+//                         time:   [14.500 us 14.584 us 14.672 us]
+//                         change: [-1.7028% +0.0000% +1.8385%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+///
+/// ```rust
+/// use self::project_euler::m3::largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes;
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(600851475143u64), 6857);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(60), 5);
+/// assert_eq!(largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(5), 5);
+/// ```
+pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(
+    mut n: u64,
+) -> u64 {
+    assert!(n > 1);
+    let side = (n as f64).sqrt() as u64;
+    let basic_primes = [2u64, 3, 5, 7];
+    for &d in &basic_primes {
+        while n % d == 0 {
+            n /= d;
+        }
+        if n == 1 {
+            return d;
+        }
+    }
+
+    let mut divisor = 7u64;
+    let steps = [2u64, 2, 2, 4];
+    while divisor <= side {
+        divisor += steps[0];
+        while n % divisor == 0 {
+            n /= divisor;
+        }
+        if n == 1 {
+            return divisor;
+        }
+        divisor += steps[1];
+        while n % divisor == 0 {
+            n /= divisor;
+        }
+        if n == 1 {
+            return divisor;
+        }
+        divisor += steps[2];
+        while n % divisor == 0 {
+            n /= divisor;
+        }
+        if n == 1 {
+            return divisor;
+        }
+        divisor += steps[3];
+        while n % divisor == 0 {
+            n /= divisor;
+        }
+        if n == 1 {
+            return divisor;
+        }
+    }
+    if n == 1 {
+        divisor
+    } else {
+        n
+    }
+}
+// 17 us
+// pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(
+//     mut n: u64,
+// ) -> u64 {
+//     assert!(n > 1);
+//     let side = (n as f64).sqrt() as u64;
+//     let basic_primes = [2u64, 3, 5, 7];
+//     for &d in &basic_primes {
+//         while n % d == 0 {
+//             n /= d;
+//         }
+//         if n == 1 {
+//             return d;
+//         }
+//     }
+
+//     let steps = [2u64, 2, 2, 4];
+//     let mut i = 0usize;
+//     let mut divisor = 7u64;
+//     while n != 1 && divisor <= side {
+//         if n % divisor == 0 {
+//             n /= divisor;
+//             while n % divisor == 0 {
+//                 n /= divisor;
+//             }
+//         } else {
+//             divisor += steps[i];
+//             if i == 3 {
+//                 i = 0;
+//             } else {
+//                 i += 1;
+//             }
+//         }
+//     }
+//     if n == 1 {
+//         divisor
+//     } else {
+//         n
+//     }
+// }

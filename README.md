@@ -13,7 +13,7 @@ cargo doc --open
 |----|----------------------------|-----------------------------------------|------------|
 | 1  | Multiples of 3 and 5       | [Multiples of 3 and 5](rust/src/m1.rs)       | 1.8744 us -> 1.9213 ns https://docs.google.com/presentation/d/e/2PACX-1vR7HA2byHmvIaxWXOhdLJMXgsyf7M5vx7ZWRU2ZV4qGgIOFrLaehDqONZVPYB_tLZdrCRFmUgMAagf9/pub?start=false&loop=false&delayms=60000 |
 | 2  | Even Fibonacci numbers     | [Even Fibonacci numbers](rust/src/m2.rs)     | 67 ms -> 13 ns, 14 ns https://docs.google.com/presentation/d/e/2PACX-1vSaHP7TcUI71uiwljBVfn6M7yFRxgXos451Bcb_q-y0h__0CLFzDZn916HYRaj-y_hfgcS-MUbDsEh6/pub?start=false&loop=false&delayms=60000 |
-| 3  | Largest prime factor       | [Largest prime factor](rust/src/m3.rs)       | 88.581 us -> 34.048 us |
+| 3  | Largest prime factor       | [Largest prime factor](rust/src/m3.rs)       | 73 us -> 14.6 us https://docs.google.com/presentation/d/e/2PACX-1vSTrpjghGiCjA0R9p38sLYptZYTiHKxk_Xljri6TMzeMCjf7lyjq1WSWaIKIJxBDG_sc7dpzfyhbaqz/pub?start=false&loop=false&delayms=60000 |
 | 4  | Largest palindrome product | [Largest palindrome product](rust/src/m4.rs) | 90.374 ms -> 7.9640 ms -> 62.194 us -> 11.306 us |
 | 5  | Smallest multiple          | [Smallest multiple](rust/src/m5.rs)          | 1.7742 s -> 4.6613 us -> 570.55 ns |
 | 6 | Sum square difference | [Sum square difference](rust/src/m6.rs) | 5.5783 ns -> 4.0562 ns |
