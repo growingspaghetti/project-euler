@@ -56,7 +56,7 @@ fn fibonacci(nth: u64) -> u64 {
 
 // Benchmarking sum_of_even_fibonacci_sequence_less_than_4000000_polynomial: Warming up for 3.0000 s
 // Warning: Unable to complete 100 samples in 5.0s. You may wish to increase target time to 6.5s, or reduce sample count to 70.
-// sum_of_even_fibonacci_sequence_less_than_4000000_polynomial                                                                            
+// sum_of_even_fibonacci_sequence_less_than_4000000_polynomial
 //                         time:   [64.759 ms 65.120 ms 65.499 ms]
 //                         change: [-0.7848% +0.0000% +0.7655%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
@@ -190,3 +190,64 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> i64 {
 //         fb.k = fb.i + fb.j;
 //     }
 // }
+
+struct LuckyClover {
+    a: u64,
+    b: u64,
+    c: u64,
+    d: u64,
+}
+
+impl LuckyClover {
+    fn multiply(&mut self, other: &LuckyClover) {
+        let a = self.a * other.a + self.b * other.c;
+        let b = self.a * other.b + self.b * other.d;
+        let c = self.c * other.a + self.d * other.c;
+        let d = self.c * other.b + self.d * other.d;
+        self.a = a;
+        self.b = b;
+        self.c = c;
+        self.d = d;
+    }
+    fn identity_matrix() -> LuckyClover {
+        LuckyClover {
+            a: 1,
+            b: 0,
+            c: 0,
+            d: 1,
+        }
+    }
+}
+
+// sum_of_even_fibonacci_sequence_less_than_4000000_matrix                                                                             
+//                         time:   [14.027 ns 14.061 ns 14.099 ns]
+//                         change: [-0.4773% +0.0000% +0.4785%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+/// ```rust
+/// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_matrix;
+/// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_matrix(), 4613732);
+/// ```
+pub fn sum_of_even_fibonacci_sequence_less_than_4000000_matrix() -> u64 {
+    // Football + Matrices in 90 seconds | Don't Memorise https://www.youtube.com/watch?v=4lHyTQH1iS8&list=PLmdFyQYShrjcoVkhCCIwxNj9N4rW1-T5I
+    let multiplier = LuckyClover {
+        a: 1,
+        b: 1,
+        c: 1,
+        d: 0,
+    };
+    let cubed = {
+        let mut i = LuckyClover::identity_matrix();
+        i.multiply(&multiplier);
+        i.multiply(&multiplier);
+        i.multiply(&multiplier);
+        i
+    };
+    let mut sum = 0;
+    let mut fibmatrix = LuckyClover::identity_matrix();
+    while fibmatrix.b <= 4_000_000 {
+        sum += fibmatrix.b;
+        fibmatrix.multiply(&cubed);
+    }
+    sum
+}

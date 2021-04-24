@@ -141,7 +141,7 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd() ->
         } else {
             greatest_common_factor(b, a % b)
         }
-    };
+    }
     let least_common_multiple = |a: u64, b: u64| -> u64 { a * b / greatest_common_factor(a, b) };
 
     let mut lcm = 1u64;

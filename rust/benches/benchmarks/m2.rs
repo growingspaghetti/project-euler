@@ -5,14 +5,16 @@ criterion_group!(
     bench_sum_of_even_fibonacci_sequence_less_than_4000000_polynomial,
     bench_sum_of_even_fibonacci_sequence_less_than_4000000,
     bench_sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8,
+    bench_sum_of_even_fibonacci_sequence_less_than_4000000_matrix,
 );
 
 use project_euler::m2::*;
 
 fn bench_sum_of_even_fibonacci_sequence_less_than_4000000_polynomial(c: &mut Criterion) {
-    c.bench_function("sum_of_even_fibonacci_sequence_less_than_4000000_polynomial", |b| {
-        b.iter(sum_of_even_fibonacci_sequence_less_than_4000000_polynomial)
-    });
+    c.bench_function(
+        "sum_of_even_fibonacci_sequence_less_than_4000000_polynomial",
+        |b| b.iter(sum_of_even_fibonacci_sequence_less_than_4000000_polynomial),
+    );
 }
 
 fn bench_sum_of_even_fibonacci_sequence_less_than_4000000(c: &mut Criterion) {
@@ -25,5 +27,11 @@ fn bench_sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8(c: &mut Crit
     c.bench_function(
         "sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8",
         |b| b.iter(sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8),
+    );
+}
+fn bench_sum_of_even_fibonacci_sequence_less_than_4000000_matrix(c: &mut Criterion) {
+    c.bench_function(
+        "sum_of_even_fibonacci_sequence_less_than_4000000_matrix",
+        |b| b.iter(sum_of_even_fibonacci_sequence_less_than_4000000_matrix),
     );
 }
