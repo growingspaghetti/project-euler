@@ -145,10 +145,10 @@ impl TripleBox {
 /// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 ///
 /// ```rust
-/// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8a;
-/// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8(), 4613732);
+/// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box;
+/// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box(), 4613732);
 /// ```
-pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8a() -> u64 {
+pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box() -> u64 {
     let mut sum = 0;
     let mut tb = TripleBox { i: 0, j: 1, k: 1 };
     while tb.i <= 4_000_000 {
@@ -219,7 +219,7 @@ impl LuckyClover {
     }
 }
 
-// sum_of_even_fibonacci_sequence_less_than_4000000_matrix                                                                             
+// sum_of_even_fibonacci_sequence_less_than_4000000_matrix
 //                         time:   [14.027 ns 14.061 ns 14.099 ns]
 //                         change: [-0.4773% +0.0000% +0.4785%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
@@ -241,6 +241,7 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_matrix() -> u64 {
         i.multiply(&multiplier);
         i.multiply(&multiplier);
         i.multiply(&multiplier);
+        std::mem::drop(multiplier);
         i
     };
     let mut sum = 0;
