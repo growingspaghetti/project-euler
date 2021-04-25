@@ -64,6 +64,27 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_brute() -> u
     num
 }
 
+fn is_divisible_by_2_20(n: u32) -> bool {
+    for d in 2..=20 {
+        if n % d != 0 {
+            return false;
+        }
+    }
+    true
+}
+
+/// ```rust
+/// use self::project_euler::m5::smallest_positive_number_that_is_evenly_divisible_by_each_20_brute_syntax;
+/// assert_eq!(smallest_positive_number_that_is_evenly_divisible_by_each_20_brute_syntax(), 232792560);
+/// ```
+pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_brute_syntax() -> u32 {
+    let mut n = 1;
+    while !is_divisible_by_2_20(n) {
+        n += 1;
+    }
+    n
+}
+
 /// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
 ///
 /// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
@@ -91,7 +112,7 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes()
 
     let mut prime_and_exp: HashMap<u8, u8> = HashMap::new();
     for i in 2..=20u8 {
-        // [2^2, 3^1, 2^2, 5^1, 3^1*2^1, 7^1, 2^3, 3^2, 5^1*2^1, .. 5^1*2^2]
+        // [2^1, 3^1, 2^2, 5^1, 3^1*2^1, 7^1, 2^3, 3^2, 5^1*2^1, .. 5^1*2^2]
         let map = prime_map(i);
         for (&p, &e) in &map {
             let &e_parent = prime_and_exp.get(&p).unwrap_or(&0);
@@ -107,6 +128,74 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes()
         sum *= p.pow(e.into()) as u32;
     }
     sum
+}
+
+#[derive(Clone)]
+struct Factor {
+    prime: u32,
+    occurence: u32,
+}
+
+fn list_factors(mut n: u32) -> [Option<Factor>; 20] {
+    assert!(n <= 20);
+    let mut factors: [Option<Factor>; 20] = Default::default();
+    let mut d = 2u32;
+    while n > 1 {
+        while n % d == 0 {
+            match factors[d as usize].as_mut() {
+                Some(f) => {
+                    f.occurence += 1;
+                }
+                None => {
+                    factors[d as usize] = Some(Factor {
+                        prime: d,
+                        occurence: 1,
+                    })
+                }
+            }
+            n /= d;
+        }
+        d += 1;
+    }
+    factors
+}
+
+// smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_struct
+//                         time:   [1.0688 us 1.0782 us 1.0884 us]
+//                         change: [-1.1471% +0.0000% +1.2265%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+// Found 2 outliers among 100 measurements (2.00%)
+
+/// ```rust
+/// use self::project_euler::m5::smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_struct;
+/// assert_eq!(smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_struct(), 232792560);
+/// ```
+pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_struct() -> u32 {
+    let mut factors: [Option<Factor>; 20] = Default::default();
+    for n in 2..=20u32 {
+        let local_factors = list_factors(n);
+        for it in local_factors.iter().zip(factors.iter_mut()) {
+            match it {
+                (Some(lf), Some(f)) => {
+                    if lf.occurence > f.occurence {
+                        f.occurence = lf.occurence;
+                    }
+                }
+                (Some(lf), None) => {
+                    let (_, f) = it;
+                    *f = Some(lf.clone());
+                }
+                _ => (),
+            }
+        }
+    }
+    let mut acc = 1u32;
+    for o in &factors {
+        if let Some(f) = o {
+            acc *= f.prime.pow(f.occurence);
+        }
+    }
+    acc
 }
 
 /// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
@@ -149,4 +238,40 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd() ->
         lcm = least_common_multiple(lcm, i);
     }
     lcm
+}
+
+fn gcd(mut a: u64, mut b: u64) -> u64 {
+    if b > a {
+        std::mem::swap(&mut a, &mut b);
+    }
+    assert!(b != 0);
+    let r = a % b;
+    if r == 0 {
+        return b;
+    }
+    gcd(b, r)
+}
+
+fn lcm(a: u64, b: u64) -> u64 {
+    a * b / gcd(a, b)
+}
+
+/// ```rust
+/// use self::project_euler::m5::smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_format;
+/// assert_eq!(smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_format(), 232792560);
+/// ```
+pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_format() -> u64 {
+    let mut acc = 2u64;
+    for n in 3..=20u64 {
+        acc = lcm(acc, n);
+    }
+    acc
+}
+
+/// ```rust
+/// use self::project_euler::m5::smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_fold;
+/// assert_eq!(smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_fold(), 232792560);
+/// ```
+pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd_fold() -> u64 {
+    (3..=20u64).into_iter().fold(2u64, |a, b| lcm(a, b))
 }
