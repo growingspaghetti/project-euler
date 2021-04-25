@@ -229,6 +229,51 @@ pub fn largest_palindrome_product_of_two_3_digits_mod_10_permutation_pair_tail_c
     largest_palindrome
 }
 
+fn is_palindrome(a: u32) -> bool {
+    let mut t = a;
+    let mut b = 0u32;
+    while t > 0 {
+        b *= 10;
+        b += t % 10;
+        t /= 10;
+    }
+    a == b
+}
+
+fn scan_b(a: u32, largest_pal_pro: &mut Option<u32>) {
+    let mut b = 999;
+    while b >= a {
+        let p = a * b;
+        if p <= largest_pal_pro.unwrap_or_default() {
+            return;
+        }
+        if is_palindrome(p) {
+            match largest_pal_pro.as_mut() {
+                Some(v) => *v = p,
+                None => *largest_pal_pro = Some(p),
+            }
+        }
+        b -= 1;
+    }
+}
+
+// largest_palindrome_product_of_two_3_digits_ab_11x
+//                         time:   [3.0635 us 3.0871 us 3.1132 us]
+//                         change: [-0.9796% +0.0000% +0.9710%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+/// ```rust
+/// use self::project_euler::m4::largest_palindrome_product_of_two_3_digits_ab_11x;
+/// assert_eq!(largest_palindrome_product_of_two_3_digits_ab_11x(), 906609);
+/// ```
+pub fn largest_palindrome_product_of_two_3_digits_ab_11x() -> u32 {
+    let mut largest_pal_pro: Option<u32> = None;
+    for a in (110..=990).rev().step_by(11) {
+        scan_b(a, &mut largest_pal_pro);
+    }
+    largest_pal_pro.unwrap()
+}
+
 /// A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
 ///
 /// Find the largest palindrome made from the product of two 3-digit numbers.

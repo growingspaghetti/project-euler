@@ -7,6 +7,7 @@ criterion_group!(
     bench_largest_palindrome_product_of_two_3_digits_mod_10_permutation_pair,
     bench_largest_palindrome_product_of_two_3_digits_mod_10_permutation_pair_tail_cut,
     bench_largest_palindrome_product_of_two_3_digits_factorization,
+    bench_largest_palindrome_product_of_two_3_digits_ab_11x,
 );
 
 use project_euler::m4::*;
@@ -45,3 +46,11 @@ fn bench_largest_palindrome_product_of_two_3_digits_factorization(c: &mut Criter
         |b| b.iter(largest_palindrome_product_of_two_3_digits_factorization),
     );
 }
+
+fn bench_largest_palindrome_product_of_two_3_digits_ab_11x(c: &mut Criterion) {
+    c.bench_function(
+        "largest_palindrome_product_of_two_3_digits_ab_11x",
+        |b| b.iter(largest_palindrome_product_of_two_3_digits_ab_11x),
+    );
+}
+
