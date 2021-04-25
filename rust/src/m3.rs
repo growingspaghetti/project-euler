@@ -177,11 +177,9 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(mut
     }
 }
 
-
-
-// largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes                        
-//                         time:   [14.500 us 14.584 us 14.672 us]
-//                         change: [-1.7028% +0.0000% +1.8385%] (p = 1.00 > 0.05)
+// largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes
+//                         time:   [13.864 us 13.965 us 14.078 us]
+//                         change: [-0.9576% +0.0000% +1.0199%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
 
 ///
@@ -195,45 +193,40 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_pri
     mut n: u64,
 ) -> u64 {
     assert!(n > 1);
-    let side = (n as f64).sqrt() as u64;
+    fn divide_fully(n: &mut u64, d: u64) {
+        while *n % d == 0 {
+            *n /= d;
+        }
+    }
+
     let basic_primes = [2u64, 3, 5, 7];
     for &d in &basic_primes {
-        while n % d == 0 {
-            n /= d;
-        }
+        divide_fully(&mut n, d);
         if n == 1 {
             return d;
         }
     }
-
+    let side = (n as f64).sqrt() as u64;
     let mut divisor = 7u64;
     let steps = [2u64, 2, 2, 4];
     while divisor <= side {
         divisor += steps[0];
-        while n % divisor == 0 {
-            n /= divisor;
-        }
+        divide_fully(&mut n, divisor);
         if n == 1 {
             return divisor;
         }
         divisor += steps[1];
-        while n % divisor == 0 {
-            n /= divisor;
-        }
+        divide_fully(&mut n, divisor);
         if n == 1 {
             return divisor;
         }
         divisor += steps[2];
-        while n % divisor == 0 {
-            n /= divisor;
-        }
+        divide_fully(&mut n, divisor);
         if n == 1 {
             return divisor;
         }
         divisor += steps[3];
-        while n % divisor == 0 {
-            n /= divisor;
-        }
+        divide_fully(&mut n, divisor);
         if n == 1 {
             return divisor;
         }
