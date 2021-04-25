@@ -136,28 +136,50 @@ struct Factor {
     occurence: u32,
 }
 
+fn increment_occurence(factors: &mut [Option<Factor>; 20], p: u32) {
+    assert!(p < 20);
+    match factors[p as usize].as_mut() {
+        Some(f) => {
+            f.occurence += 1;
+        }
+        None => {
+            factors[p as usize] = Some(Factor {
+                prime: p,
+                occurence: 1,
+            })
+        }
+    }
+}
+
 fn list_factors(mut n: u32) -> [Option<Factor>; 20] {
     assert!(n <= 20);
     let mut factors: [Option<Factor>; 20] = Default::default();
     let mut d = 2u32;
     while n > 1 {
         while n % d == 0 {
-            match factors[d as usize].as_mut() {
-                Some(f) => {
-                    f.occurence += 1;
-                }
-                None => {
-                    factors[d as usize] = Some(Factor {
-                        prime: d,
-                        occurence: 1,
-                    })
-                }
-            }
+            increment_occurence(&mut factors, d);
             n /= d;
         }
         d += 1;
     }
     factors
+}
+
+fn merge(factors: &mut [Option<Factor>; 20], b: &[Option<Factor>; 20]) {
+    for it in b.iter().zip(factors.iter_mut()) {
+        match it {
+            (Some(bf), Some(f)) => {
+                if bf.occurence > f.occurence {
+                    f.occurence = bf.occurence;
+                }
+            }
+            (Some(bf), None) => {
+                let (_, f) = it;
+                *f = Some(bf.clone());
+            }
+            _ => (),
+        }
+    }
 }
 
 // smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_struct
@@ -174,20 +196,7 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_s
     let mut factors: [Option<Factor>; 20] = Default::default();
     for n in 2..=20u32 {
         let local_factors = list_factors(n);
-        for it in local_factors.iter().zip(factors.iter_mut()) {
-            match it {
-                (Some(lf), Some(f)) => {
-                    if lf.occurence > f.occurence {
-                        f.occurence = lf.occurence;
-                    }
-                }
-                (Some(lf), None) => {
-                    let (_, f) = it;
-                    *f = Some(lf.clone());
-                }
-                _ => (),
-            }
-        }
+        merge(&mut factors, &local_factors);
     }
     let mut acc = 1u32;
     for o in &factors {
