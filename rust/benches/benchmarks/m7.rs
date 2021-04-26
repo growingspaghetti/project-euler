@@ -6,6 +6,8 @@ criterion_group!(
     bench_the_10001st_prime_number_mod3,
     bench_the_10001st_prime_number_6k_p1_m1,
     bench_the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix,
+    bench_the_10001st_prime_number_mod3_syntax,
+    bench_the_10001st_prime_number_sieve_of_eratosthenes_extend,
 );
 
 use project_euler::m7::*;
@@ -38,3 +40,15 @@ fn bench_the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix(c: &mut Cr
         },
     );
 }
+
+fn bench_the_10001st_prime_number_mod3_syntax(c: &mut Criterion) {
+    c.bench_function("the_10001st_prime_number_mod3_syntax", |b| {
+        b.iter(|| the_10001st_prime_number_mod3_syntax(black_box(10001)))
+    });
+}
+fn bench_the_10001st_prime_number_sieve_of_eratosthenes_extend(c: &mut Criterion) {
+    c.bench_function("the_10001st_prime_number_sieve_of_eratosthenes_extend", |b| {
+        b.iter(|| the_10001st_prime_number_sieve_of_eratosthenes_extend(black_box(10001)))
+    });
+}
+

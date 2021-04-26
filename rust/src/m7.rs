@@ -225,3 +225,108 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix(nth: u32) ->
         index += 2;
     }
 }
+
+fn rule_out(sieve: &mut Vec<bool>, prime: usize) {
+    for i in (prime..sieve.len()).step_by(prime) {
+        sieve[i] = false;
+    }
+}
+
+fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
+    sieve.extend(vec![true; sieve.len()]);
+    for &p in primes {
+        rule_out(&mut sieve.as_mut(), p);
+    }
+}
+
+// the_10001st_prime_number_sieve_of_eratosthenes_extend
+//                         time:   [2.1864 ms 2.1980 ms 2.2100 ms]
+//                         change: [-0.7583% +0.0000% +0.7446%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+/// ```rust
+/// use self::project_euler::m7::the_10001st_prime_number_sieve_of_eratosthenes_extend;
+/// assert_eq!(the_10001st_prime_number_sieve_of_eratosthenes_extend(10001), 104743);
+/// ```
+pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
+    let mut counter = 0u32;
+    let mut sieve = vec![true; 10000];
+    let mut primes: Vec<usize> = vec![];
+    sieve[0] = false;
+    sieve[1] = false;
+    let mut cursor = 0usize;
+    loop {
+        for i in cursor..sieve.len() {
+            if !sieve[i] {
+                continue;
+            }
+            counter += 1;
+            if counter == nth {
+                return i as u64;
+            }
+            &primes.push(i);
+            rule_out(&mut sieve, i);
+        }
+        cursor = sieve.len() - 1;
+        extend(&mut sieve, &primes);
+    }
+}
+
+fn is_prime(n: u64) -> bool {
+    if n < 2 {
+        return false;
+    }
+    if n == 2 || n == 3 || n == 5 || n == 7 {
+        return true;
+    }
+    let basic_primes = [2u64, 3, 5, 7];
+    for &d in &basic_primes {
+        if n % d == 0 {
+            return false;
+        }
+    }
+
+    let side = (n as f64).sqrt() as u64;
+    let mut d = 7u64;
+    let steps = [2u64, 2, 2, 4];
+    while d <= side {
+        d += steps[0];
+        if n % d == 0 {
+            return false;
+        }
+        d += steps[1];
+        if n % d == 0 {
+            return false;
+        }
+        d += steps[2];
+        if n % d == 0 {
+            return false;
+        }
+        d += steps[3];
+        if n % d == 0 {
+            return false;
+        }
+    }
+    true
+}
+
+// the_10001st_prime_number_mod3_syntax
+//                         time:   [6.5115 ms 6.5592 ms 6.6103 ms]
+//                         change: [-1.0115% +0.0000% +0.9894%] (p = 1.00 > 0.05)
+//                         No change in performance detected.
+
+/// ```rust
+/// use self::project_euler::m7::the_10001st_prime_number_mod3_syntax;
+/// assert_eq!(the_10001st_prime_number_mod3_syntax(10001), 104743);
+/// ```
+pub fn the_10001st_prime_number_mod3_syntax(nth: u32) -> u64 {
+    let mut n = 0u64;
+    let mut counter = 0u32;
+    while counter < nth {
+        n += 1;
+        if is_prime(n) {
+            counter += 1;
+        }
+    }
+    n
+}
