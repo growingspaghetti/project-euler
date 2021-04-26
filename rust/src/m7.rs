@@ -280,29 +280,19 @@ fn is_prime(n: u64) -> bool {
         return true;
     }
     let basic_primes = [2u64, 3, 5, 7];
-    for &d in &basic_primes {
-        if n % d == 0 {
+    for d in &basic_primes {
+        if n % *d == 0 {
             return false;
         }
     }
 
     let side = (n as f64).sqrt() as u64;
     let mut d = 7u64;
-    let steps = [2u64, 2, 2, 4];
-    while d <= side {
-        d += steps[0];
-        if n % d == 0 {
-            return false;
+    for i in [2u64, 2, 2, 4].iter().cycle() {
+        if d > side {
+            break;
         }
-        d += steps[1];
-        if n % d == 0 {
-            return false;
-        }
-        d += steps[2];
-        if n % d == 0 {
-            return false;
-        }
-        d += steps[3];
+        d += *i;
         if n % d == 0 {
             return false;
         }
