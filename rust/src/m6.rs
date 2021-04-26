@@ -58,6 +58,30 @@ pub fn difference_between_the_sum_of_the_squares(n: u64) -> u64 {
     }
 }
 
+struct Sequence {
+    n: u64,
+}
+
+impl Sequence {
+    fn sum_of_squares(&self) -> u64 {
+        self.n * (self.n + 1) * (2 * self.n + 1) / 6
+    }
+    fn sum(&self) -> u64 {
+        (1 + self.n) * self.n / 2
+    }
+}
+
+/// ```rust
+/// use self::project_euler::m6::difference_between_the_sum_of_the_squares_square_pyramidal_number_struct;
+/// assert_eq!(difference_between_the_sum_of_the_squares_square_pyramidal_number_struct(100), 25164150);
+/// ```
+pub fn difference_between_the_sum_of_the_squares_square_pyramidal_number_struct(n: u64) -> u64 {
+    let s = Sequence{n:n};
+    let sum = s.sum();
+     sum * sum - s.sum_of_squares()
+}
+
+
 /// The sum of the squares of the first ten natural numbers is,
 /// 1^2+2^2+...+10^2=385
 ///

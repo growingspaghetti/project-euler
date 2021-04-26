@@ -16,7 +16,7 @@ cargo doc --open
 | 3  | Largest prime factor       | [Largest prime factor](rust/src/m3.rs)       | 73 us -> 14.6 us https://docs.google.com/presentation/d/e/2PACX-1vSTrpjghGiCjA0R9p38sLYptZYTiHKxk_Xljri6TMzeMCjf7lyjq1WSWaIKIJxBDG_sc7dpzfyhbaqz/pub?start=false&loop=false&delayms=60000 |
 | 4  | Largest palindrome product | [Largest palindrome product](rust/src/m4.rs) | 90.374 ms -> 7.9640 ms -> 62.194 us -> 3.0 us https://docs.google.com/presentation/d/e/2PACX-1vTTJxJFxMM7KkbNVNMuhPlLG4EJdhHkaJKgibWTKEeKjuzUlvoNJ-qDBOC9qDxd9FbIS4y-Zf76P5F8/pub?start=false&loop=false&delayms=60000 |
 | 5  | Smallest multiple          | [Smallest multiple](rust/src/m5.rs)          | 1.7742 s -> 2.0 us -> 440 ns https://docs.google.com/presentation/d/e/2PACX-1vS0vhb4qKuLM62w4AUrn4DQfhzn9hKKS3NmOkhPK3t30mMhf7wB_KqFh5fz0vmGPZcpjP12FT7tlxZT/pub?start=false&loop=false&delayms=60000 |
-| 6 | Sum square difference | [Sum square difference](rust/src/m6.rs) | 5.5783 ns -> 4.0562 ns |
+| 6 | Sum square difference | [Sum square difference](rust/src/m6.rs) | 5.5783 ns -> 4.0562 ns https://docs.google.com/presentation/d/e/2PACX-1vTP9y24LtmU7xc2aa330SN3Ckv41Nhh_Syv8CHEGfe7SsPqUlmIPoXfReOZbVaJWUGS_WXD6L2X7vql/pub?start=false&loop=false&delayms=60000 |
 | 7 | 10001st prime         | [10001st prime](rust/src/m7.rs)         | 15.028 ms -> 13.731 ms -> 3.9333 ms |
 | 8 | Largest product in a series         | [Largest product in a series](rust/src/m8.rs)         | 6.4163 us, 14.486 us |
 | 9 | Special Pythagorean triplet         | [Special Pythagorean triplet](rust/src/m9.rs)         | 70.057 us -> 282.46 ns |
