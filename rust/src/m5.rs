@@ -133,19 +133,19 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes()
 #[derive(Clone)]
 struct Factor {
     prime: u32,
-    occurence: u32,
+    occurrence: u32,
 }
 
-fn increment_occurence(factors: &mut [Option<Factor>; 20], p: u32) {
+fn increment_occurrence(factors: &mut [Option<Factor>; 20], p: u32) {
     assert!(p < 20);
     match factors[p as usize].as_mut() {
         Some(f) => {
-            f.occurence += 1;
+            f.occurrence += 1;
         }
         None => {
             factors[p as usize] = Some(Factor {
                 prime: p,
-                occurence: 1,
+                occurrence: 1,
             })
         }
     }
@@ -157,7 +157,7 @@ fn list_factors(mut n: u32) -> [Option<Factor>; 20] {
     let mut d = 2u32;
     while n > 1 {
         while n % d == 0 {
-            increment_occurence(&mut factors, d);
+            increment_occurrence(&mut factors, d);
             n /= d;
         }
         d += 1;
@@ -169,8 +169,8 @@ fn merge(factors: &mut [Option<Factor>; 20], b: &[Option<Factor>; 20]) {
     for it in b.iter().zip(factors.iter_mut()) {
         match it {
             (Some(bf), Some(f)) => {
-                if bf.occurence > f.occurence {
-                    f.occurence = bf.occurence;
+                if bf.occurrence > f.occurrence {
+                    f.occurrence = bf.occurrence;
                 }
             }
             (Some(bf), None) => {
@@ -201,7 +201,7 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_s
     let mut acc = 1u32;
     for o in &factors {
         if let Some(f) = o {
-            acc *= f.prime.pow(f.occurence);
+            acc *= f.prime.pow(f.occurrence);
         }
     }
     acc
