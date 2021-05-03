@@ -8,7 +8,8 @@ edition = "2018"
 
 [dependencies]
 bit-vec = "0.6.2"
-rand = "0.7.3"
+rand = "0.8.3"
+rayon = "1.5"
 
 [dev-dependencies]
 criterion = "0.3"

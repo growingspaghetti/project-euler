@@ -240,18 +240,22 @@ fn is_palindrome(a: u32) -> bool {
     a == b
 }
 
-fn scan_b(a: u32, largest_pal_pro: &mut Option<u32>) {
+fn update_largest_palindrome_product(lpp: &mut Option<u32>, with: u32) {
+    match lpp.as_mut() {
+        Some(v) => *v = with,
+        None => *lpp = Some(with),
+    }
+}
+
+fn scan_b(a: u32, largest_pp: &mut Option<u32>) {
     let mut b = 999;
     while b >= a {
         let p = a * b;
-        if p <= largest_pal_pro.unwrap_or_default() {
+        if p <= largest_pp.unwrap_or_default() {
             return;
         }
         if is_palindrome(p) {
-            match largest_pal_pro.as_mut() {
-                Some(v) => *v = p,
-                None => *largest_pal_pro = Some(p),
-            }
+            update_largest_palindrome_product(largest_pp, p);
         }
         b -= 1;
     }

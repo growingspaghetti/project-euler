@@ -137,18 +137,14 @@ struct Factor {
 }
 
 fn increment_occurrence(factors: &mut [Option<Factor>; 20], p: u32) {
-    assert!(p < 20);
-    match factors[p as usize].as_mut() {
-        Some(f) => {
-            f.occurrence += 1;
-        }
-        None => {
-            factors[p as usize] = Some(Factor {
-                prime: p,
-                occurrence: 1,
-            })
-        }
+    if let Some(f) = factors[p as usize].as_mut() {
+        f.occurrence += 1;
+        return;
     }
+    factors[p as usize] = Some(Factor {
+        prime: p,
+        occurrence: 1,
+    });
 }
 
 fn list_factors(mut n: u32) -> [Option<Factor>; 20] {
@@ -168,16 +164,11 @@ fn list_factors(mut n: u32) -> [Option<Factor>; 20] {
 fn merge(factors: &mut [Option<Factor>; 20], b: &[Option<Factor>; 20]) {
     for it in b.iter().zip(factors.iter_mut()) {
         match it {
-            (Some(bf), Some(f)) => {
-                if bf.occurrence > f.occurrence {
-                    f.occurrence = bf.occurrence;
-                }
-            }
-            (Some(bf), None) => {
-                let (_, f) = it;
-                *f = Some(bf.clone());
-            }
-            _ => (),
+            (Some(bf), None) => *it.1 = Some(bf.clone()),
+            (Some(bf), Some(f)) if bf.occurrence > f.occurrence =>  {
+                f.occurrence = bf.occurrence
+            },
+            _ => continue,
         }
     }
 }
@@ -198,6 +189,7 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_s
         let local_factors = list_factors(n);
         merge(&mut factors, &local_factors);
     }
+
     let mut acc = 1u32;
     for o in &factors {
         if let Some(f) = o {
@@ -205,6 +197,10 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_primes_s
         }
     }
     acc
+    // (&factors)
+    //     .iter()
+    //     .filter_map(|o| o.as_ref())
+    //     .fold(1u32, |a, f| a * f.prime.pow(f.occurrence))
 }
 
 /// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.

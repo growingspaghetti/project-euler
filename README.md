@@ -18,7 +18,7 @@ cargo doc --open
 | 5  | Smallest multiple          | [Smallest multiple](rust/src/m5.rs)          | 1.7742 s -> 2.0 us -> 440 ns https://docs.google.com/presentation/d/e/2PACX-1vS0vhb4qKuLM62w4AUrn4DQfhzn9hKKS3NmOkhPK3t30mMhf7wB_KqFh5fz0vmGPZcpjP12FT7tlxZT/pub?start=false&loop=false&delayms=60000 |
 | 6 | Sum square difference | [Sum square difference](rust/src/m6.rs) | 5.5783 ns -> 4.0562 ns https://docs.google.com/presentation/d/e/2PACX-1vTP9y24LtmU7xc2aa330SN3Ckv41Nhh_Syv8CHEGfe7SsPqUlmIPoXfReOZbVaJWUGS_WXD6L2X7vql/pub?start=false&loop=false&delayms=60000 |
 | 7 | 10001st prime         | [10001st prime](rust/src/m7.rs)         | 15.028 ms -> 6.5 ms -> 2.2 ms https://docs.google.com/presentation/d/e/2PACX-1vSQMS02Bs8MWMfHRChuI3eTMbxC-Anx7tUPAGemmKWugKFVup2d25ipBwcU5OQdcxHluC3wQxY6M9Bp/pub?start=false&loop=false&delayms=60000 |
-| 8 | Largest product in a series         | [Largest product in a series](rust/src/m8.rs)         | 6.4163 us, 14.486 us |
+| 8 | Largest product in a series         | [Largest product in a series](rust/src/m8.rs)         | 6.4163 us, 14.486 us https://docs.google.com/presentation/d/e/2PACX-1vTEWTgdLfAldnJUzh6V60O0nKBBOaW7c62PG1N8pI2WPrHzCXCumfBSeJm8BvtmaMQRb7adqd8AtcWJ/embed?start=false&loop=false&delayms=60000 |
 | 9 | Special Pythagorean triplet         | [Special Pythagorean triplet](rust/src/m9.rs)         | 70.057 us -> 282.46 ns |
 | 10 | Summation of primes         | [Summation of primes](rust/src/m10.rs)         | 10.894 ms -> 8.0042 ms -> 6.8499 ms -> 5.6620 ms |
 | 11 | Largest product in a grid         | [Largest product in a grid](rust/src/m11.rs)         | |

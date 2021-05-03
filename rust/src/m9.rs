@@ -155,3 +155,29 @@ pub fn pythagorean_triplet_and_1000_triangle_euclid(sum: u32) -> u32 {
         n = 1;
     }
 }
+
+/// A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+/// a^2 + b^2 = c^2
+///
+/// For example, 32 + 42 = 9 + 16 = 25 = 52.
+///
+/// There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+/// Find the product abc.
+///
+/// ```rust
+/// use self::project_euler::m9::pythagorean_triplet_and_1000_triangle_euclid_for;
+/// assert_eq!(pythagorean_triplet_and_1000_triangle_euclid_for(), Some(31875000));
+/// ```
+pub fn pythagorean_triplet_and_1000_triangle_euclid_for() -> Option<u32> {
+    for m in 2..(998f32.sqrt() as u32) {
+        for n in 1..m {
+            let a = m * m - n * n;
+            let b = 2 * m * n;
+            let c = m * m + n * n;
+            if a + b + c == 1000 && a * a + b * b == c * c {
+               return Some(a * b * c);
+            }
+        }
+    }
+    None
+}

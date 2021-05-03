@@ -279,8 +279,7 @@ fn is_prime(n: u64) -> bool {
     if n == 2 || n == 3 || n == 5 || n == 7 {
         return true;
     }
-    let basic_primes = [2u64, 3, 5, 7];
-    for d in &basic_primes {
+    for d in &[2u64, 3, 5, 7] {
         if n % *d == 0 {
             return false;
         }
