@@ -299,9 +299,36 @@ fn is_prime(n: u64) -> bool {
     true
 }
 
-// the_10001st_prime_number_mod3_syntax
-//                         time:   [6.5115 ms 6.5592 ms 6.6103 ms]
-//                         change: [-1.0115% +0.0000% +0.9894%] (p = 1.00 > 0.05)
+fn is_prime_5(n: u64) -> bool {
+    if n < 2 {
+        return false;
+    }
+    if n == 2 || n == 3 || n == 5 {
+        return true;
+    }
+    for d in &[2u64, 3, 5] {
+        if n % *d == 0 {
+            return false;
+        }
+    }
+
+    let side = (n as f64).sqrt() as u64;
+    let mut d = 5u64;
+    for i in [2, 4].iter().cycle() {
+        if d > side {
+            break;
+        }
+        d += *i;
+        if n % d == 0 {
+            return false;
+        }
+    }
+    true
+}
+
+// the_10001st_prime_number_mod3_syntax                                                                             
+//                         time:   [4.8235 ms 4.8504 ms 4.8790 ms]
+//                         change: [-0.7991% +0.0000% +0.8361%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
 
 /// ```rust
@@ -313,7 +340,7 @@ pub fn the_10001st_prime_number_mod3_syntax(nth: u32) -> u64 {
     let mut counter = 0u32;
     while counter < nth {
         n += 1;
-        if is_prime(n) {
+        if is_prime_5(n) {
             counter += 1;
         }
     }

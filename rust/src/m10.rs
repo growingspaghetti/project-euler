@@ -76,6 +76,8 @@
 //! When you mark numbers in the matrix as non-prime in the bottom up approach, the is_prime() logic and its loop are not required.
 //! See (m7)[./m7.rs]
 
+use std::usize;
+
 /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 ///
 /// Find the sum of all the primes below two million.
@@ -124,6 +126,7 @@ pub fn sum_of_all_the_primes_below_two_million_pow_i_to_matrix_len() -> u64 {
     sum
 }
 
+// 7.8 ms
 /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 ///
 /// Find the sum of all the primes below two million.
@@ -161,6 +164,7 @@ pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well() -> u64 {
     }
 }
 
+// 6.3 ms
 /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 ///
 /// Find the sum of all the primes below two million.
@@ -236,6 +240,312 @@ pub fn sum_of_all_the_primes_below_two_million_bit_vec() -> u64 {
                 bv.set(j, false)
             }
         }
+    }
+    sum
+}
+
+fn rule_out(sieve: &mut [bool; 2_000_000], prime: usize) {
+    for i in (prime..sieve.len()).step_by(prime) {
+        sieve[i] = false;
+    }
+}
+
+// 11 ms
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_sieve;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_sieve(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_sieve() -> u64 {
+    let mut sieve = [true; 2_000_000];
+    let cursor_max = sieve.len() - 1;
+    rule_out(&mut sieve, 7);
+    rule_out(&mut sieve, 9);
+    let mut sum = 2u64 + 3 + 5 + 7;
+    let mut cursor = 7usize;
+    for i in [2usize, 2, 2, 4].iter().cycle() {
+        cursor += *i;
+        if cursor > cursor_max {
+            break;
+        }
+        if !sieve[cursor] {
+            continue;
+        }
+        sum += cursor as u64;
+        rule_out(&mut sieve, cursor);
+    }
+    sum
+}
+
+// 7.9 ms
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_sieve_step;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_sieve_step(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_sieve_step() -> u64 {
+    let mut sieve = [true; 2_000_000];
+    let sqrt = (sieve.len() as f64).sqrt().ceil() as usize;
+    let cursor_max = sieve.len() - 1;
+    rule_out(&mut sieve, 7);
+    rule_out(&mut sieve, 9);
+    let mut sum = 2u64 + 3 + 5 + 7;
+    let mut cursor = 7usize;
+    let steps = [2usize, 2, 2, 4];
+    let i = loop {
+        cursor += steps[0];
+        if cursor > sqrt {
+            break 0;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out(&mut sieve, cursor);
+        }
+
+        cursor += steps[1];
+        if cursor > sqrt {
+            break 1;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out(&mut sieve, cursor);
+        }
+
+        cursor += steps[2];
+        if cursor > sqrt {
+            break 2;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out(&mut sieve, cursor);
+        }
+
+        cursor += steps[3];
+        if cursor > sqrt {
+            break 3;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out(&mut sieve, cursor);
+        }
+    };
+    cursor -= steps[i];
+    let b = (1 + i) % 4;
+    let c = (2 + i) % 4;
+    let d = (2 + i) % 4;
+    loop {
+        cursor += steps[i];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[b];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[c];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[d];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+    }
+    sum
+}
+
+fn rule_out_square(sieve: &mut [bool; 2_000_000], prime: usize) {
+    for i in (prime * prime..sieve.len()).step_by(prime) {
+        sieve[i] = false;
+    }
+}
+
+// 7.25 ms
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_sieve_step_23;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_sieve_step_23(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_sieve_step_23() -> u64 {
+    let mut sieve = [true; 2_000_000];
+    let sqrt = (sieve.len() as f64).sqrt().ceil() as usize;
+    let cursor_max = sieve.len() - 1;
+    rule_out_square(&mut sieve, 3);
+    rule_out_square(&mut sieve, 7);
+    let mut sum = 2u64 + 3 + 5 + 7;
+    let mut cursor = 7usize;
+    let steps = [2usize, 2, 2, 4];
+    let i = loop {
+        cursor += steps[0];
+        if cursor > sqrt {
+            break 0;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out_square(&mut sieve, cursor);
+        }
+
+        cursor += steps[1];
+        if cursor > sqrt {
+            break 1;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out_square(&mut sieve, cursor);
+        }
+
+        cursor += steps[2];
+        if cursor > sqrt {
+            break 2;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out_square(&mut sieve, cursor);
+        }
+
+        cursor += steps[3];
+        if cursor > sqrt {
+            break 3;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+            rule_out_square(&mut sieve, cursor);
+        }
+    };
+    cursor -= steps[i];
+    let b = (1 + i) % 4;
+    let c = (2 + i) % 4;
+    let d = (2 + i) % 4;
+    loop {
+        cursor += steps[i];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[b];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[c];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+
+        cursor += steps[d];
+        if cursor > cursor_max {
+            break;
+        }
+        if sieve[cursor] {
+            sum += cursor as u64;
+        }
+    }
+    sum
+}
+
+// 7.6 ms
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter() -> u64 {
+    let mut matrix = [true; 2_000_000]; // n: 2_000_001 i: 0..=2_000_000
+    let sqrt = ((matrix.len() - 1) as f64).sqrt().ceil() as usize;
+    let mut sum = 5u64; // because the first primes sum([2,3]) are skipped and starts with [5,
+    matrix[0] = false;
+    matrix[1] = false;
+    matrix[4] = false;
+    let mut index = 5usize;
+    for i in [2usize, 4].iter().cycle() {
+        if index > sqrt {
+            break;
+        }
+        if matrix[index] {
+            sum += index as u64;
+            for j in (index * index..matrix.len()).step_by(index) {
+                matrix[j] = false;
+            }
+        }
+        index += i;
+    }
+    for i in [4usize, 2].iter().cycle() {
+        if index >= matrix.len() {
+            break;
+        }
+        if matrix[index] {
+            sum += index as u64;
+        }
+        index += i;
+    }
+    sum
+}
+
+struct Index {
+    i: usize,
+    _ite: Box<dyn Iterator<Item = usize>>,
+}
+
+impl Index {
+    fn increment(&mut self) {
+        self.i += self._ite.next().unwrap();
+    }
+    fn new() -> Index {
+        Index {
+            i: 5,
+            _ite: Box::new(vec![2usize, 4].into_iter().cycle()),
+        }
+    }
+}
+
+// 6.28 ms
+/// ```rust
+/// use self::project_euler::m10::sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter_2;
+/// assert_eq!(sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter_2(), 142913828922);
+/// ```
+pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter_2() -> u64 {
+    let mut matrix = [true; 2_000_000];
+    let sqrt = (matrix.len() as f64).sqrt().ceil() as usize;
+    let mut sum = 2u64 + 3;
+    let mut index = Index::new();
+    loop {
+        if index.i > sqrt {
+            break;
+        }
+        if matrix[index.i] {
+            sum += index.i as u64;
+            rule_out_square(&mut matrix, index.i);
+        }
+        index.increment();
+    }
+    loop {
+        if index.i >= matrix.len() {
+            break;
+        }
+        if matrix[index.i] {
+            sum += index.i as u64;
+        }
+        index.increment();
     }
     sum
 }

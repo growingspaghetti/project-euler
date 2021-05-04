@@ -13,6 +13,7 @@ criterion_main!(
     benchmarks::m8::adjacent_digits,
     benchmarks::m9::pythagorean_triples,
     benchmarks::m10::eratosthenes_modified,
+    benchmarks::m11::largest_product_in_a_grid,
     benchmarks::m12::number_of_divisors,
     benchmarks::m13::splice_gigantic_number,
     benchmarks::m14::collatz_cache,
