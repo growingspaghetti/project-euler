@@ -237,6 +237,53 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_pri
         n
     }
 }
+
+fn divide_fully(n: &mut u64, d: u64) {
+    while *n % d == 0 {
+        *n /= d;
+    }
+}
+
+///
+/// ```rust
+/// use self::project_euler::m3::largest_prime_factor;
+/// assert_eq!(largest_prime_factor(600851475143u64), 6857);
+/// assert_eq!(largest_prime_factor(60), 5);
+/// assert_eq!(largest_prime_factor(5), 5);
+/// assert_eq!(largest_prime_factor(6), 3);
+/// assert_eq!(largest_prime_factor(15), 5);
+/// assert_eq!(largest_prime_factor(25698751364526), 328513);
+/// assert_eq!(largest_prime_factor(13195), 29);
+/// ```
+pub
+fn largest_prime_factor(mut n: u64) -> u64 {
+    assert!(n > 1);
+    let basic_primes = [2u64, 3, 5];
+    for &d in &basic_primes {
+        divide_fully(&mut n, d);
+        if n == 1 {
+            return d;
+        }
+    }
+    let side = (n as f64).sqrt() as u64;
+    let mut divisor = 5u64;
+    for i in [2u64, 4].iter().cycle() {
+        if divisor > side {
+            break;
+        }
+        divisor += *i;
+        divide_fully(&mut n, divisor);
+        if n == 1 {
+            return divisor;
+        }
+    }
+    if n == 1 {
+        divisor
+    } else {
+        n
+    }
+}
+
 // 17 us
 // pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(
 //     mut n: u64,

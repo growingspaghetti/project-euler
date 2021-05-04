@@ -773,3 +773,120 @@ pub fn the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factor
 fn main() {
     assert_eq!(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors(), 76576500);
 }
+
+struct TriangleNumber {
+    _nth: u64,
+    _primes: Vec<u64>,
+    _num_div_even: u64,
+    _num_div_odd: u64,
+}
+
+trait Divisors {
+    fn number_of_divisors(&self) -> u64;
+}
+
+impl TriangleNumber {
+    fn new() -> Self {
+        TriangleNumber {
+            _nth: 3,
+            _num_div_even: 2,
+            _num_div_odd: 2,
+            _primes: vec![2, 3],
+        }
+    }
+    fn num(&self) -> u64 {
+        self._nth * (self._nth + 1) / 2
+    }
+    fn _num_of_divisors(&mut self, mut n: u64) -> u64 {
+        let mut count = 1u64;
+        let side = (n as f64).sqrt() as u64;
+        for &p in self._primes.iter() {
+            if p > side || n == 1 {
+                break;
+            }
+            let mut exp = 0u64;
+            while n % p == 0 {
+                n /= p;
+                exp += 1;
+            }
+            count *= exp + 1;
+        }
+        if n != 1 {
+            count *= 2;
+            self._primes.push(n);
+        }
+        count
+    }
+    fn increment(&mut self) {
+        self._nth += 1;
+        if self._nth % 2 == 0 {
+            self._num_div_odd = self._num_of_divisors(self._nth + 1);
+        } else {
+            self._num_div_even = self._num_of_divisors((self._nth + 1) / 2);
+        }
+    }
+}
+
+impl Divisors for TriangleNumber {
+    fn number_of_divisors(&self) -> u64 {
+        self._num_div_even * self._num_div_odd
+    }
+}
+
+fn number_of_divisors(mut n: u64, primes: &mut Vec<u64>) -> u64 {
+    let mut count = 1u64;
+    for &p in primes.iter() {
+        if n == 1 {
+            break;
+        }
+        let mut exp = 0u64;
+        while n % p == 0 {
+            n /= p;
+            exp += 1;
+        }
+        count *= exp + 1;
+    }
+    if n != 1 {
+        count *= 2;
+        primes.push(n);
+    }
+    count
+}
+
+// 3.47 ms
+///
+///```rust
+/// use self::project_euler::m12::the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct;
+/// assert_eq!(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct(), 76576500);
+///```
+pub fn the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct(
+) -> u64 {
+    let mut triangle_number = TriangleNumber::new();
+    while triangle_number.number_of_divisors() <= 500 {
+        triangle_number.increment();
+    }
+    triangle_number.num()
+}
+
+// 23 ms
+///
+///```rust
+/// use self::project_euler::m12::the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2;
+/// assert_eq!(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2(), 76576500);
+///```
+pub fn the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2(
+) -> u64 {
+    let mut primes = vec![2u64, 3, 5];
+    let mut num = 7u64;
+    loop {
+        let total_divisors = if num % 2 == 0 {
+            number_of_divisors(num / 2, &mut primes) * number_of_divisors(num + 1, &mut primes)
+        } else {
+            number_of_divisors(num, &mut primes) * number_of_divisors((num + 1) / 2, &mut primes)
+        };
+        if total_divisors > 500 {
+            break num * (num + 1) / 2;
+        }
+        num += 1;
+    }
+}

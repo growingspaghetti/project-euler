@@ -10,6 +10,8 @@ criterion_group!(
     bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1,
     bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_small_matrix,
     bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix,
+    bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct,
+    bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2,
 );
 
 use project_euler::m12::*;
@@ -79,5 +81,21 @@ fn bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_fact
 ) {
     c.bench_function("the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix", |b| {
         b.iter(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix)
+    });
+}
+
+fn bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct(
+    c: &mut Criterion,
+) {
+    c.bench_function("the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct", |b| {
+        b.iter(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct)
+    });
+}
+
+fn bench_the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2(
+    c: &mut Criterion,
+) {
+    c.bench_function("the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2", |b| {
+        b.iter(the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_2)
     });
 }

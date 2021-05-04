@@ -586,7 +586,7 @@ impl Square {
         if self._y + adj_len > self._matrix.len() {
             return Err(());
         }
-        if self._x < adj_len - 1{
+        if self._x < adj_len - 1 {
             return Err(());
         }
         let p = (0..adj_len)
