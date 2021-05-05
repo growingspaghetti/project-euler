@@ -8,6 +8,7 @@ criterion_group!(
     bench_collatz_under_one_million_produces_the_longest_chain_cache_rec_3n_1_2,
     bench_collatz_under_one_million_produces_the_longest_chain_cache_rec_3n_1_2_skip_500_000,
     bench_collatz_under_one_million_produces_the_longest_chain_full,
+    bench_collatz_under_one_million_produces_the_longest_chain_full_2,
 );
 
 use project_euler::m14::*;
@@ -57,5 +58,12 @@ fn bench_collatz_under_one_million_produces_the_longest_chain_full(c: &mut Crite
     c.bench_function(
         "collatz_under_one_million_produces_the_longest_chain_full",
         |b| b.iter(collatz_under_one_million_produces_the_longest_chain_full),
+    );
+}
+
+fn bench_collatz_under_one_million_produces_the_longest_chain_full_2(c: &mut Criterion) {
+    c.bench_function(
+        "collatz_under_one_million_produces_the_longest_chain_full_2",
+        |b| b.iter(collatz_under_one_million_produces_the_longest_chain_full_2),
     );
 }

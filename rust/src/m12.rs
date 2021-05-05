@@ -797,19 +797,26 @@ impl TriangleNumber {
     fn num(&self) -> u64 {
         self._nth * (self._nth + 1) / 2
     }
+    fn _divide_fully(&self, n: &mut u64, d: u64, side: &mut u64, count: &mut u64) {
+        if *n % d == 0 {
+            let mut exp = 0u64;
+            while {
+                *n /= d;
+                exp += 1;
+                *n % d == 0
+            } {}
+            *side = (*n as f64).sqrt() as u64;
+            *count *= exp + 1;
+        }
+    }
     fn _num_of_divisors(&mut self, mut n: u64) -> u64 {
         let mut count = 1u64;
-        let side = (n as f64).sqrt() as u64;
+        let mut side = (n as f64).sqrt() as u64;
         for &p in self._primes.iter() {
             if p > side || n == 1 {
                 break;
             }
-            let mut exp = 0u64;
-            while n % p == 0 {
-                n /= p;
-                exp += 1;
-            }
-            count *= exp + 1;
+            self._divide_fully(&mut n, p, &mut side, &mut count);
         }
         if n != 1 {
             count *= 2;
@@ -853,7 +860,7 @@ fn number_of_divisors(mut n: u64, primes: &mut Vec<u64>) -> u64 {
     count
 }
 
-// 3.47 ms
+// 2.26 ms
 ///
 ///```rust
 /// use self::project_euler::m12::the_first_triangle_number_to_have_over_five_hundred_divisors_prime_factors_number_of_divisors_n_n1_small_matrix_struct;

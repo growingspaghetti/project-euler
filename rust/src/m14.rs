@@ -93,6 +93,8 @@
 //! Hashing is slower than performing collatz calculations.
 //! https://www.dcode.fr/collatz-conjecture
 
+use std::usize;
+
 ///
 ///
 /// The following iterative sequence is defined for the set of positive integers:
@@ -439,7 +441,7 @@ pub fn collatz_under_one_million_produces_the_longest_chain_full() -> (u64, u64)
         } else {
             (Some((3 * num + 1) / 2), 2)
         }
-    };
+    }
     let mut longest_step = 0u64;
     let mut max_num = 0u64;
     for i in 500_000..1_000_000u64 {
@@ -461,3 +463,97 @@ pub fn collatz_under_one_million_produces_the_longest_chain_full() -> (u64, u64)
     }
     (max_num, longest_step)
 }
+
+struct Position {
+    initial_number: u64,
+    number_of_steps: u32,
+}
+
+struct Collatz {
+    init_num: u64,
+    next: Option<u64>,
+    step_accum: u32,
+    cache: Vec<u32>,
+    max: Position,
+}
+
+impl Collatz {
+    fn update_records(&mut self) {
+        if let Some(s) = self.cache.get_mut(self.init_num as usize) {
+            *s = self.step_accum;
+        }
+        if self.max.number_of_steps < self.step_accum {
+            self.max.number_of_steps = self.step_accum;
+            self.max.initial_number = self.init_num;
+        }
+    }
+    fn move_along(&mut self) -> Option<u64> {
+        let n = self.next?;
+        if n == 1 {
+            self.step_accum += 1;
+            self.next = None;
+            self.update_records();
+            return self.next;
+        }
+        match self.cache.get(n as usize) {
+            Some(r) if *r != 0 => {
+                self.step_accum += 1 + *r;
+                self.next = None;
+                self.update_records();
+                return self.next;
+            }
+            _ => (),
+        }
+        if n % 2 == 0 {
+            self.step_accum += 1;
+            self.next = Some(n / 2);
+            return self.next;
+        }
+        self.step_accum += 2;
+        self.next = Some((3 * n + 1) / 2);
+        self.next
+    }
+    fn init_next(&mut self) {
+        self.next = if self.init_num % 2 == 0 {
+            Some(self.init_num / 2)
+        } else {
+            Some(3 * self.init_num + 1)
+        }
+    }
+}
+
+// 43.6 ms
+///```rust
+/// use self::project_euler::m14::collatz_under_one_million_produces_the_longest_chain_full_2;
+/// assert_eq!(collatz_under_one_million_produces_the_longest_chain_full_2(), (837799, 525));
+///```
+pub fn collatz_under_one_million_produces_the_longest_chain_full_2() -> (u64, u32) {
+    let mut c = Collatz {
+        init_num: 0,
+        next: None,
+        step_accum: 0,
+        cache: vec![0; 1_000_000],
+        max: Position {
+            initial_number: 1,
+            number_of_steps: 0,
+        },
+    };
+
+    for i in 500_000..1_000_000u64 {
+        c.init_num = i;
+        c.init_next();
+        c.step_accum = 0;
+        while c.move_along().is_some() {}
+    }
+
+    (c.max.initial_number, c.max.number_of_steps + 1)
+}
+// let mut longest_number_of_steps = 0u32;
+// let mut max_num = 0u64;
+// for (i, &v) in c.cache.iter().enumerate() {
+//     if v > longest_number_of_steps {
+//         longest_number_of_steps = v;
+//         max_num = i as u64;
+//     }
+// }
+// (max_num, longest_number_of_steps + 1)

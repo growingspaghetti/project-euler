@@ -30,6 +30,8 @@
 //! median [8.8939 us 8.9524 us] med. abs. dev. [86.607 ns 167.62 ns]
 //! ```
 
+use std::usize;
+
 const FIFTY_DIGIT_NUMBERS: [&str; 100] = [
     "37107287533902102798797998220837590246510135740250",
     "46376937677490009712648124896970078050417018260538",
@@ -368,6 +370,7 @@ pub fn sum_of_one_hundred_50_digit_numbers() -> u64 {
 // 20849603980134001723930671666823555245252804609722
 // 53503534226472524250874054075591789781264330331690
 //
+// 9 us
 ///
 /// ```rust
 /// use self::project_euler::m13::sum_of_one_hundred_50_digit_numbers_u64;
@@ -389,4 +392,203 @@ pub fn sum_of_one_hundred_50_digit_numbers_u64() -> u64 {
         sum /= 10;
     }
     sum
+}
+
+// trait Addition {
+//     fn add(&self, n: u64);
+// }
+
+// struct BigNumber {
+//     whole_number: Vec<u64>,
+//     container: u64,
+//     carry: u64,
+// }
+
+// impl Addition for BigNumber {
+//     fn add(&self, n: u64) {}
+// }
+
+// impl BigNumber {
+//     const UNIT: usize = 16;
+//     const MAX: u64 = 9999_9999_9999_9999;
+//     fn flush() {}
+//     fn carry_over() {}
+//     fn add(&mut self, n: &str) {
+//         match (n.len() % BigNumber::UNIT, n.len() / BigNumber::UNIT) {
+//             (0, d) => {
+//                 while self.whole_number.len() < d {
+//                     self.whole_number.push(0u64);
+//                 }
+//                 let mut carry = 0u64;
+//                 for i in (0..d).rev() {
+//                     let start = i * BigNumber::UNIT;
+//                     let end = start + BigNumber::UNIT;
+//                     let mut container = self.whole_number[self.whole_number.len() - d - i];
+//                     container += &n[start..end].parse::<u64>().unwrap();
+//                     container += carry;
+//                     if container > BigNumber::MAX {
+//                         carry = 1;
+//                         container -= BigNumber::MAX;
+//                         self.whole_number[self.whole_number.len() - d - i] = container;
+//                     } else {
+//                         carry = 0;
+//                     }
+//                 }
+//                 if carry == 1 {
+//                     if self.whole_number.len() <= d {
+//                         self.whole_number.push(1);
+//                     } else {
+//                         let container = &(self.whole_number[d]);
+//                         *container += carry;
+//                         if *container > BigNumber::MAX {
+//                             carry = 1;
+//                             *container -= BigNumber::MAX;
+//                         } else {
+//                             carry = 0;
+//                         }
+//                     }
+
+//                 }
+//             }
+//             (r, d) => (),
+//         }
+//     }
+// }
+
+pub fn sum_of_one_hundred_50_digit_numbers_u64_2() -> u64 {
+    let input_digits = 50usize;
+    let container_digits = 10usize;
+    let overflow_threshold = 10u64.pow(container_digits as u32);
+
+    let mut sum = 0u64;
+    let mut carry = 0u64;
+    for i in 0..input_digits / container_digits {
+        let chunk_begin = input_digits - container_digits * (i + 1);
+        let chunk_end = input_digits - container_digits * i;
+        sum = FIFTY_DIGIT_NUMBERS
+            .iter()
+            .map(|&s| &s[chunk_begin..chunk_end])
+            .map(|s| s.parse::<u64>().unwrap())
+            .sum::<u64>()
+            + carry;
+        carry = sum / overflow_threshold;
+    }
+
+    let display_threshold = 10u64.pow(10);
+    while sum >= display_threshold {
+        sum /= 10;
+    }
+    sum
+}
+
+struct BigNum {
+    a: Vec<u64>,
+}
+
+fn paging(b: &str, page: usize) -> Option<&str> {
+    let len = b.len();
+    if len <= 10 && page == 0 {
+        return Some(b);
+    } else if len <= 10 && page > 0 {
+        return None;
+    }
+    let end = len as isize - page as isize * 10;
+    if end <= 0 {
+        return None;
+    }
+    let begin = end - 10;
+    if begin < 0 {
+        Some(&b[0..end as usize])
+    } else {
+        Some(&b[begin as usize..end as usize])
+    }
+}
+
+impl BigNum {
+    fn new() -> Self {
+        BigNum { a: vec![] }
+    }
+    fn merge(&mut self, page: usize, n: u64, carry: &mut u64) {
+        if self.a.get(page).is_none() {
+            self.a.push(0u64)
+        }
+        if let Some(con) = self.a.get_mut(page) {
+            *con += n + *carry;
+            if *con > 9_999_999_999 {
+                *carry = 1;
+                *con -= 10_000_000_000;
+            } else {
+                *carry = 0;
+            }
+        }
+    }
+    fn add(&mut self, b: &str) {
+        let mut p = 0usize;
+        let mut carry = 0u64;
+        while let Some(s) = paging(&b, p) {
+            let n = s.parse::<u64>().unwrap();
+            self.merge(p, n, &mut carry);
+            p += 1;
+        }
+        while carry != 0 {
+            self.merge(p, 0, &mut carry);
+            p += 1;
+        }
+    }
+    fn head(&self, digits: u8) -> u64 {
+        let mut head = 0u64;
+        for p in (0..self.a.len()).rev() {
+            if let Some(&con) = self.a.get(p) {
+                if head > u64::MAX / 10_000_000_000 {
+                    break;
+                }
+                head *= 10_000_000_000;
+                head += con;
+            }
+        }
+        let display_threshold = 10u64.pow(digits as u32);
+        while head >= display_threshold {
+            head /= 10;
+        }
+        head
+    }
+}
+
+// 13.5 us
+/// ```rust
+/// use self::project_euler::m13::sum_of_one_hundred_50_digit_numbers_u64_3;
+/// assert_eq!(sum_of_one_hundred_50_digit_numbers_u64_3(), 5537376230);
+/// ```
+pub fn sum_of_one_hundred_50_digit_numbers_u64_3() -> u64 {
+    let mut big_num = BigNum::new();
+    for &b in FIFTY_DIGIT_NUMBERS.iter() {
+        big_num.add(b);
+    }
+    //println!("{:?}", big_num.a);
+    big_num.head(10)
+}
+
+fn sum_of_variable_length(strs: Vec<&str>) -> u64 {
+    let mut big_num = BigNum { a: vec![] };
+    for &b in strs.iter() {
+        big_num.add(b);
+    }
+    //println!("{:?}", big_num.a);
+    big_num.head(10)
+}
+
+#[test]
+fn test_variable_length() {
+    assert_eq!(sum_of_variable_length(vec!["3", "47", "4"]), 54);
+    assert_eq!(
+        sum_of_variable_length(vec![
+            "9999999999",
+            "99999999999999999999",
+            "40005484537376233",
+            "3",
+            "5537376230",
+            "40000000000000"
+        ]),
+        1000400455
+    );
 }

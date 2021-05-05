@@ -7,6 +7,7 @@ criterion_group!(
     bench_largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12,
     bench_largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes,
     bench_largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab,
+    bench_largest_prime_factor_a,
 );
 
 use project_euler::m3::*;
@@ -51,6 +52,18 @@ fn bench_largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(c
         |b| {
             b.iter(|| {
                 largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab(
+                    600851475143u64,
+                )
+            })
+        },
+    );
+}
+fn bench_largest_prime_factor_a(c: &mut Criterion) {
+    c.bench_function(
+        "largest_prime_factor_a",
+        |b| {
+            b.iter(|| {
+                largest_prime_factor_a(
                     600851475143u64,
                 )
             })
