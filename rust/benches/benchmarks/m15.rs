@@ -7,6 +7,9 @@ criterion_group!(
     bench_routes_are_there_through_a_20_20_grid_combination_small_numbers,
     bench_routes_are_there_through_a_20_20_grid_combination_small_numbers_series,
     bench_routes_are_there_through_a_20_20_grid_combination_perfect_square,
+    bench_routes_are_there_through_a_20_20_grid_combination_2,
+    bench_routes_are_there_through_a_20_20_grid_combination_3,
+    bench_routes_are_there_through_a_20_20_grid_combination_4,
 );
 
 use project_euler::m15::*;
@@ -42,4 +45,24 @@ fn bench_routes_are_there_through_a_20_20_grid_combination_perfect_square(c: &mu
         "routes_are_there_through_a_20_20_grid_combination_perfect_square",
         |b| b.iter(routes_are_there_through_a_20_20_grid_combination_perfect_square),
     );
+}
+
+fn bench_routes_are_there_through_a_20_20_grid_combination_2(c: &mut Criterion) {
+    c.bench_function("routes_are_there_through_a_20_20_grid_combination_2", |b| {
+        b.iter(routes_are_there_through_a_20_20_grid_combination_2)
+    });
+}
+
+
+fn bench_routes_are_there_through_a_20_20_grid_combination_3(c: &mut Criterion) {
+    c.bench_function("routes_are_there_through_a_20_20_grid_combination_3", |b| {
+        b.iter(routes_are_there_through_a_20_20_grid_combination_3)
+    });
+}
+
+
+fn bench_routes_are_there_through_a_20_20_grid_combination_4(c: &mut Criterion) {
+    c.bench_function("routes_are_there_through_a_20_20_grid_combination_4", |b| {
+        b.iter(routes_are_there_through_a_20_20_grid_combination_4)
+    });
 }

@@ -154,6 +154,54 @@ pub fn the_sum_of_the_digits_of_the_number_2_1000_change_of_base_formula() -> u3
     number.iter().map(|&n| n as u32).sum()
 }
 
+struct BigNum {
+    v: Vec<u64>,
+}
+
+impl BigNum {
+    const TEN_MIL: u64 = 10_000_000_000;
+    fn double(&mut self) {
+        let mut carry = 0u64;
+        for con in self.v.iter_mut() {
+            *con *= 2;
+            *con += carry;
+            if *con >= Self::TEN_MIL {
+                carry = 1;
+                *con -= Self::TEN_MIL;
+            } else {
+                carry = 0;
+            }
+        }
+        if carry != 0 {
+            self.v.push(1u64);
+        }
+    }
+    fn sum_of_digits(&self) -> u32 {
+        let mut sum = 0u32;
+        for &con in &self.v {
+            let mut t = con;
+            while t > 0 {
+                sum += (t % 10) as u32;
+                t /= 10;
+            }
+        }
+        sum
+    }
+}
+
+// 26 us
+/// ```rust
+/// use self::project_euler::m16::the_sum_of_the_digits_of_the_number_2_1000_u64_2;
+/// assert_eq!(the_sum_of_the_digits_of_the_number_2_1000_u64_2(), 1366);
+/// ```
+pub fn the_sum_of_the_digits_of_the_number_2_1000_u64_2() -> u32 {
+    let mut n = BigNum { v: vec![1] };
+    for _ in 0..1000 {
+        n.double();
+    }
+    n.sum_of_digits()
+}
+
 /// ```rust
 /// use self::project_euler::m16::the_sum_of_the_digits_of_the_number_2_1000_u64;
 /// assert_eq!(the_sum_of_the_digits_of_the_number_2_1000_u64(), 1366);

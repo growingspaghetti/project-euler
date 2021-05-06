@@ -117,6 +117,7 @@ pub fn routes_are_there_through_a_10_10_grid_random() -> u64 {
     routes.len() as u64
 }
 
+//  865 ns
 /// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
 /// ![](https://projecteuler.net/project/images/p015.png)
 /// How many such routes are there through a 20×20 grid?
@@ -126,39 +127,48 @@ pub fn routes_are_there_through_a_10_10_grid_random() -> u64 {
 /// assert_eq!(routes_are_there_through_a_20_20_grid_walk_through(), 137846528820);
 /// ```
 pub fn routes_are_there_through_a_20_20_grid_walk_through() -> u64 {
-    // https://en.wikipedia.org/wiki/Lattice_path
-    // [↑ .... ↑; 20]
-    // [→ .... →; 20]
-    // NE lattice paths. [0][0] to fill [20][20] step number is determined as 40.
-    // Amass the number of possible paths to reach and fill a point from [0],[0] to [20][20]
-    let mut lattice = [[0u64;21];21 /*initial point cell is 0,0 and do +=20*/];
+    // // https://en.wikipedia.org/wiki/Lattice_path
+    // // [↑ .... ↑; 20]
+    // // [→ .... →; 20]
+    // // NE lattice paths. [0][0] to fill [20][20] step number is determined as 40.
+    // // Amass the number of possible paths to reach and fill a point from [0],[0] to [20][20]
+    // let mut lattice = [[0u64;21];21 /*initial point cell is 0,0 and do +=20*/];
 
-    // lattice[0][0] = 1; // apparently no other way to start.
-    // apparently to reach the east end [0],[20], to keep going east is the one and only way.
-    // in the same mannar, to reach the south end [20], [0], to keep going south is the one and only way.
-    for y in 0..21 {
-        for x in 0..21 {
-            let up_cell = if y > 0 {
-                lattice.get(y - 1).and_then(|row| row.get(x))
-            } else {
-                None
-            };
-            let left_cell = if x > 0 {
-                lattice.get(y).and_then(|row| row.get(x - 1))
-            } else {
-                None
-            };
-            lattice[y][x] = match (up_cell, left_cell) {
-                (Some(&a), Some(&b)) => a + b,
-                (None, Some(&b)) => b,
-                (Some(&a), None) => a,
-                _ => 1,
-            };
+    // // lattice[0][0] = 1; // apparently no other way to start.
+    // // apparently to reach the east end [0],[20], to keep going east is the one and only way.
+    // // in the same mannar, to reach the south end [20], [0], to keep going south is the one and only way.
+    // for y in 0..21 {
+    //     for x in 0..21 {
+    //         let up_cell = if y > 0 {
+    //             lattice.get(y - 1).and_then(|row| row.get(x))
+    //         } else {
+    //             None
+    //         };
+    //         let left_cell = if x > 0 {
+    //             lattice.get(y).and_then(|row| row.get(x - 1))
+    //         } else {
+    //             None
+    //         };
+    //         lattice[y][x] = match (up_cell, left_cell) {
+    //             (Some(&a), Some(&b)) => a + b,
+    //             (None, Some(&b)) => b,
+    //             (Some(&a), None) => a,
+    //             _ => 1,
+    //         };
+    //     }
+    // }
+    // lattice[20][20]
+    let mut lattice = [[0u64; 22]; 22];
+    lattice[1][1] = 1;
+    for y in 1..lattice.len() {
+        for x in 1..lattice.len() {
+            lattice[y][x] += lattice[y - 1][x] + lattice[y][x - 1];
         }
     }
-    lattice[20][20]
+    lattice[21][21]
 }
 
+// 1.98 ns
 /// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
 /// ![](https://projecteuler.net/project/images/p015.png)
 /// How many such routes are there through a 20×20 grid?
@@ -241,6 +251,7 @@ pub fn routes_are_there_through_a_20_20_grid_combination_small_numbers() -> u64 
     nck(40, 20) as u64
 }
 
+// 254 ns
 /// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
 /// ![](https://projecteuler.net/project/images/p015.png)
 /// How many such routes are there through a 20×20 grid?
@@ -273,6 +284,25 @@ pub fn routes_are_there_through_a_20_20_grid_combination_small_numbers_series() 
     nck(40, 20) as u64
 }
 
+struct Combination {
+    n: f64,
+    k: f64,
+}
+
+impl Combination {
+    fn _recursion(&self, n: f64, k: f64) -> f64 {
+        if k == 1f64 {
+            return n;
+        }
+        let prev = self._recursion(n, k - 1f64);
+        prev * (n - k + 1f64) / k
+    }
+    fn num(&self) -> f64 {
+        self._recursion(self.n, self.k)
+    }
+}
+
+// 83 ns
 /// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
 /// ![](https://projecteuler.net/project/images/p015.png)
 /// How many such routes are there through a 20×20 grid?
@@ -289,5 +319,274 @@ pub fn routes_are_there_through_a_20_20_grid_combination_perfect_square() -> u64
     for i in 1..=k as i32 {
         product *= (k + i as f64) / i as f64
     }
+    let mut p = 1f64;
+    (1..=k as isize)
+        .map(|x| x as f64)
+        .map(|x| (k + x) / x)
+        .product::<f64>();
     product.ceil() as u64
+}
+
+fn gcd(mut a: u8, mut b: u8) -> u8 {
+    if b > a {
+        std::mem::swap(&mut a, &mut b);
+    }
+    assert!(b != 0);
+    let r = a % b;
+    if r == 0 {
+        return b;
+    }
+    gcd(b, r)
+}
+
+fn factorial(n: u8) -> u128 {
+    match n {
+        0 | 1 => 1,
+        _ => factorial(n - 1) * n as u128,
+    }
+}
+
+fn reduce(a: &mut u8, b: &mut u8) {
+    assert!(*a > 0 && *b > 0);
+    if *a == 1 || *b == 1 {
+        return;
+    }
+    let mut cd = gcd(*a, *b);
+    if cd != 1 {
+        while {
+            *a /= cd;
+            *b /= cd;
+            if *a == 1 || *b == 1 {
+                return;
+            }
+            cd = gcd(*a, *b);
+            cd != 1
+        } {}
+    }
+}
+
+// 446 ns
+/// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+/// ![](https://projecteuler.net/project/images/p015.png)
+/// How many such routes are there through a 20×20 grid?
+///
+/// ```rust
+/// use self::project_euler::m15::routes_are_there_through_a_20_20_grid_combination_2;
+/// assert_eq!(routes_are_there_through_a_20_20_grid_combination_2(), 137846528820);
+/// ```
+pub fn routes_are_there_through_a_20_20_grid_combination_2() -> u64 {
+    struct Permutation {
+        numerator: u8,
+        denominator: Vec<u8>,
+        _numerator_elem: Vec<u8>,
+        _denominator_elem: Vec<u8>,
+    }
+
+    impl Default for Permutation {
+        fn default() -> Permutation {
+            Permutation {
+                numerator: 0,
+                denominator: vec![],
+                _numerator_elem: vec![],
+                _denominator_elem: vec![],
+            }
+        }
+    }
+
+    impl Permutation {
+        fn reduce(&mut self) {
+            if let Some(d0) = self.denominator.pop() {
+                for i in (d0..self.numerator).rev() {
+                    self._numerator_elem.push(i + 1);
+                }
+            }
+            for &d in self.denominator.iter() {
+                for i in 2..=d {
+                    self._denominator_elem.push(i);
+                }
+            }
+            // for n in self._denominator_elem.iter_mut() {
+            //     for d in self._numerator_elem.iter_mut() {
+            //         reduce(n, d);
+            //     }
+            // }
+        }
+        fn num(&mut self) -> u64 {
+            let mut denominator_elem_shrink: Vec<u8> = vec![];
+            let mut ans = 1u64;
+            for n0 in &self._numerator_elem {
+                ans *= *n0 as u64;
+                if let Some(d0) = self._denominator_elem.pop() {
+                    if ans % d0 as u64 == 0 {
+                        ans /= d0 as u64;
+                    } else {
+                        denominator_elem_shrink.push(d0);
+                    }
+                };
+            }
+            // println!("{:?}", self._numerator_elem);
+            // println!("{:?}", self._denominator_elem);
+            //println!("{:?}", denominator_elem_shrink);
+            // let numerator: u64 = self._numerator_elem.iter().map(|&v| v as u64).product();
+            // let denominator: u64 = self._denominator_elem.iter().map(|&v| v as u64).product();
+            // numerator / denominator
+            let d: u64 = denominator_elem_shrink.iter().map(|&v| v as u64).product();
+            ans / d
+        }
+    }
+
+    struct Grid {
+        width: u8,
+        height: u8,
+    }
+
+    impl Grid {
+        fn routes(&self) -> u64 {
+            let mut p = Permutation {
+                numerator: self.width + self.height,
+                denominator: vec![self.width, self.height],
+                ..Default::default()
+            };
+            p.reduce();
+            p.num()
+        }
+    }
+
+    Grid {
+        width: 20,
+        height: 20,
+    }
+    .routes()
+}
+
+// 182 ns
+/// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+/// ![](https://projecteuler.net/project/images/p015.png)
+/// How many such routes are there through a 20×20 grid?
+///
+/// ```rust
+/// use self::project_euler::m15::routes_are_there_through_a_20_20_grid_combination_3;
+/// assert_eq!(routes_are_there_through_a_20_20_grid_combination_3(), 137846528820);
+/// ```
+pub fn routes_are_there_through_a_20_20_grid_combination_3() -> u64 {
+    struct Permutation {
+        numerator: u8,
+        denominator: Vec<u8>,
+        _numerator_elem: Vec<u8>,
+    }
+
+    impl Default for Permutation {
+        fn default() -> Permutation {
+            Permutation {
+                numerator: 0,
+                denominator: vec![],
+                _numerator_elem: vec![],
+            }
+        }
+    }
+
+    impl Permutation {
+        fn reduce(&mut self) {
+            if let Some(d0) = self.denominator.pop() {
+                for i in d0..self.numerator {
+                    self._numerator_elem.push(i + 1);
+                }
+            }
+        }
+        fn num(&mut self) -> u64 {
+            (self
+                ._numerator_elem
+                .iter()
+                .map(|&v| v as u128)
+                .product::<u128>()
+                / factorial(20)) as u64
+        }
+    }
+
+    struct Grid {
+        width: u8,
+        height: u8,
+    }
+
+    impl Grid {
+        fn routes(&self) -> u64 {
+            let mut p = Permutation {
+                numerator: self.width + self.height,
+                denominator: vec![self.width, self.height],
+                ..Default::default()
+            };
+            p.reduce();
+            p.num()
+        }
+    }
+
+    Grid {
+        width: 20,
+        height: 20,
+    }
+    .routes()
+}
+
+struct Permutation {
+    numerator: u8,
+    denominator: u8,
+}
+
+impl Permutation {
+    fn num(&self) -> u128 {
+        let mut acc = 1u128;
+        for i in self.denominator + 1..self.numerator + 1 {
+            acc *= i as u128;
+        }
+        acc
+    }
+}
+
+struct Grid {
+    width: u8,
+    height: u8,
+}
+
+impl Grid {
+    fn routes(&self) -> u64 {
+        let a = Permutation {
+            numerator: self.width + self.height,
+            denominator: self.width,
+        }
+        .num();
+        let b = factorial(self.height);
+        (a / b) as u64
+    }
+}
+
+// 2.0 ns
+/// Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+/// ![](https://projecteuler.net/project/images/p015.png)
+/// How many such routes are there through a 20×20 grid?
+///
+/// ```rust
+/// use self::project_euler::m15::routes_are_there_through_a_20_20_grid_combination_4;
+/// assert_eq!(routes_are_there_through_a_20_20_grid_combination_4(), 137846528820);
+/// ```
+pub fn routes_are_there_through_a_20_20_grid_combination_4() -> u64 {
+    Grid {
+        width: 20,
+        height: 20,
+    }
+    .routes()
+}
+
+fn nCk(n: u8, k: u8) -> u64 {
+    if k == 0 || k == n {
+        return 1;
+    }
+    nCk(n - 1, k - 1) + nCk(n - 1, k)
+}
+
+/// ```rust
+/// use self::project_euler::m15::routes_are_there_through_a_20_20_grid_rec;
+/// assert_eq!(routes_are_there_through_a_20_20_grid_rec(), 137846528820);
+/// ```
+pub fn routes_are_there_through_a_20_20_grid_rec() -> u64 {
+    nCk(40, 20)
 }

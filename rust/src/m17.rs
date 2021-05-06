@@ -1,3 +1,31 @@
+const ZERO_TO_19: [&str; 20] = [
+    "",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+];
+
+const ZERO_TO_90: [&str; 10] = [
+    "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
+];
+
+
 ///
 /// If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
 ///
@@ -12,51 +40,26 @@
 /// ```
 pub fn english_one_to_one_thousand() -> u64 {
     fn count_words(i: usize) -> u32 {
-        let zero_tp_19 = [
-            "",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-            "ten",
-            "eleven",
-            "twelve",
-            "thirteen",
-            "fourteen",
-            "fifteen",
-            "sixteen",
-            "seventeen",
-            "eighteen",
-            "nineteen",
-        ];
-        let twenty_ninety = [
-            "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
-        ];
         match i {
-            0..=19 => zero_tp_19[i].len() as u32,
+            0..=19 => ZERO_TO_19[i].len() as u32,
             20..=99 => {
                 let p1 = i % 10;
                 let p2 = i / 10;
-                (twenty_ninety[p2].len() + zero_tp_19[p1].len()) as u32
+                (ZERO_TO_90[p2].len() + ZERO_TO_19[p1].len()) as u32
             }
             _ if i % 100 == 0 && i != 1000 => {
                 let d = i / 100;
-                (zero_tp_19[d].len() + "hundred".len()) as u32
+                (ZERO_TO_19[d].len() + "hundred".len()) as u32
             }
             101..=999 => {
                 let p3 = i / 100;
                 let p2p1 = i - p3 * 100;
-                (zero_tp_19[p3].len() + "hundred".len() + "and".len()) as u32 + count_words(p2p1)
+                (ZERO_TO_19[p3].len() + "hundred".len() + "and".len()) as u32 + count_words(p2p1)
             }
             1000 => ("one".len() + "thousand".len()) as u32,
             _ => 0,
         }
-    };
+    }
     let mut sum = 0u32;
     for i in 1..=1000 {
         sum += count_words(i);

@@ -504,13 +504,13 @@ impl Collatz {
             }
             _ => (),
         }
-        if n % 2 == 0 {
-            self.step_accum += 1;
-            self.next = Some(n / 2);
+        if n % 2 != 0 {
+            self.step_accum += 2;
+            self.next = Some((3 * n + 1) / 2);
             return self.next;
         }
-        self.step_accum += 2;
-        self.next = Some((3 * n + 1) / 2);
+        self.step_accum += 1;
+        self.next = Some(n / 2);
         self.next
     }
     fn init_next(&mut self) {

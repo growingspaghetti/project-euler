@@ -6,6 +6,7 @@ criterion_group!(
     bench_the_sum_of_the_digits_of_the_number_2_1000_carry_bool,
     bench_the_sum_of_the_digits_of_the_number_2_1000_change_of_base_formula,
     bench_the_sum_of_the_digits_of_the_number_2_1000_u64,
+    bench_the_sum_of_the_digits_of_the_number_2_1000_u64_2,
 );
 
 use project_euler::m16::*;
@@ -33,5 +34,10 @@ fn bench_the_sum_of_the_digits_of_the_number_2_1000_change_of_base_formula(c: &m
 fn bench_the_sum_of_the_digits_of_the_number_2_1000_u64(c: &mut Criterion) {
     c.bench_function("the_sum_of_the_digits_of_the_number_2_1000_u64", |b| {
         b.iter(the_sum_of_the_digits_of_the_number_2_1000_u64)
+    });
+}
+fn bench_the_sum_of_the_digits_of_the_number_2_1000_u64_2(c: &mut Criterion) {
+    c.bench_function("the_sum_of_the_digits_of_the_number_2_1000_u64_2", |b| {
+        b.iter(the_sum_of_the_digits_of_the_number_2_1000_u64_2)
     });
 }
