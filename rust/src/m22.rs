@@ -85,6 +85,8 @@
 //! ```
 //! ![](https://upload.wikimedia.org/wikipedia/commons/6/6a/Sorting_quicksort_anim.gif)
 
+use std::usize;
+
 /// Using names.txt (right click and 'Save Link/Target As...'), a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.
 ///
 /// For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would obtain a score of 938 × 53 = 49714.
@@ -173,10 +175,12 @@ pub fn the_total_of_all_the_name_scores_bubble_sort() -> u32 {
     let a_value = 'A' as u32;
     for (i, &name) in names.iter().enumerate() {
         sum += name.chars().map(|c| (c as u32) - a_value + 1).sum::<u32>() * (i as u32 + 1);
+        println!("{}", "a");
     }
     sum
 }
 
+// 168 ms
 /// Using names.txt (right click and 'Save Link/Target As...'), a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order. Then working out the alphabetical value for each name, multiply this value by its alphabetical position in the list to obtain a name score.
 ///
 /// For example, when the list is sorted into alphabetical order, COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list. So, COLIN would obtain a score of 938 × 53 = 49714.
@@ -189,7 +193,7 @@ pub fn the_total_of_all_the_name_scores_bubble_sort() -> u32 {
 /// ```
 pub fn the_total_of_all_the_name_scores_selection_sort() -> u32 {
     // https://www.geeksforgeeks.org/selection-sort/?ref=lbp
-    fn selection_sort(vec: &mut Vec<&str>) {
+    fn selection_sort(vec: &mut [&str]) {
         for i in 0..vec.len() {
             let mut min_i = i;
             // Unlike bubble sort, selection sort decides the order from the first and smallest.
@@ -232,22 +236,36 @@ pub fn the_total_of_all_the_name_scores_selection_sort() -> u32 {
 /// assert_eq!(the_total_of_all_the_name_scores_quick_sort(), 871198282);
 /// ```
 pub fn the_total_of_all_the_name_scores_quick_sort() -> u32 {
-    fn decide_pivot<'a>(x: &'a str, y: &'a str, z: &'a str) -> &'a str {
+    // fn decide_pivot<'a>(x: &'a str, y: &'a str, z: &'a str) -> &'a str {
+    //     if (x < y && y < z) || (z < y && y <= x) {
+    //         y
+    //     } else if (z < x && x < y) || (y <= x && x < z) {
+    //         x
+    //     } else {
+    //         z
+    //     }
+    // }
+
+    fn pivot(vec: &Vec<&str>, i: usize, j: usize) -> usize {
+        let x = vec[i];
+        let y = vec[i + (j - i) / 2];
+        let z = vec[j];
         if (x < y && y < z) || (z < y && y <= x) {
-            y
+            i + (j - i) / 2
         } else if (z < x && x < y) || (y <= x && x < z) {
-            x
+            i
         } else {
-            z
+            j
         }
     }
-
     // https://en.wikipedia.org/wiki/Quicksort
     fn quick_sort(vec: &mut Vec<&str>, l: usize, r: usize) {
         if l < r {
             let mut i = l;
             let mut j = r;
-            let pivot = decide_pivot(vec[i], vec[i + (j - i) / 2], vec[j]);
+            //let pivot = decide_pivot(vec[i], vec[i + (j - i) / 2], vec[j]);
+            let pivot = vec[pivot(vec, i, j)];
+
             // defragmentation to the middle |left -> middle <- right|
             // [G1(=<pivot)|<-exchange->|G2(>=pivot)]
             loop {
@@ -289,6 +307,629 @@ pub fn the_total_of_all_the_name_scores_quick_sort() -> u32 {
     sum
 }
 
+// fn middle(vec: &Vec<&str>, a: usize, c: usize) -> usize {
+//     let b = a + (c - a) / 2;
+//     let astr = vec[a];
+//     let bstr = vec[b];
+//     let cstr = vec[c];
+
+//     if (cstr < astr && astr < bstr) || (bstr <= astr && astr < cstr) {
+//         a
+//     } else if (astr < bstr && bstr < cstr) || (cstr < bstr && bstr <= astr) {
+//         b
+//     } else {
+//         c
+//     }
+// }
+
+// struct QuickSort<'a> {
+//     begin: usize,
+//     end: usize,
+//     left_cursor: usize,
+//     right_cursor: usize,
+//     vec: Box<&Vec<&'a str>>,
+// }
+
+// impl<'a> QuickSort<'a> {}
+// pub fn the_total_of_all_the_name_scores_quick_sort_3() -> u32 {
+//     fn quick_sort(vec: &mut Vec<&str>, begin: usize, end: usize) {
+//         if end <= begin {
+//             return;
+//         }
+//         let mut left_cursor = begin;
+//         let mut right_cursor = end;
+//         let pivotal_quantity = vec[middle(vec, left_cursor, right_cursor)];
+
+//         loop {
+//             while vec[left_cursor] < pivotal_quantity {
+//                 left_cursor += 1;
+//             }
+//             while vec[right_cursor] > pivotal_quantity {
+//                 right_cursor -= 1;
+//             }
+//             if left_cursor >= right_cursor {
+//                 break;
+//             }
+//             vec.swap(left_cursor, right_cursor);
+//             left_cursor += 1;
+//             right_cursor -= 1;
+//         }
+//         if left_cursor != 0 {
+//             quick_sort(vec, begin, left_cursor - 1);
+//         }
+//         if right_cursor != vec.len() - 1 {
+//             quick_sort(vec, right_cursor + 1, end);
+//         }
+//     }
+
+//     let mut names = NAMES.to_vec();
+//     QuickSort {
+//         begin: 0,
+//         end: 9,
+//         left_cursor: 0,
+//         right_cursor: 0,
+//         vec: Box::new(&names),
+//     };
+//     //quick_sort(&mut names, 0, NAMES.len() - 1);
+
+//     let mut sum = 0u32;
+//     let a_value = 'A' as u32;
+//     for (i, &name) in names.iter().enumerate() {
+//         sum += name.chars().map(|c| (c as u32) - a_value + 1).sum::<u32>() * (i as u32 + 1);
+//     }
+//     sum
+// }
+
+fn median<'a>(vec: &[&'a str], a: usize, c: usize) -> &'a str {
+    let b = (c - a) / 2;
+    let (astr, bstr, cstr) = (vec[a], vec[b], vec[c]);
+    if (cstr < astr && astr < bstr) || (bstr <= astr && astr < cstr) {
+        astr
+    } else if (astr < bstr && bstr < cstr) || (cstr < bstr && bstr <= astr) {
+        bstr
+    } else {
+        cstr
+    }
+}
+
+fn met(sinker_depth: usize, float_depth: usize) -> bool {
+    sinker_depth >= float_depth
+}
+
+fn sink_fully(vec: &[&str], depth: &mut usize, blocker: &str) {
+    while vec[*depth] < blocker {
+        *depth += 1;
+    }
+}
+
+fn float_fully(vec: &[&str], depth: &mut usize, blocker: &str) {
+    while vec[*depth] > blocker {
+        *depth -= 1;
+    }
+}
+
+fn break_through(vec: &mut [&str], sinker_depth: &mut usize, float_depth: &mut usize) {
+    vec.swap(*sinker_depth, *float_depth);
+    *sinker_depth += 1;
+    *float_depth -= 1;
+}
+
+fn release(vec: &mut [&str], sinker0: usize, float0: usize) {
+    if met(sinker0, float0) {
+        return;
+    }
+    // if float0 - sinker0 == 1 {
+    //     if vec[sinker0] > vec[float0] {
+    //         vec.swap(float0, sinker0);
+    //     }
+    //     //vec.swap(sinker0, float0);
+    //     return;
+    // }
+    match float0 - sinker0 {
+        1 => {
+            if vec[sinker0] > vec[sinker0 + 1] {
+                vec.swap(sinker0, sinker0 + 1);
+            }
+            return;
+        }
+        2 => {
+            if vec[sinker0] > vec[sinker0 + 1] {
+                vec.swap(sinker0, sinker0 + 1);
+            }
+            if vec[sinker0 + 1] > vec[sinker0 + 2] {
+                vec.swap(sinker0 + 1, sinker0 + 2);
+            }
+            if vec[sinker0] > vec[sinker0 + 1] {
+                vec.swap(sinker0, sinker0 + 1);
+            }
+            return;
+        }
+        _ => (),
+    }
+    // if float0 - sinker0 == 1 {
+    //     if vec[sinker0] > vec[sinker0 +1] {
+    //         vec.swap(sinker0 +1, sinker0);
+    //     }
+    //     //vec.swap(sinker0, float0);
+    //     return;
+    // }
+    // else if float0 - sinker0 == 2 {
+    //     if vec[sinker0] > vec[sinker0 +1] {
+    //         vec.swap(sinker0 +1, sinker0);
+    //     }
+    //     if vec[sinker0 + 1] > vec[sinker0 +2] {
+    //         vec.swap(sinker0 +2, sinker0 + 1);
+    //     }
+    //     if vec[sinker0] > vec[sinker0 +1] {
+    //         vec.swap(sinker0 +1, sinker0);
+    //     }
+    //     //vec.swap(sinker0, float0);
+    //     return;
+    // }
+    let pivot = median(vec, sinker0, float0);
+    let mut sinker = sinker0;
+    let mut float = float0;
+    loop {
+        sink_fully(vec, &mut sinker, pivot);
+        float_fully(vec, &mut float, pivot);
+        if met(sinker, float) {
+            break;
+        }
+        break_through(vec, &mut sinker, &mut float);
+    }
+    release(vec, sinker0, sinker - 1);
+    release(vec, float + 1, float0);
+}
+
+// quick_sort(vec, begin, sinker - 1);
+// quick_sort(vec, float + 1, end);
+// if sinker == float {
+//     quick_sort(vec, begin, float - 1);
+//     quick_sort(vec, sinker + 1, end);
+//     return;
+// }
+// if sinker > float {
+//     quick_sort(vec, begin, float);
+//     quick_sort(vec, sinker, end);
+// }
+//pass
+// fn quick_sort(vec: &mut Vec<&str>, begin: usize, end: usize) {
+
+//     if meet(begin, end) {
+//         return;
+//     }
+//     let pivot = median(vec, begin, end);
+//     let mut sinker = begin;
+//     let mut float = end;
+//     loop {
+//         sink_fully(vec, &mut sinker, pivot);
+//         float_fully(vec, &mut float, pivot);
+//         if meet(sinker, float) {
+//             break;
+//         }
+//         break_through(vec, &mut sinker, &mut float);
+//     }
+//     quick_sort(vec, begin, sinker - 1);
+//     quick_sort(vec, float + 1, end);
+// }
+
+fn quick_sort(vec: &mut [&str] /* &mut Vec<&str>, v[..] = vec![] */) {
+    release(vec, 0, vec.len() - 1);
+}
+
+fn name_score(index: usize, name: &str) -> u32 {
+    let position = index as u32 + 1;
+    let worth = name.chars().map(|c| c as u32 - 'A' as u32 + 1).sum::<u32>();
+    position * worth
+}
+
+// 1.9282 ms &Vec<&str>
+// 1.80 ms with &[&str]
+// fn decide_pivot<'a>(x: &'a str, y: &'a str, z: &'a str) -> &'a str {
+//     if (x < y && y < z) || (z < y && y <= x) {
+//         y
+//     } else if (z < x && x < y) || (y <= x && x < z) {
+//         x
+//     } else {
+//         z
+//     }
+// }
+///```rust
+/// use self::project_euler::m22::the_total_of_all_the_name_scores_quick_sort_2;
+/// assert_eq!(the_total_of_all_the_name_scores_quick_sort_2(), 871198282);
+/// ```
+pub fn the_total_of_all_the_name_scores_quick_sort_2() -> u32 {
+    let mut names = NAMES.to_vec();
+    quick_sort(&mut names);
+    //println!("{:#?}", names);
+    names
+        .iter()
+        .enumerate()
+        .map(|(i, &n)| name_score(i, n))
+        .sum()
+}
+
+// fn merge_sort_section(vec: &mut Vec<&str>, tmp: &mut Vec<&str>, left: usize, right: usize) {
+//     if left >= right {
+//         return;
+//     }
+//     let middle = (left + right) / 2;
+//     merge_sort_section(vec, tmp, left, middle);
+//     merge_sort_section(vec, tmp, middle + 1, right);
+//     merge_halves(vec, tmp, left, right);
+// }
+
+// fn merge_halves<'a>(vec: &mut Vec<&'a str>, tmp: &mut Vec<&'a str>, left: usize, right: usize) {
+//     let left_end = (right + left) / 2;
+//     let right_end = left_end + 1;
+//     let size = right_end - left + 1;
+
+//     let mut l = left;
+//     let mut r = right;
+//     let mut i = left;
+//     while l <= left && r <= right {
+//         if vec[l] <= vec[r] {
+//             tmp[i] = vec[l];
+//             l += 1;
+//         } else {
+//             tmp[i] = vec[r];
+//             r += 1;
+//         }
+//         i += 1;
+//     }
+
+// }
+
+// fn merge_sort(vec: &mut Vec<&str>) {
+//     let mut tmp = vec![Default::default(); vec.len()];
+//     merge_sort_section(vec, &mut tmp, 0, vec.len() - 1);
+// }
+
+// https://www.hackertouch.com/merge-sort-in-rust.html
+fn merge<T: Copy + PartialOrd>(x1: &[T], x2: &[T], y: &mut [T]) {
+    assert_eq!(x1.len() + x2.len(), y.len());
+    let mut i = 0;
+    let mut j = 0;
+    let mut k = 0;
+    while i < x1.len() && j < x2.len() {
+        if x1[i] < x2[j] {
+            y[k] = x1[i];
+            k += 1;
+            i += 1;
+        } else {
+            y[k] = x2[j];
+            k += 1;
+            j += 1;
+        }
+    }
+    if i < x1.len() {
+        y[k..].copy_from_slice(&x1[i..]);
+    }
+    if j < x2.len() {
+        y[k..].copy_from_slice(&x2[j..]);
+    }
+}
+
+fn merge_sort<T: Copy + Ord>(x: &mut [T]) {
+    let n = x.len();
+    let m = n / 2;
+
+    if n <= 1 {
+        return;
+    }
+
+    merge_sort(&mut x[0..m]);
+    merge_sort(&mut x[m..n]);
+
+    let mut y: Vec<T> = x.to_vec();
+
+    merge(&x[0..m], &x[m..n], &mut y[..]);
+
+    x.copy_from_slice(&y);
+}
+
+fn merge2<'a>(a: &[&'a str], b: &[&'a str], ab: &mut [&'a str]) {
+    assert_eq!(a.len() + b.len(), ab.len());
+    let (mut x, mut y, mut i) = (0, 0, 0);
+    while x < a.len() && y < b.len() {
+        if a[x] < b[y] {
+            ab[i] = a[x];
+            x += 1;
+        } else {
+            ab[i] = b[y];
+            y += 1;
+        }
+        i += 1;
+    }
+    // match (x < a.len(), y < b.len()) {
+    //     (true, _) => tmp[i..].copy_from_slice(&a[x..]),
+    //     (_, true) => tmp[i..].copy_from_slice(&b[y..]),
+    //     _ => (),
+    // }
+    if x < a.len() {
+        ab[i..].copy_from_slice(&a[x..]);
+    }
+    if y < b.len() {
+        ab[i..].copy_from_slice(&b[y..]);
+    }
+}
+
+fn merge_sort2(segment: &mut [&str]) {
+    let n = segment.len();
+    let m = n / 2;
+
+    if n <= 1 {
+        return;
+    }
+
+    merge_sort2(&mut segment[0..m]);
+    merge_sort2(&mut segment[m..n]);
+
+    //tmp: Vec<&str> = vec![Default::default(); segment.len()];
+    let mut tmp: Vec<&str> = segment.to_vec();
+
+    merge2(&segment[0..m], &segment[m..n], &mut tmp[..]);
+
+    segment.copy_from_slice(&tmp);
+}
+
+// 1.55 ms
+///```rust
+/// use self::project_euler::m22::the_total_of_all_the_name_scores_merge_sort;
+/// assert_eq!(the_total_of_all_the_name_scores_merge_sort(), 871198282);
+/// ```
+pub fn the_total_of_all_the_name_scores_merge_sort() -> u32 {
+    let mut names = NAMES.to_vec();
+    merge_sort2(&mut names); //names.to_owned()
+    names
+        .iter()
+        .enumerate()
+        .map(|(i, &n)| name_score(i, n))
+        .sum()
+}
+
+fn insertion_sort(vec: &mut [&str]) {
+    for i in 0..vec.len() {
+        for j in (0..i).rev() {
+            if vec[j] < vec[j + 1] {
+                break;
+            }
+            vec.swap(j, j + 1);
+        }
+    }
+
+    // for i in 1..vec.len() {
+    //     let v = vec[i].clone();
+    //     // let v = vec[i];
+    //     // let mut j = (i - 1) as isize;
+    //     // while j >= 0 && vec[j as usize] > v {
+    //     //     vec[j as usize + 1] = vec[j as usize];
+    //     //     j -= 1;
+    //     // }
+    //     // vec[j as usize + 1] = v;
+
+    //     // let mut j = i;
+    //     // while j > 0 && vec[j] < vec[j - 1] {
+    //     //     vec.swap(j, j - 1);
+    //     //     j = j - 1;
+    //     // }
+
+    //     for j in (1..=i).rev() {
+    //         if vec[j-1] > v {
+    //             vec[j] = vec[j-1];
+    //         } else {
+    //             vec[j -1 ] = v;
+    //             break;
+    //         }
+    //     }
+    //     // for j in (0..i).rev() {
+    //     //     if vec[j] > v {
+    //     //         vec[j + 1] = vec[j];
+    //     //         continue;
+    //     //     } else {
+    //     //         vec[j + 1] = v;
+    //     //         break;
+    //     //     }
+    //     // }
+    //}
+}
+
+// 72 ms
+///```rust
+/// use self::project_euler::m22::the_total_of_all_the_name_scores_insertion_sort;
+/// assert_eq!(the_total_of_all_the_name_scores_insertion_sort(), 871198282);
+/// ```
+pub fn the_total_of_all_the_name_scores_insertion_sort() -> u32 {
+    let mut names = NAMES.to_vec();
+    // vec![
+    //     "MARY",
+    //     "PATRICIA",
+    //     "LINDA",
+    //     "BARBARA",
+    //     "ELIZABETH",
+    //     "JENNIFER",
+    //     "MARIA",
+    //     "SUSAN",
+    //     "MARGARET",
+    //     "DOROTHY",
+    //     "LISA",
+    //     "NANCY",
+    //     "KAREN",
+    //     "BETTY",
+    // ]; //
+
+    insertion_sort(&mut names); //names.to_owned()
+                                //println!("{:#?}", names);
+    names
+        .iter()
+        .enumerate()
+        .map(|(i, &n)| name_score(i, n))
+        .sum()
+}
+
+fn heapify(arr: &mut [&str], p: usize) {
+    let l = 2 * p + 1;
+    let r = l + 1;
+    if l >= arr.len() {
+        return;
+    }
+    let max = if r >= arr.len() {
+        l
+    } else if arr[l] >= arr[r] {
+        l
+    } else {
+        r
+    };
+    if arr[p] < arr[max] {
+        arr.swap(p, max);
+        heapify(arr, max);
+    }
+    // if r >= arr.len() {
+    //     if arr[l] <= arr[p] {
+    //         return;
+    //     }
+    //     arr.swap(p, l);
+    //     heapify(arr, l);
+    //     return;
+    // }
+    // if arr[l] >= arr[r] {
+    //     if arr[l] <= arr[p] {
+    //         return;
+    //     }
+    //     arr.swap(p, l);
+    //     heapify(arr, l);
+    //     return;
+    // }
+    // if arr[r] > arr[p] {
+    //     arr.swap(p, r);
+    //     heapify(arr, r);
+    //     return;
+    // }
+    // match (l >= arr.len(), r >= arr.len()) {
+    //     (true, _) => (),
+    //     (_, true) if arr[l] <= arr[p] => (),
+    //     (_, true) => {
+    //         arr.swap(p, l);
+    //         heapify(arr, l);
+    //     }
+    //     _ if arr[l] >= arr[r] => {
+    //         if arr[l] > arr[p] {
+    //             arr.swap(p, l);
+    //             heapify(arr, l);
+    //         }
+    //     }
+    //     _ if arr[r] > arr[p] => {
+    //         arr.swap(p, r);
+    //         heapify(arr, r);
+    //     }
+    //     _ => (),
+    // }
+}
+
+fn build_heap(arr: &mut [&str]) {
+    let parental_indice = 0..arr.len() / 2;
+    for p in parental_indice.rev() {
+        heapify(arr, p);
+    }
+}
+
+fn serialize(arr: &mut [&str]) {
+    for edge in (1..arr.len()).rev() {
+        arr.swap(0, edge);
+        // reorganize diminished heap
+        heapify(&mut arr[..edge], 0);
+    }
+}
+
+fn heap_sort(arr: &mut [&str]) {
+    build_heap(arr);
+    serialize(arr);
+}
+
+fn print_heap(arr: &[&str]) {
+    let height = (arr.len() as f32).log2() as usize + 1;
+    let cell = arr
+        .iter()
+        .map(|&s| s.len())
+        .reduce(|a, b| std::cmp::max(a, b))
+        .unwrap();
+    let width = height * (cell + 6);
+    let mut levels: Vec<Vec<String>> = vec![vec![]; height + 1];
+
+    for (i, &v) in arr.iter().enumerate() {
+        let h = ((i + 1) as f32).log2() as usize + 1;
+        let r = levels.get_mut(h).unwrap();
+        r.push(format!("{}({})", v, i));
+    }
+    while levels.last().unwrap().len() < 2usize.pow(height as u32) {
+        levels.last_mut().unwrap().push(String::new());
+    }
+    println!("{:?}", levels.last());
+    for r in levels {
+        if r.len() == 0 {
+            continue;
+        }
+        let spaces = width / r.len();
+        for _ in 0..spaces / 2 {
+            print!(" ");
+        }
+        for c in r {
+            print!("{}", c);
+            for _ in 0..spaces - cell - 3 {
+                print!(" ");
+            }
+        }
+        println!()
+    }
+}
+
+// 2.13 ms
+///```rust
+/// use self::project_euler::m22::the_total_of_all_the_name_scores_heap_sort;
+/// assert_eq!(the_total_of_all_the_name_scores_heap_sort(), 871198282);
+/// ```
+pub fn the_total_of_all_the_name_scores_heap_sort() -> u32 {
+    let mut names = NAMES.to_vec();
+    // vec![
+    //     "00",
+    //     "01",
+    //     "02",
+    //     "03",
+    //     "04",
+    //     "05",
+    //     "06",
+    //     "07",
+    //     "08",
+    //     "09",
+    // ]; //
+    heap_sort(&mut names);
+    print_heap(&names);
+
+    //insertion_sort(&mut names); //names.to_owned()
+    //println!("{:#?}", names);
+    names
+        .iter()
+        .enumerate()
+        .map(|(i, &n)| name_score(i, n))
+        .sum()
+}
+
+// const NAMES: &[&str] = &[
+//     "MARY",
+//     "PATRICIA",
+//     "LINDA",
+//     "BARBARA",
+//     "ELIZABETH",
+//     "JENNIFER",
+//     "MARIA",
+//     "SUSAN",
+//     "MARGARET",
+//     "DOROTHY",
+//     "LISA",
+//     "NANCY",
+//     "KAREN",
+//     "BETTY",
+// ];
 const NAMES: &[&str] = &[
     "MARY",
     "PATRICIA",

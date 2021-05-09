@@ -52,3 +52,61 @@ pub fn how_many_sundays_fell_on_the_first_of_the_month() -> u32 {
     }
     sunday_counter
 }
+
+fn length_of_february(year: u16) -> u8 {
+    if (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 {
+        29
+    } else {
+        28
+    }
+}
+
+struct FirstDayOfMonth {
+    year: u16,
+    month: u8,
+    day_count: u64,
+    sunday_count: u32,
+}
+
+impl FirstDayOfMonth {
+    fn new() -> Self {
+        FirstDayOfMonth {
+            year: 1900,
+            month: 1,
+            day_count: 0,
+            sunday_count: 0,
+        }
+    }
+    fn is_sunday(&self) -> bool {
+        self.day_count % 7 == 6
+    }
+    fn next_month(&mut self) {
+        self.day_count += match self.month {
+            2 => length_of_february(self.year) as u64,
+            4 | 6 | 9 | 11 => 30,
+            _ => 31,
+        };
+        if self.month == 12 {
+            self.year += 1;
+            self.month = 1;
+        } else {
+            self.month += 1;
+        }
+
+        if self.year != 1900 && self.is_sunday() {
+            self.sunday_count += 1;
+        }
+    }
+}
+
+/// ```rust
+/// use self::project_euler::m19::how_many_sundays_fell_on_the_first_of_the_month_2;
+/// assert_eq!(how_many_sundays_fell_on_the_first_of_the_month_2(), 171);
+/// ```
+pub fn how_many_sundays_fell_on_the_first_of_the_month_2() -> u32 {
+    let mut cal = FirstDayOfMonth::new();
+    while !(cal.year == 2000 && cal.month == 12) {
+        cal.next_month();
+    }
+    cal.sunday_count
+}

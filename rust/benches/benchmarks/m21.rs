@@ -4,7 +4,9 @@ criterion_group!(
     sigma_function,
     bench_sum_of_all_the_amicable_numbers_under_10000_brute,
     bench_sum_of_all_the_amicable_numbers_under_10000_brute_pair_cache,
-    bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor
+    bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor,
+    bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor_2,
+    bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor_3,
 );
 
 use project_euler::m21::*;
@@ -26,5 +28,19 @@ fn bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor(c: &mut Criter
     c.bench_function(
         "sum_of_all_the_amicable_numbers_under_10000_prime_factor",
         |b| b.iter(sum_of_all_the_amicable_numbers_under_10000_prime_factor),
+    );
+}
+
+fn bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor_2(c: &mut Criterion) {
+    c.bench_function(
+        "sum_of_all_the_amicable_numbers_under_10000_prime_factor_2",
+        |b| b.iter(sum_of_all_the_amicable_numbers_under_10000_prime_factor_2),
+    );
+}
+
+fn bench_sum_of_all_the_amicable_numbers_under_10000_prime_factor_3(c: &mut Criterion) {
+    c.bench_function(
+        "sum_of_all_the_amicable_numbers_under_10000_prime_factor_3",
+        |b| b.iter(sum_of_all_the_amicable_numbers_under_10000_prime_factor_3),
     );
 }

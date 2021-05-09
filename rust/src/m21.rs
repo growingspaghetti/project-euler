@@ -47,6 +47,8 @@
 //! ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/5d5689800970b38ea223075d4769abcaef1e5b02)
 //! https://www.wolframalpha.com/input/?i=243
 
+use std::usize;
+
 ///
 ///
 /// Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
@@ -342,5 +344,204 @@ pub fn sum_of_all_the_amicable_numbers_under_10000_prime_factor() -> u64 {
     for (a, b) in amicable_numbers {
         sum += a + b
     }
+    sum
+}
+
+// trait AmicableNumber {
+//     fn has_amicable_pair(under: u32) -> bool;
+// }
+
+struct AmicableNumberScanner {
+    under: u32,
+    _primes: Vec<u32>,
+    _aliquot_sum: Vec<u32>,
+}
+
+impl AmicableNumberScanner {
+    fn new(under: u32) -> Self {
+        AmicableNumberScanner {
+            under: under,
+            _primes: vec![2, 3],
+            _aliquot_sum: vec![0u32; under as usize],
+        }
+    }
+    fn _divide_fully(&self, n: &mut u32, d: u32, side: &mut u32, sum: &mut u32) {
+        if *n % d == 0 {
+            let mut exp = 0u32;
+            while {
+                *n /= d;
+                exp += 1;
+                *n % d == 0
+            } {}
+            *side = (*n as f32).sqrt() as u32;
+            *sum *= (d.pow(exp + 1) - 1) / (d - 1);
+        }
+    }
+    fn _sum_of_divisors(&mut self, mut n: u32) -> u32 {
+        let mut side = (n as f32).sqrt() as u32;
+        let mut sum = 1u32;
+        for &p in self._primes.iter() {
+            if p > side || n == 1 {
+                break;
+            }
+            self._divide_fully(&mut n, p, &mut side, &mut sum);
+        }
+        if n != 1 {
+            sum *= (n * n - 1) / (n - 1);
+            self._primes.push(n);
+        }
+        sum
+    }
+    fn pair_sum(&mut self) -> u32 {
+        for n in 4..self.under {
+            self._aliquot_sum[n as usize] = self._sum_of_divisors(n) - n;
+        }
+        let mut sum = 0u32;
+        for (i, v) in self._aliquot_sum.iter().enumerate() {
+            let vsize = *v as usize;
+            if vsize >= self._aliquot_sum.len() {
+                continue;
+            }
+            if vsize == i {
+                continue;
+            }
+            if self._aliquot_sum[vsize] == i as u32 {
+                sum += *v;
+            }
+        }
+        sum
+    }
+}
+
+// 1.8 ms
+/// ```rust
+/// use self::project_euler::m21::sum_of_all_the_amicable_numbers_under_10000_prime_factor_2;
+/// assert_eq!(sum_of_all_the_amicable_numbers_under_10000_prime_factor_2(), 31626);
+/// ```
+pub fn sum_of_all_the_amicable_numbers_under_10000_prime_factor_2() -> u32 {
+    let sum = AmicableNumberScanner::new(10_000).pair_sum();
+    sum
+}
+
+// 1.3 ms
+/// ```rust
+/// use self::project_euler::m21::sum_of_all_the_amicable_numbers_under_10000_prime_factor_3;
+/// assert_eq!(sum_of_all_the_amicable_numbers_under_10000_prime_factor_3(), 31626);
+/// ```
+pub fn sum_of_all_the_amicable_numbers_under_10000_prime_factor_3() -> u32 {
+    struct Index {
+        i: usize,
+        _ite: Box<dyn Iterator<Item = usize>>,
+    }
+
+    impl Index {
+        fn increment(&mut self) {
+            self.i += self._ite.next().unwrap();
+        }
+        fn new() -> Self {
+            Index {
+                i: 5,
+                _ite: Box::new(vec![2usize, 4].into_iter().cycle()),
+            }
+        }
+    }
+
+    fn rule_out_square(sieve: &mut Vec<bool>, prime: usize) {
+        for i in (prime * prime..sieve.len()).step_by(prime) {
+            sieve[i] = false;
+        }
+    }
+
+    fn primes(under: u32) -> Vec<u32> {
+        let mut primes: Vec<u32> = vec![2u32, 3u32];
+        let mut sieve = vec![true; under as usize];
+        let sqrt = (sieve.len() as f64).sqrt() as usize;
+        let mut index = Index::new();
+        loop {
+            if index.i > sqrt {
+                break;
+            }
+            if sieve[index.i] {
+                primes.push(index.i as u32);
+                rule_out_square(&mut sieve, index.i);
+            }
+            index.increment();
+        }
+        loop {
+            if index.i >= sieve.len() {
+                break;
+            }
+            if sieve[index.i] {
+                primes.push(index.i as u32);
+            }
+            index.increment();
+        }
+        primes
+    }
+
+    struct AmicableNumberScanner {
+        under: u32,
+        _primes: Vec<u32>,
+        _checked: Vec<bool>,
+    }
+
+    impl AmicableNumberScanner {
+        fn new(under: u32) -> Self {
+            AmicableNumberScanner {
+                under: under,
+                _primes: primes(under),
+                _checked: vec![false; under as usize],
+            }
+        }
+        fn _divide_fully(&self, n: &mut u32, d: u32, side: &mut u32, sum: &mut u32) {
+            if *n % d == 0 {
+                let mut exp = 0u32;
+                while {
+                    *n /= d;
+                    exp += 1;
+                    *n % d == 0
+                } {}
+                *side = (*n as f32).sqrt() as u32;
+                *sum *= (d.pow(exp + 1) - 1) / (d - 1);
+            }
+        }
+        fn _sum_of_divisors(&mut self, mut n: u32) -> u32 {
+            let mut side = (n as f32).sqrt() as u32;
+            let mut sum = 1u32;
+            for &p in self._primes.iter() {
+                if p > side || n == 1 {
+                    break;
+                }
+                self._divide_fully(&mut n, p, &mut side, &mut sum);
+            }
+            if n != 1 {
+                sum *= (n * n - 1) / (n - 1);
+            }
+            sum
+        }
+        fn pair_sum(&mut self) -> u32 {
+            let mut pair_sum = 0u32;
+            for a in 4..self.under {
+                if self._checked[a as usize] {
+                    continue;
+                }
+                let sum = self._sum_of_divisors(a) - a;
+                if sum <= a {
+                    continue;
+                }
+                if sum >= self.under {
+                    continue;
+                }
+                let b = self._sum_of_divisors(sum) - sum;
+                self._checked[sum as usize] = true;
+                if a == b {
+                    pair_sum += a + sum;
+                }
+            }
+            pair_sum
+        }
+    }
+
+    let sum = AmicableNumberScanner::new(10_000).pair_sum();
     sum
 }
