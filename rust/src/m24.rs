@@ -29,6 +29,8 @@
 //! ```
 //! See (m15)(./m15.rs)
 
+use std::usize;
+
 /// A permutation is an ordered arrangement of objects. For example, 3124 is one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations are listed numerically or alphabetically, we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are:
 ///
 /// 012   021   102   120   201   210
@@ -182,4 +184,31 @@ pub fn millionth_lexicographic_permutation_factorial() -> u64 {
         permutation_number -= range_width;
     }
     answer.iter().fold(0u64, |sum, &d| sum * 10 + d as u64)
+}
+
+fn factorial(n: u64) -> u64 {
+    match n {
+        0 | 1 => 1,
+        _ => factorial(n - 1) * n,
+    }
+}
+
+///```rust
+/// use self::project_euler::m24::millionth_lexicographic_permutation_factorial_2;
+/// assert_eq!(millionth_lexicographic_permutation_factorial_2(), 2783915460);
+///```
+pub fn millionth_lexicographic_permutation_factorial_2() -> u64 {
+    // 0123456789 is 0th
+    let mut reminder = 1_000_000u64 - 1;
+    let mut items_with_order = vec![0u64, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let mut millionth_element = 0u64;
+    for weight in (0..items_with_order.len()).rev() {
+        let unit = factorial(weight as u64);
+        let quot = reminder / unit;
+        reminder -= quot * unit;
+        println!("{} * {}; ...{}; {:?}", unit, quot, reminder, items_with_order);
+        millionth_element *= 10;
+        millionth_element += items_with_order.remove(quot as usize);
+    }
+    millionth_element
 }

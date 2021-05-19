@@ -182,3 +182,27 @@ pub fn index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden
         n += 1f64;
     }
 }
+
+// 2 ns
+/// ```rust
+/// use self::project_euler::m25::index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio_2;
+/// assert_eq!(index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio_2(), 4782);
+/// ```
+pub fn index_of_fibonacci_sequence_to_contain_1000_digits_logarithm_1_618_golden_ratio_2() -> u64 {
+    let constant_1 = (1f64 + 5f64.sqrt()).log10() - 2f64.log10();
+    let constant_2 = 5f64.log10() / 2f64;
+    let digits_of_nth_fibonacci = |nth: f64| -> f64 { nth * constant_1 - constant_2 };
+
+    let ratio = (1f64 + 5f64.sqrt()) / 2f64;
+    let iteration = 10f64.log(ratio);
+    let estimation = iteration * 999f64;
+    println!("estimation: {} th Fibonacci number would have 1000 digits", estimation);
+    let mut n = (estimation - iteration).floor(); // rollback to 999 digits
+    assert!(digits_of_nth_fibonacci(n) < 999f64);
+    while digits_of_nth_fibonacci(n) < 999f64 {
+        n += 1f64;
+    }
+
+    println!("{}", n);
+    n as u64
+}

@@ -21,7 +21,7 @@ pub fn sum_of_integers_which_cannot_be_written_as_the_sum_of_two_abundant_number
             panic!()
         }
         crate::m21::divisor_function_sigma_one_function(num) - num
-    };
+    }
 
     let mut abundant_numbers: Vec<u64> = vec![];
     for a in 2..28123u64 {
@@ -61,4 +61,131 @@ pub fn sum_of_integers_which_cannot_be_written_as_the_sum_of_two_abundant_number
         }
     }
     sum
+}
+
+struct Index {
+    i: usize,
+    _ite: Box<dyn Iterator<Item = usize>>,
+}
+
+impl Index {
+    fn increment(&mut self) {
+        self.i += self._ite.next().unwrap();
+    }
+    fn new() -> Self {
+        Index {
+            i: 5,
+            _ite: Box::new(vec![2usize, 4].into_iter().cycle()),
+        }
+    }
+}
+
+fn rule_out_square(sieve: &mut Vec<bool>, prime: usize) {
+    for i in (prime * prime..sieve.len()).step_by(prime) {
+        sieve[i] = false;
+    }
+}
+
+fn primes(under: u32) -> Vec<u32> {
+    let mut primes: Vec<u32> = vec![2u32, 3u32];
+    let mut sieve = vec![true; under as usize];
+    let sqrt = (sieve.len() as f64).sqrt() as usize;
+    let mut index = Index::new();
+    loop {
+        if index.i > sqrt {
+            break;
+        }
+        if sieve[index.i] {
+            primes.push(index.i as u32);
+            rule_out_square(&mut sieve, index.i);
+        }
+        index.increment();
+    }
+    loop {
+        if index.i >= sieve.len() {
+            break;
+        }
+        if sieve[index.i] {
+            primes.push(index.i as u32);
+        }
+        index.increment();
+    }
+    primes
+}
+
+struct AbundantNumberScanner {
+    under: u32,
+    _primes: Vec<u32>,
+    _pair_sieve: Vec<bool>,
+}
+
+impl AbundantNumberScanner {
+    fn new(under: u32) -> Self {
+        AbundantNumberScanner {
+            under: under,
+            _primes: primes(under),
+            _pair_sieve: vec![false; under as usize],
+        }
+    }
+    fn _divide_fully(&self, n: &mut u32, d: u32, side: &mut u32, sum: &mut u32) {
+        if *n % d == 0 {
+            let mut exp = 0u32;
+            while {
+                *n /= d;
+                exp += 1;
+                *n % d == 0
+            } {}
+            *side = (*n as f32).sqrt() as u32;
+            *sum *= (d.pow(exp + 1) - 1) / (d - 1);
+        }
+    }
+    fn _sum_of_divisors(&mut self, mut n: u32) -> u32 {
+        let mut side = (n as f32).sqrt() as u32;
+        let mut sum = 1u32;
+        for &p in self._primes.iter() {
+            if p > side || n == 1 {
+                break;
+            }
+            self._divide_fully(&mut n, p, &mut side, &mut sum);
+        }
+        if n != 1 {
+            sum *= (n * n - 1) / (n - 1);
+        }
+        sum
+    }
+    fn init_abundant_num_pair_sieve(&mut self) {
+        let mut abundant_numbers = vec![];
+        for n in 12..self.under {
+            let sum = self._sum_of_divisors(n) - n;
+            if sum > n {
+                abundant_numbers.push(n);
+            }
+        }
+        for (i, &a) in abundant_numbers.iter().enumerate() {
+            for &b in abundant_numbers[i..].iter() {
+                if let Some(n) = self._pair_sieve.get_mut((a + b) as usize) {
+                    *n = true;
+                }
+            }
+        }
+    }
+    fn non_pair_sum(&mut self) -> u32 {
+        let mut non_pair_sum = 0u32;
+        for n in 1..self.under {
+            if !self._pair_sieve[n as usize] {
+                non_pair_sum += n;
+            }
+        }
+        non_pair_sum
+    }
+}
+
+/// ```rust
+/// use self::project_euler::m23::sum_of_integers_which_cannot_be_written_as_the_sum_of_two_abundant_numbers_2;
+/// assert_eq!(sum_of_integers_which_cannot_be_written_as_the_sum_of_two_abundant_numbers_2(), 4179871);
+/// ```
+pub fn sum_of_integers_which_cannot_be_written_as_the_sum_of_two_abundant_numbers_2() -> u32 {
+    let mut a = AbundantNumberScanner::new(28_124);
+    a.init_abundant_num_pair_sieve();
+    a.non_pair_sum()
 }
