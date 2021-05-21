@@ -5,6 +5,7 @@ criterion_group!(
     bench_of_primes_for_consecutive_values_of_n_brute,
     bench_of_primes_for_consecutive_values_of_n_eratosthenes,
     bench_of_primes_for_consecutive_values_of_n_optimization,
+    bench_of_primes_for_consecutive_values_of_n_optimization_2,
 );
 
 use project_euler::m27::*;
@@ -24,5 +25,13 @@ fn bench_of_primes_for_consecutive_values_of_n_eratosthenes(c: &mut Criterion) {
 fn bench_of_primes_for_consecutive_values_of_n_optimization(c: &mut Criterion) {
     c.bench_function("of_primes_for_consecutive_values_of_n_optimization", |b| {
         b.iter(of_primes_for_consecutive_values_of_n_optimization)
+    });
+}
+
+
+
+fn bench_of_primes_for_consecutive_values_of_n_optimization_2(c: &mut Criterion) {
+    c.bench_function("of_primes_for_consecutive_values_of_n_optimization_2", |b| {
+        b.iter(of_primes_for_consecutive_values_of_n_optimization_2)
     });
 }

@@ -499,7 +499,6 @@ fn modpow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {
 //     result
 // }
 
-
 fn mod_pow(mut a: u32, mut exp: u32, m: u32) -> u32 {
     if m == 1 {
         return 0;
@@ -574,15 +573,21 @@ pub fn the_longest_recurring_cycle_prime_mod_pow(below: u32) -> u32 {
     let primes = primes(below);
     'next_prime: for &p in primes.iter().rev() {
         let divisors = list_divisors(p - 1);
-        //println!("{} {:?}", p, divisors);
-        if let Some((_, foregoing_divisors)) = divisors.split_last() {
-            for &d in foregoing_divisors {
-                if mod_pow(10, d, p) == 1 {
-                    continue 'next_prime;
-                }
+        for &d in &divisors[0..divisors.len() - 1] {
+            if mod_pow(10, d, p) == 1 {
+                continue 'next_prime;
             }
-            return p;
         }
+        return p;
     }
     panic!("couldn't find a point that n - 1 == recurring_length(n)")
 }
+
+// if let Some((_, foregoing_divisors)) = divisors.split_last() {
+//     for &d in foregoing_divisors {
+//         if mod_pow(10, d, p) == 1 {
+//             continue 'next_prime;
+//         }
+//     }
+//     return p;
+// }s

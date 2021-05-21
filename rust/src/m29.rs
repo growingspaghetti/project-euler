@@ -175,7 +175,7 @@ pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string(
             multiply(&mut containers, num);
         }
         containers
-    };
+    }
     fn fab(a: u64, b: u64) -> Vec<u64> {
         pow(a, b)
     };
@@ -377,3 +377,126 @@ pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort
     }
     count
 }
+
+struct Index {
+    i: usize,
+    _ite: Box<dyn Iterator<Item = usize>>,
+}
+
+impl Index {
+    fn increment(&mut self) {
+        self.i += self._ite.next().unwrap();
+    }
+    fn new() -> Self {
+        Index {
+            i: 5,
+            _ite: Box::new(vec![2usize, 4].into_iter().cycle()),
+        }
+    }
+}
+
+fn rule_out(sieve: &mut Vec<bool>, prime: usize) {
+    for i in (prime * prime..sieve.len()).step_by(prime) {
+        sieve[i] = false;
+    }
+}
+
+fn primes(below: u32) -> Vec<u32> {
+    let mut primes: Vec<u32> = vec![2u32, 3u32];
+    let mut sieve = vec![true; below as usize];
+    let sqrt = (sieve.len() as f64).sqrt() as usize;
+    let mut index = Index::new();
+    loop {
+        if index.i > sqrt {
+            break;
+        }
+        if sieve[index.i] {
+            primes.push(index.i as u32);
+            rule_out(&mut sieve, index.i);
+        }
+        index.increment();
+    }
+    loop {
+        if index.i >= sieve.len() {
+            break;
+        }
+        if sieve[index.i] {
+            primes.push(index.i as u32);
+        }
+        index.increment();
+    }
+    primes
+}
+
+#[derive(PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
+struct Factor {
+    prime: u32,
+    exp: u32,
+}
+
+fn divide_fully(n: &mut u32, d: u32, side: &mut u32, factors: &mut Vec<Factor>) {
+    if *n % d != 0 {
+        return;
+    }
+    let mut exp = 0u32;
+    while {
+        *n /= d;
+        exp += 1;
+        *n % d == 0
+    } {}
+    factors.push(Factor { prime: d, exp: exp });
+    *side = (*n as f32).sqrt() as u32;
+}
+
+fn factorize(mut n: u32, primes: &[u32]) -> Vec<Factor> {
+    let mut factors = vec![];
+    let mut side = (n as f32).sqrt() as u32;
+    for &p in primes.iter() {
+        if p > side || n == 1 {
+            break;
+        }
+        divide_fully(&mut n, p, &mut side, &mut factors);
+    }
+    if n != 1 {
+        factors.push(Factor { prime: n, exp: 1 });
+    }
+    factors
+}
+
+fn count_duplication(arr: &mut [Vec<Factor>]) -> u32 {
+    arr.sort();
+    let mut dup = 0u32;
+    for i in 1..arr.len() {
+        if arr[i - 1] == arr[i] {
+            dup += 1;
+        }
+    }
+    dup
+}
+
+// 885 us
+/// ```rust
+/// use self::project_euler::m29::distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2;
+/// assert_eq!(distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2(), 9183);
+/// ```
+pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2() -> u32 {
+    let primes = primes(101);
+    let mut expressions = Vec::new();
+    (2..=100u32).map(|a| factorize(a, &primes)).for_each(|a| {
+        for b in 2..=100u32 {
+            let mut ab = a.to_vec();
+            ab.iter_mut().for_each(|f| f.exp *= b);
+            expressions.push(ab);
+        }
+    });
+    expressions.len() as u32 - count_duplication(&mut expressions)
+}
+
+    // for a in 2..=100u32 {
+    //     let factors = factorize(a, &primes);
+    //     for b in 2..=100u32 {
+    //         let mut ab = factors.to_vec();
+    //         ab.iter_mut().for_each(|v| v.exp *= b);
+    //         equations.push(ab);
+    //     }
+    // }

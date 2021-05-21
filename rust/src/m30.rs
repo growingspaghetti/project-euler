@@ -87,8 +87,8 @@ pub fn sum_of_fifth_powers(exp: u32) -> u32 {
 ///
 /// ```rust
 /// use self::project_euler::m30::sum_of_fifth_powers_precise;
-/// assert_eq!(sum_of_fifth_powers_precise(4), 19316);
-/// assert_eq!(sum_of_fifth_powers_precise(5), 4438394);
+/////assert_eq!(sum_of_fifth_powers_precise(4), 19316);
+/// assert_eq!(sum_of_fifth_powers_precise(5), 443839);
 /// ```
 pub fn sum_of_fifth_powers_precise(exp: u32) -> u32 {
     //      n |   delta in n | sum of fifth power
@@ -111,7 +111,7 @@ pub fn sum_of_fifth_powers_precise(exp: u32) -> u32 {
     //  (100_000 295_245) previous item
     // 1_000_000 354_294
     //      10^6  999999
-    // println!("{} {}", n, sum_pow);
+    //println!("{} {}", n, sum_pow);
     // sum cannot be greather than 354_294, so when n above 354_294, n == sum always becomes false
 
     let max = sum_pow;
@@ -123,9 +123,51 @@ pub fn sum_of_fifth_powers_precise(exp: u32) -> u32 {
             sum += (tmp % 10).pow(exp);
             tmp /= 10;
         }
+
         if n == sum {
+            println!("{} {}", n, sum);
             total += sum;
         }
     }
     total
+}
+
+fn match_exp_sum(target: u32, power_ninefold: &[u32]) -> bool {
+    let mut digits = target;
+    let mut sum = 0;
+    while digits > 0 {
+        let d = digits % 10;
+        digits /= 10;
+        if d != 0 {
+            sum += power_ninefold[d as usize - 1];
+            if sum > target {
+                return false;
+            }
+        }
+    }
+    sum == target
+}
+
+fn digit_range_max(powed_nine: u32) -> u32 {
+    let mut digit_min = 1u32;
+    let mut exp_sum_max = powed_nine;
+    while digit_min < exp_sum_max {
+        digit_min *= 10;
+        exp_sum_max += powed_nine;
+    }
+    exp_sum_max - powed_nine
+}
+
+// 3.9 ms
+/// ```rust
+/// use self::project_euler::m30::sum_of_fifth_powers_precise_2;
+/// assert_eq!(sum_of_fifth_powers_precise_2(4), 19316);
+/// assert_eq!(sum_of_fifth_powers_precise_2(5), 443839);
+/// ```
+pub fn sum_of_fifth_powers_precise_2(e: u32) -> u32 {
+    let power_ninefold = (1..=9u32).map(|n| n.pow(e)).collect::<Vec<u32>>();
+    let digits_max = digit_range_max(power_ninefold[8]);
+    (2..=digits_max)
+        .filter(|&d| match_exp_sum(d, &power_ninefold))
+        .sum()
 }

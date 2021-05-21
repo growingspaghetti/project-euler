@@ -6,6 +6,7 @@ criterion_group!(
     bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string,
     bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors,
     bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort,
+    bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2,
 );
 
 use project_euler::m29::*;
@@ -39,5 +40,14 @@ fn bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_so
     c.bench_function(
         "distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort",
         |b| b.iter(distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort),
+    );
+}
+
+fn bench_distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2(
+    c: &mut Criterion,
+) {
+    c.bench_function(
+        "distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2",
+        |b| b.iter(distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_prime_factors_list_sort_2),
     );
 }

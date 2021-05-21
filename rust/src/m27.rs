@@ -39,6 +39,7 @@
 //!```
 //! See [m12](./m12.rs) [m10](./m10.rs)
 
+// 93
 /// Euler discovered the remarkable quadratic formula:
 ///
 /// n^2 + n + 41
@@ -114,6 +115,7 @@ pub fn of_primes_for_consecutive_values_of_n_brute() -> (i32, u32) {
     (coefficient_a_at_max_n * coefficient_b_at_max_n, max_n)
 }
 
+// 21
 /// Euler discovered the remarkable quadratic formula:
 ///
 /// n^2 + n + 41
@@ -211,6 +213,7 @@ pub fn of_primes_for_consecutive_values_of_n_eratosthenes() -> (i32, u32) {
     (coefficient_a_at_max_n * coefficient_b_at_max_n, max_n)
 }
 
+//
 /// Euler discovered the remarkable quadratic formula:
 ///
 /// n^2 + n + 41
@@ -232,10 +235,10 @@ pub fn of_primes_for_consecutive_values_of_n_optimization() -> (i32, u32) {
         let ni = n as i32;
         ni * ni + a * ni + b
     };
-    // The possible maximum value of f(a,b,n) is produced when f(n,1000,99) = n*n + 999n + 1000,
+    // The possible maximum value of f(a,b,n) is produced when f(n,1000,999) = n*n + 999n + 1000,
     // because member a, b appear only in addition.
     //
-    // Concerning the maximum value of the formula f(n,1000,99),
+    // Concerning the maximum value of the formula f(n,1000,999),
     // when f(1000,1000,99), certainly it's already stopped to keep producing a prime.
     // I mean, 1000*1000 + 999*1000 + 1000 = 1000*1000+1000*1000, a compound.
     //
@@ -331,3 +334,143 @@ pub fn of_primes_for_consecutive_values_of_n_optimization() -> (i32, u32) {
     }
     (coefficient_a_at_max_n * coefficient_b_at_max_n, max_n)
 }
+
+struct Sieve {
+    _sieve: Vec<bool>,
+}
+
+impl Sieve {
+    fn rule_out(&mut self, prime: usize) {
+        for i in (prime * prime..self._sieve.len()).step_by(prime) {
+            self._sieve[i] = false;
+        }
+    }
+    fn init(&mut self) {
+        let sqrt = (self._sieve.len() as f64).sqrt() as usize;
+        let mut index = 5usize;
+        for &i in [2usize, 4].iter().cycle() {
+            if index > sqrt {
+                break;
+            }
+            if self._sieve[index] {
+                self.rule_out(index);
+            }
+            index += i;
+        }
+    }
+    fn new(below: u32) -> Self {
+        assert!(below > 4);
+        let sieve = vec![true; below as usize];
+        let mut s = Sieve { _sieve: sieve };
+        s.init();
+        s
+    }
+    fn is_prime(&self, n: u32) -> bool {
+        assert!(n < self._sieve.len() as u32);
+        if n == 2 || n == 3 {
+            return true;
+        }
+        if n == 0 || n == 1 || n % 2 == 0 || n % 3 == 0 {
+            return false;
+        }
+        self._sieve[n as usize]
+    }
+    fn primes(&self, below: u32) -> Vec<u32> {
+        let mut primes: Vec<u32> = vec![2u32, 3u32];
+        let mut index = 5usize;
+        for &i in [2usize, 4].iter().cycle() {
+            if index > below as usize {
+                break;
+            }
+            if self._sieve[index] {
+                primes.push(index as u32);
+            }
+            index += i;
+        }
+        primes
+    }
+}
+
+fn quadratic_formula(n: u32, a: i32, b: u32) -> i32 {
+    (n * n) as i32 + a * n as i32 + b as i32
+}
+
+struct Record {
+    a: i32,
+    b: u32,
+    number_of_consective_primes: u32,
+}
+
+impl Record {
+    fn merge(&mut self, a: i32, b: u32, number_of_consective_primes: u32) {
+        if number_of_consective_primes > self.number_of_consective_primes {
+            self.number_of_consective_primes = number_of_consective_primes;
+            self.a = a;
+            self.b = b;
+        }
+    }
+    fn product_of_coefficient(&self) -> i32 {
+        self.a * self.b as i32
+    }
+}
+
+fn add(x: i32) -> Box<dyn Fn(i32) -> i32> {
+    Box::new(move |y| x + y)
+}
+
+// fn foo(b: u32) -> impl FnOnce(i32) -> impl FnOnce(u32) -> i32 {
+//     |b| |c| |d| {
+//         // "actual" fn body
+//         unimplemented!()
+//     }
+// }
+
+fn build_quadratic_function(b: u32) -> impl Fn(u32, i32) -> i32 {
+    move |n: u32, a: i32| (n * n) as i32 + a * n as i32 + b as i32
+}
+
+// struct QuadraticFunction {
+//     a: i32,
+//     b: u32,
+//     sieve
+// }
+
+// impl QuadraticFunction {
+//     fn compute(&self, n: u32) -> i32 {
+//         (n * n) as i32 + self.a * n as i32 + self.b as i32
+//     }
+//     fn scan_n(&self) {
+
+//     }
+// }
+
+// 7.5 ms
+/// ```rust
+/// use self::project_euler::m27::of_primes_for_consecutive_values_of_n_optimization_2;
+/// assert_eq!(of_primes_for_consecutive_values_of_n_optimization_2(), (-59231, 71));
+/// ```
+pub fn of_primes_for_consecutive_values_of_n_optimization_2() -> (i32, u32) {
+    let (mut nmax, mut amax, mut bmax) = (1u32, 0i32, 0u32);
+    let sieve = Sieve::new(2_000_000);
+    for b in sieve.primes(1001) {
+        for a in (-(b as i32) + 1)..=999 {
+            let mut n = 1;
+            let mut v = quadratic_formula(1, a, b);
+            if !(v > 1 && sieve.is_prime(v as u32)) {
+                continue;
+            }
+            while {
+                n += 1;
+                v = quadratic_formula(n, a, b);
+                v > 1 && sieve.is_prime(v as u32)
+            } {}
+            if n > nmax {
+                nmax = n;
+                amax = a;
+                bmax = b;
+            }
+        }
+    }
+    (amax * bmax as i32, nmax)
+}
+// n=0 => f(n,a,b) => b, and b is a prime
