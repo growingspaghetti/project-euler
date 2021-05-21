@@ -99,6 +99,7 @@ impl FirstDayOfMonth {
     }
 }
 
+// 2.9277 us
 /// ```rust
 /// use self::project_euler::m19::how_many_sundays_fell_on_the_first_of_the_month_2;
 /// assert_eq!(how_many_sundays_fell_on_the_first_of_the_month_2(), 171);
@@ -109,4 +110,52 @@ pub fn how_many_sundays_fell_on_the_first_of_the_month_2() -> u32 {
         cal.next_month();
     }
     cal.sunday_count
+}
+
+#[derive(PartialEq)]
+enum Weekday {
+    Mon,
+    Tue,
+    Wed,
+    Thu,
+    Fri,
+    Sat,
+    Sun,
+}
+
+fn zeller_congruence(mut y: u32, mut m: u32, d: u32) -> Weekday {
+    if m == 1 || m == 2 {
+        m += 12;
+        y -= 1;
+    }
+    let yd = y / 100;
+    let ym = y % 100;
+    match (d + (26 * (m + 1)) / 10 + ym + ym / 4 + yd / 4 + 5 * yd) % 7 {
+        0 => Weekday::Sat,
+        1 => Weekday::Sun,
+        2 => Weekday::Mon,
+        3 => Weekday::Tue,
+        4 => Weekday::Wed,
+        5 => Weekday::Thu,
+        6 => Weekday::Fri,
+        _ => panic!(),
+    }
+}
+
+// 8.2 us
+/// ```rust
+/// use self::project_euler::m19::how_many_sundays_fell_on_the_first_of_the_month_zeller;
+/// assert_eq!(how_many_sundays_fell_on_the_first_of_the_month_zeller(), 171);
+/// ```
+pub fn how_many_sundays_fell_on_the_first_of_the_month_zeller() -> u32 {
+    let mut sum = 0u32;
+    for y in 1901u32..=2000 {
+        for m in 1u32..=12 {
+            let weekday = zeller_congruence(y, m, 1);
+            if weekday == Weekday::Sun {
+                sum += 1;
+            }
+        }
+    }
+    sum
 }

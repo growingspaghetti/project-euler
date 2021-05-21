@@ -4,6 +4,7 @@ criterion_group!(
     change_making_problem,
     bench_how_many_different_ways_can_2_be_made_brute,
     bench_how_many_different_ways_can_2_be_made,
+    bench_how_many_different_ways_can_2_be_made_2,
     bench_how_many_different_ways_can_2_be_made_rec,
     bench_how_many_different_ways_can_2_be_made_rec_memo,
 );
@@ -19,6 +20,12 @@ fn bench_how_many_different_ways_can_2_be_made_brute(c: &mut Criterion) {
 fn bench_how_many_different_ways_can_2_be_made(c: &mut Criterion) {
     c.bench_function("how_many_different_ways_can_2_be_made", |b| {
         b.iter(how_many_different_ways_can_2_be_made)
+    });
+}
+
+fn bench_how_many_different_ways_can_2_be_made_2(c: &mut Criterion) {
+    c.bench_function("how_many_different_ways_can_2_be_made_2", |b| {
+        b.iter(how_many_different_ways_can_2_be_made_2)
     });
 }
 

@@ -132,23 +132,94 @@ pub fn sum_of_fifth_powers_precise(exp: u32) -> u32 {
     total
 }
 
-fn match_exp_sum(target: u32, power_ninefold: &[u32]) -> bool {
+fn match_pow_sum(target: u32, pow_sum_999_fold: &[u32]) -> bool {
     let mut digits = target;
     let mut sum = 0;
     while digits > 0 {
-        let d = digits % 10;
-        digits /= 10;
-        if d != 0 {
-            sum += power_ninefold[d as usize - 1];
-            if sum > target {
-                return false;
-            }
+        let d = digits % 1000;
+        digits /= 1000;
+        if d == 0 {
+            continue;
+        }
+        sum += pow_sum_999_fold[d as usize - 1];
+        if sum > target {
+            return false;
         }
     }
     sum == target
 }
 
+fn pow_sum_999_fold(power_ninefold: &[u32; 9]) -> [u32; 999] {
+    let mut pow_sum_999_fold = [0u32; 999];
+    for i in 1..pow_sum_999_fold.len() {
+        let mut sum = 0;
+        let mut digits = i as u32;
+        while digits > 0 {
+            let d = digits % 10;
+            digits /= 10;
+            if d == 0 {
+                continue;
+            }
+            sum += power_ninefold[d as usize - 1];
+        }
+        pow_sum_999_fold[i - 1] = sum;
+    }
+    pow_sum_999_fold
+}
+
 fn digit_range_max(powed_nine: u32) -> u32 {
+    let mut digit_min = 1u32;
+    let mut pow_sum_max = powed_nine;
+    while digit_min < pow_sum_max {
+        digit_min *= 10;
+        pow_sum_max += powed_nine;
+    }
+    pow_sum_max - powed_nine
+}
+
+// 3.9 ms -> 1.5 ms
+/// ```rust
+/// use self::project_euler::m30::sum_of_fifth_powers_precise_2;
+/// assert_eq!(sum_of_fifth_powers_precise_2(4), 19316);
+/// assert_eq!(sum_of_fifth_powers_precise_2(5), 443839);
+/// ```
+pub fn sum_of_fifth_powers_precise_2(e: u32) -> u32 {
+    let mut power_ninefold = [0u32; 9];
+    (1..=9u32).for_each(|n| power_ninefold[n as usize - 1] = n.pow(e));
+    let pow_sum_999_fold = pow_sum_999_fold(&power_ninefold);
+    let digits_max = digit_range_max(power_ninefold[8]);
+    (2..=digits_max)
+        .filter(|&d| match_pow_sum(d, &pow_sum_999_fold))
+        .sum()
+}
+
+fn match_exp_sum3(target: u32, power_ninefold: &[u32], exp: u32) -> bool {
+    let log = (target as f32).log10() as u32;
+    let mut sum = 0;
+    for n in 0..=log {
+        let ten_pow_n = 10u32.pow(n);
+        sum += ((target % (ten_pow_n * 10) - target % ten_pow_n)/ ten_pow_n).pow(exp);
+    }
+    sum == target
+}
+
+// fn match_exp_sum3(target: u32, power_ninefold: &[u32]) -> bool {
+//     let mut digits = target;
+//     let mut sum = 0;
+//     while digits > 0 {
+//         let d = digits % 10;
+//         digits /= 10;
+//         if d != 0 {
+//             sum += power_ninefold[d as usize - 1];
+//             if sum > target {
+//                 return false;
+//             }
+//         }
+//     }
+//     sum == target
+// }
+
+fn digit_range_max3(powed_nine: u32) -> u32 {
     let mut digit_min = 1u32;
     let mut exp_sum_max = powed_nine;
     while digit_min < exp_sum_max {
@@ -160,14 +231,14 @@ fn digit_range_max(powed_nine: u32) -> u32 {
 
 // 3.9 ms
 /// ```rust
-/// use self::project_euler::m30::sum_of_fifth_powers_precise_2;
-/// assert_eq!(sum_of_fifth_powers_precise_2(4), 19316);
-/// assert_eq!(sum_of_fifth_powers_precise_2(5), 443839);
+/// use self::project_euler::m30::sum_of_fifth_powers_precise_3;
+/// assert_eq!(sum_of_fifth_powers_precise_3(4), 19316);
+/// assert_eq!(sum_of_fifth_powers_precise_3(5), 443839);
 /// ```
-pub fn sum_of_fifth_powers_precise_2(e: u32) -> u32 {
+pub fn sum_of_fifth_powers_precise_3(e: u32) -> u32 {
     let power_ninefold = (1..=9u32).map(|n| n.pow(e)).collect::<Vec<u32>>();
-    let digits_max = digit_range_max(power_ninefold[8]);
+    let digits_max = digit_range_max3(power_ninefold[8]);
     (2..=digits_max)
-        .filter(|&d| match_exp_sum(d, &power_ninefold))
+        .filter(|&d| match_exp_sum3(d, &power_ninefold, e))
         .sum()
 }

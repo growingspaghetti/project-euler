@@ -105,6 +105,49 @@ pub fn how_many_different_ways_can_2_be_made_brute() -> u32 {
     ways
 }
 
+fn combination(payment: usize, coins: &[usize]) -> usize {
+    assert!(payment > 0);
+    println!("Payment of {} with coins {:?}", payment, &coins);
+    let mut c = 0usize;
+    next_coin(payment, &coins, String::new(), &mut c);
+    println!("Number of combinations:{}\n", c);
+    c
+}
+
+fn next_coin(payment: usize, coins: &[usize], path: String, comb: &mut usize) {
+    if let Some(co) = coins.first() {
+        dig(payment, *co, &coins[1..], path, comb);
+    } else if payment == 0 {
+        println!("{} |", path);
+        *comb += 1;
+    }
+}
+
+fn dig(payment: usize, co: usize, coins: &[usize], path: String, comb: &mut usize) {
+    let num = payment / co;
+    for n in 0..=num {
+        let mut path = path.clone();
+        if n == 0 {
+            path.push_str("|           ");
+        } else {
+            path.push_str(format!("| {:4}x{:4} ", n, co).as_str());
+        }
+        next_coin(payment - co * n, coins, path, comb);
+    }
+}
+
+/// ```rust
+/// use self::project_euler::m31::how_many_different_ways_can_2_be_made_brute_print;
+/// assert_eq!(how_many_different_ways_can_2_be_made_brute_print(), 5);
+/// ```
+pub fn how_many_different_ways_can_2_be_made_brute_print() {
+    let target = 20usize;
+    let mut coins = [1usize, 2, 5, 10, 20, 50, 100, 200];
+    coins.reverse();
+    let mut comb = 0usize;
+    print_comb(target, &coins, String::new(), &mut comb);
+}
+
 /// https://www.youtube.com/watch?v=tduLvFbqRXE "Programming Interview:Algorithm:Dynamic Programming: Coin Changing Problem"
 /// ```rust
 /// use self::project_euler::m31::change_of_five_cents;
@@ -265,6 +308,35 @@ pub fn how_many_different_ways_can_2_be_made() -> u32 {
         }
     }
     max
+}
+
+use std::cmp::Ordering;
+
+fn coin_change(payment: usize, coins: &[usize]) -> u32 {
+    let mut table = vec![vec![0u32; payment]; coins.len()];
+    for c in 0..table.len() {
+        for p in 0..table[c].len() {
+            let v_no = if c == 0 { 0u32 } else { table[c - 1][p] };
+            let v_we = match (p + 1).partial_cmp(&(coins[c])).expect("NaNs") {
+                Ordering::Less => 0u32,
+                Ordering::Equal => 1u32,
+                Ordering::Greater => table[c][p - coins[c]],
+            };
+            table[c][p] += v_no + v_we;
+        }
+    }
+    table[coins.len() - 1][payment - 1]
+}
+
+// 4.7 us
+/// ```rust
+/// use self::project_euler::m31::how_many_different_ways_can_2_be_made_2;
+/// assert_eq!(how_many_different_ways_can_2_be_made_2(), 73682);
+/// ```
+pub fn how_many_different_ways_can_2_be_made_2() -> u32 {
+    let payment = 200usize;
+    let coins = [1usize, 2, 5, 10, 20, 50, 100, 200];
+    coin_change(payment, &coins)
 }
 
 /// In the United Kingdom the currency is made up of pound (£) and pence (p). There are eight coins in general circulation:

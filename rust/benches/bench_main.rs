@@ -20,6 +20,7 @@ criterion_main!(
     benchmarks::m15::ne_lattice_paths,
     benchmarks::m16::two_power_thousand,
     benchmarks::m18::triangle_path_max,
+    benchmarks::m19::how_many_sundays,
     benchmarks::m20::factorial_100,
     benchmarks::m21::sigma_function,
     benchmarks::m22::selection_sort,
