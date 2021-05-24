@@ -151,7 +151,7 @@ fn match_pow_sum(target: u32, pow_sum_999_fold: &[u32]) -> bool {
 
 fn pow_sum_999_fold(power_ninefold: &[u32; 9]) -> [u32; 999] {
     let mut pow_sum_999_fold = [0u32; 999];
-    for i in 1..pow_sum_999_fold.len() {
+    for i in 1..=pow_sum_999_fold.len() {
         let mut sum = 0;
         let mut digits = i as u32;
         while digits > 0 {
