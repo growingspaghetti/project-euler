@@ -136,17 +136,7 @@ fn dig(payment: usize, co: usize, coins: &[usize], path: String, comb: &mut usiz
     }
 }
 
-/// ```rust
-/// use self::project_euler::m31::how_many_different_ways_can_2_be_made_brute_print;
-/// assert_eq!(how_many_different_ways_can_2_be_made_brute_print(), 5);
-/// ```
-pub fn how_many_different_ways_can_2_be_made_brute_print() {
-    let target = 20usize;
-    let mut coins = [1usize, 2, 5, 10, 20, 50, 100, 200];
-    coins.reverse();
-    let mut comb = 0usize;
-    print_comb(target, &coins, String::new(), &mut comb);
-}
+
 
 /// https://www.youtube.com/watch?v=tduLvFbqRXE "Programming Interview:Algorithm:Dynamic Programming: Coin Changing Problem"
 /// ```rust
@@ -322,13 +312,13 @@ fn coin_change(payment: usize, coins: &[usize]) -> u32 {
                 Ordering::Equal => 1u32,
                 Ordering::Greater => table[c][p - coins[c]],
             };
-            table[c][p] += v_no + v_we;
+            table[c][p] = v_no + v_we;
         }
     }
     table[coins.len() - 1][payment - 1]
 }
 
-// 4.7 us
+// 4.4 us
 /// ```rust
 /// use self::project_euler::m31::how_many_different_ways_can_2_be_made_2;
 /// assert_eq!(how_many_different_ways_can_2_be_made_2(), 73682);

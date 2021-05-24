@@ -46,6 +46,8 @@
 // median [13.615 ns 13.776 ns] med. abs. dev. [181.09 ps 350.00 ps]
 //! ```
 
+use std::usize;
+
 fn fibonacci(nth: u64) -> u64 {
     match nth {
         0 => 0,
@@ -124,9 +126,9 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000() -> i64 {
 }
 
 struct TripleBox {
-    i: u64,
-    j: u64,
-    k: u64,
+    i: u128,
+    j: u128,
+    k: u128,
 }
 
 impl TripleBox {
@@ -148,7 +150,7 @@ impl TripleBox {
 /// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box;
 /// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box(), 4613732);
 /// ```
-pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box() -> u64 {
+pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box() -> u128 {
     let mut sum = 0;
     let mut tb = TripleBox { i: 0, j: 1, k: 1 };
     while tb.i <= 4_000_000 {
@@ -158,7 +160,7 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8box() -> u64 {
     sum
 }
 
-fn shift(triple: &mut [i64; 3]) {
+fn shift(triple: &mut [u128; 3]) {
     triple[0] = triple[1] + triple[2];
     triple[1] = triple[2] + triple[0];
     triple[2] = triple[0] + triple[1];
@@ -168,7 +170,7 @@ fn shift(triple: &mut [i64; 3]) {
 /// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8;
 /// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8(), 4613732);
 /// ```
-pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> i64 {
+pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> u128 {
     let mut sum = 0;
     let mut triple = [0, 1, 1];
     while triple[0] <= 4_000_000 {
@@ -192,10 +194,10 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_011_235_8() -> i64 {
 // }
 
 struct LuckyClover {
-    a: u64,
-    b: u64,
-    c: u64,
-    d: u64,
+    a: u128,
+    b: u128,
+    c: u128,
+    d: u128,
 }
 
 impl LuckyClover {
@@ -204,6 +206,16 @@ impl LuckyClover {
         let b = self.a * other.b + self.b * other.d;
         let c = self.c * other.a + self.d * other.c;
         let d = self.c * other.b + self.d * other.d;
+        self.a = a;
+        self.b = b;
+        self.c = c;
+        self.d = d;
+    }
+    fn square(&mut self) {
+        let a = self.a * self.a + self.b * self.c;
+        let b = self.a * self.b + self.b * self.d;
+        let c = self.c * self.a + self.d * self.c;
+        let d = self.c * self.b + self.d * self.d;
         self.a = a;
         self.b = b;
         self.c = c;
@@ -228,7 +240,7 @@ impl LuckyClover {
 /// use self::project_euler::m2::sum_of_even_fibonacci_sequence_less_than_4000000_matrix;
 /// assert_eq!(sum_of_even_fibonacci_sequence_less_than_4000000_matrix(), 4613732);
 /// ```
-pub fn sum_of_even_fibonacci_sequence_less_than_4000000_matrix() -> u64 {
+pub fn sum_of_even_fibonacci_sequence_less_than_4000000_matrix() -> u128 {
     // Football + Matrices in 90 seconds | Don't Memorise https://www.youtube.com/watch?v=4lHyTQH1iS8&list=PLmdFyQYShrjcoVkhCCIwxNj9N4rW1-T5I
     let multiplier = LuckyClover {
         a: 1,
@@ -251,4 +263,66 @@ pub fn sum_of_even_fibonacci_sequence_less_than_4000000_matrix() -> u64 {
         fibmatrix.multiply(&cubed);
     }
     sum
+}
+
+struct FibonacciNumber {
+    th: u8,
+}
+
+impl FibonacciNumber {
+    fn val(&self) -> u128 {
+        let mut result = LuckyClover::identity_matrix();
+        let mut acc = LuckyClover {
+            a: 1,
+            b: 1,
+            c: 1,
+            d: 0,
+        };
+        let mut n = self.th;
+        loop {
+            if n % 2 == 1 {
+                result.multiply(&acc);
+            }
+            n >>= 1;
+            if n == 0 {
+                break;
+            }
+            acc.square();
+        }
+        result.b
+    }
+}
+
+// 88 ns
+/// ```rust
+/// use self::project_euler::m2::th_fib_matrix;
+/// assert_eq!(th_fib_matrix(1), 1);
+/// assert_eq!(th_fib_matrix(2), 1);
+/// assert_eq!(th_fib_matrix(3), 2);
+/// assert_eq!(th_fib_matrix(4), 3);
+/// assert_eq!(th_fib_matrix(5), 5);
+/// assert_eq!(th_fib_matrix(6), 8);
+/// assert_eq!(th_fib_matrix(185), 205697230343233228174223751303346572685);
+/// ```
+pub fn th_fib_matrix(th: u8) -> u128 {
+    FibonacciNumber { th: th }.val()
+}
+
+// 133 ns
+/// ```rust
+/// use self::project_euler::m2::th_fib_linear;
+/// assert_eq!(th_fib_linear(1), 1);
+/// assert_eq!(th_fib_linear(2), 1);
+/// assert_eq!(th_fib_linear(3), 2);
+/// assert_eq!(th_fib_linear(4), 3);
+/// assert_eq!(th_fib_linear(5), 5);
+/// assert_eq!(th_fib_linear(6), 8);
+/// assert_eq!(th_fib_linear(185), 205697230343233228174223751303346572685);
+/// ```
+pub fn th_fib_linear(th: u8) -> u128 {
+    let mut triple = [0u128, 1, 1];
+    for _ in 0..th / 3 {
+        shift(&mut triple);
+    }
+    triple[(th % 3) as usize]
 }

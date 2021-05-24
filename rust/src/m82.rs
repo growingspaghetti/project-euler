@@ -14,14 +14,40 @@
 // 805 732 524  37 331
 //
 // Find the minimal path sum from the left column to the right column in matrix.txt (right click and "Save Link/Target As..."), a 31K text file containing an 80 by 80 matrix
+
+// 3.3 ms
 /// ```rust
-/// use self::project_euler::m81::the_minimal_path_sum_from_the_top_left_to_the_bottom_right;
-/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_bottom_right(), 427337);
+/// use self::project_euler::m82::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right;
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right(), 260324);
 /// ```
-pub fn the_minimal_path_sum_from_the_top_left_to_the_bottom_right() -> u32 {
-	let mut matrix = EIGHTY_GRID.to_vec();
-	let mut sum_a = matrix.clone();
-	2
+pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right() -> u32 {
+    let table = EIGHTY_GRID.to_vec();
+    let mut sum = EIGHTY_GRID.to_vec();
+    for x in 1..table[0].len() {
+        for y in 0..table.len() {
+            for y in 0..table.len() {
+
+            }
+            let mut options = vec![];
+            let mut a_path = 0;
+            for a in (0..y).rev() {
+                a_path += table[a][x];
+                options.push(sum[a][x - 1] + a_path);
+            }
+            options.push(sum[y][x - 1]);
+            let mut c_path = 0;
+            for c in y + 1..table.len() {
+                c_path += table[c][x];
+                options.push(sum[c][x - 1] + c_path);
+            }
+            sum[y][x] += *options.iter().min().unwrap();
+        }
+    }
+    let mut options = vec![];
+    for y in 0..table.len() {
+        options.push(sum[y][sum[0].len() -1]);
+    }
+    *options.iter().min().unwrap()
 }
 
 const EIGHTY_GRID: [[u32; 80]; 80] = [

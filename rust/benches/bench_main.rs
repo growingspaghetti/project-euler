@@ -33,4 +33,6 @@ criterion_main!(
     benchmarks::m29::integer_combinations_of_pow,
     benchmarks::m30::sum_of_dth_powers,
     benchmarks::m31::change_making_problem,
+    benchmarks::m81::path_sum_two_ways,
+    benchmarks::m82::path_sum_three_ways,
 );

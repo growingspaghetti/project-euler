@@ -47,6 +47,49 @@ pub fn the_minimal_path_sum_from_the_top_left_to_the_bottom_right() -> u32 {
     *matrix.last().unwrap().last().unwrap()
 }
 
+// 22.7 us
+/// ```rust
+/// use self::project_euler::m81::the_minimal_path_sum_from_the_top_left_to_the_bottom_right_2;
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_bottom_right_2(), 427337);
+/// ```
+pub fn the_minimal_path_sum_from_the_top_left_to_the_bottom_right_2() -> u32 {
+    let mut table = EIGHTY_GRID.to_vec();
+    // (0..table.len())
+    // .flat_map(|y| (0..table[y].len()).map(move |x| (y, x)))
+    // .collect::<Vec<_>>().iter().for_each(|(&y, &x)|{
+    //     match (y, x) {
+    //         (0, 0) => (),
+    //         (0, _) => table[y][x] += table[y][x - 1],
+    //         (_, 0) => table[y][x] += table[y - 1][x],
+    //         _ => table[y][x] += std::cmp::min(table[y][x - 1], table[y - 1][x]),
+    //     }
+    // });
+    //     match (y, x) {
+    //         (0, 0) => (),
+    //         (0, _) => table[y][x] += table[y][x - 1],
+    //         (_, 0) => table[y][x] += table[y - 1][x],
+    //         _ => table[y][x] += std::cmp::min(table[y][x - 1], table[y - 1][x]),
+    //     }
+    // }
+    for y in 0..table.len() {
+        for x in 0..table[0].len() {
+            // match (y, x) {
+            //     (0, 0) => (),
+            //     (0, _) => table[y][x] += table[y][x - 1],
+            //     (_, 0) => table[y][x] += table[y - 1][x],
+            //     _ => table[y][x] += std::cmp::min(table[y][x - 1], table[y - 1][x]),
+            // }
+            table[y][x] += match (y, x) {
+                (0, 0) => continue,
+                (0, _) => table[y][x - 1],
+                (_, 0) => table[y - 1][x],
+                _ => std::cmp::min(table[y][x - 1], table[y - 1][x]),
+            }
+        }
+    }
+    table[table.len() - 1][table[table.len() - 1].len() - 1]
+}
+
 const EIGHTY_GRID: [[u32; 80]; 80] = [
     [
         4445, 2697, 5115, 718, 2209, 2212, 654, 4348, 3079, 6821, 7668, 3276, 8874, 4190, 3785,
