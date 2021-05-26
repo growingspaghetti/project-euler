@@ -1,151 +1,3 @@
-//! See (m81)[m81.rs], (m31)[m31.rs], (m18)[m18.rs], (m15)[m15.rs]
-//!
-
-use std::usize;
-
-// The minimal path sum in the 5 by 5 matrix below, by starting in any cell in the left column and finishing in any cell in the right column, and only moving up, down, and right, is indicated in red and bold; the sum is equal to 994.
-//
-// 131 673-234-103- 18
-//      |
-// 201- 96 342 965 150
-//
-// 630 803 746 422 111
-//
-// 537 699 497 121 956
-//
-// 805 732 524  37 331
-//
-// Find the minimal path sum from the left column to the right column in matrix.txt (right click and "Save Link/Target As..."), a 31K text file containing an 80 by 80 matrix
-
-struct Cell {
-    x: usize,
-    y: usize,
-}
-
-fn walk(
-    estimations: &mut Vec<u32>,
-    table: &Vec<Vec<u32>>,
-    sum: &Vec<Vec<u32>>,
-    c: &Cell,
-    begin: usize,
-    end: usize,
-    step: isize,
-) {
-    let mut distance = 0;
-    let mut i = begin as isize;
-    loop {
-        distance += table[i as usize][c.x];
-        estimations[i as usize] = sum[i as usize][c.x - 1] + distance;
-        if i as usize == end {
-            break;
-        }
-        i += step;
-    }
-}
-
-fn collect_estimations(
-    estimations: &mut Vec<u32>,
-    table: &Vec<Vec<u32>>,
-    sum: &Vec<Vec<u32>>,
-    c: Cell,
-) {
-    if c.y > 0 {
-        walk(estimations, table, sum, &c, c.y - 1, 0, -1);
-    }
-    estimations[c.y] = sum[c.y][c.x - 1];
-    if c.y < table.len() - 1 {
-        walk(estimations, table, sum, &c, c.y + 1, table.len() - 1, 1);
-    }
-}
-
-// 3.3 ms with option vector
-// 1.1 ms
-// 2.7 ms with box
-// 1.3 without box
-/// ```rust
-/// use self::project_euler::m82::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right;
-/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right(), 994);
-/// ```
-pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right() -> u32 {
-    // let table = EIGHTY_GRID.to_vec();
-    // let mut sum = EIGHTY_GRID.to_vec();
-    let table = vec![
-        vec![131, 673, 234, 103, 18],
-        vec![201, 96, 342, 965, 150],
-        vec![630, 803, 746, 422, 111],
-        vec![537, 699, 497, 121, 956],
-        vec![805, 732, 524, 37, 331],
-    ];
-    let mut sum = table.to_vec();
-    let mut estimations = vec![0u32; table.len()];
-    for col in 1..table[0].len() {
-        for row in 0..table.len() {
-            collect_estimations(&mut estimations, &table, &sum, Cell { x: col, y: row });
-            sum[row][col] += *estimations.iter().min().unwrap();
-        }
-    }
-    let x = sum[0].len() - 1;
-    sum.iter()
-        .map(|r| r[x])
-        .min()
-        .expect("the input table must have at least one row")
-}
-
-// struct ColumnWrapper {
-//     _len: usize,
-//     _rows: Vec<Vec<u32>>,
-// }
-
-// struct Column {
-//     i: usize,
-// }
-
-// struct Cell {
-//     i: usize,
-// }
-
-// impl Column {
-//     fn get_cell(&self, i: usize) -> Cell {
-//         Cell { i }
-//     }
-// }
-
-// impl ColumnWrapper {
-//     fn new(rows: Vec<Vec<u32>>) -> Self {
-//         let len = rows.first().map_or(0, |r| r.len());
-//         ColumnWrapper {
-//             _len: len,
-//             _rows: rows,
-//         }
-//     }
-//     fn get_column(&self, i: usize) -> Option<Column> {
-//         if i >= self._len {
-//             return None;
-//         }
-//         Some(Column { i: i })
-//     }
-//     // fn cells(&self, column: usize) -> Option<Vec<u32>> {
-//     //     if column >= self.len() {
-//     //         return None;
-//     //     }
-//     //     let column
-//     // }
-//     fn len(&self) -> usize {
-//         self._len
-//     }
-// }
-
-struct ColumnOrientedCursor {
-    _y: usize,
-    _x: usize,
-    _rows: Vec<Vec<u32>>,
-}
-
-impl ColumnOrientedCursor {
-    fn next(&mut self) {}
-    fn estimations() {}
-}
-
 fn row_internal_loop(
     col: usize,
     row: usize,
@@ -172,11 +24,14 @@ fn row_internal_loop(
 }
 
 // 775 us
+
+///
+/// 
 /// ```rust
-/// use self::project_euler::m82::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_proper;
-/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_proper(), 260324);
+/// use self::project_euler::m83::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left;
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left(), 260324);
 /// ```
-pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_proper() -> u32 {
+pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left() -> u32 {
     // let table = vec![
     //     vec![131, 673, 234, 103, 18],
     //     vec![201, 96, 342, 965, 150],
@@ -193,7 +48,7 @@ pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_proper() ->
     let mut estimations = vec![0u32; table.len()];
     for col in 0..table[0].len() {
         for row in 0..table.len() {
-            let min = row_internal_loop(col, row, &table, &determineds);
+            let min = row_internal_loop(col, row, &table, &mut determineds);
             estimations[row] = table[row][col] + min;
         }
         determineds.clone_from(&estimations);
