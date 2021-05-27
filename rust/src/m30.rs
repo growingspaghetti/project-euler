@@ -193,7 +193,7 @@ pub fn sum_of_fifth_powers_precise_2(e: u32) -> u32 {
         .sum()
 }
 
-fn match_exp_sum3(target: u32, power_ninefold: &[u32], exp: u32) -> bool {
+fn match_exp_sum3(target: u32, exp: u32) -> bool {
     let log = (target as f32).log10() as u32;
     let mut sum = 0;
     for n in 0..=log {
@@ -239,6 +239,6 @@ pub fn sum_of_fifth_powers_precise_3(e: u32) -> u32 {
     let power_ninefold = (1..=9u32).map(|n| n.pow(e)).collect::<Vec<u32>>();
     let digits_max = digit_range_max3(power_ninefold[8]);
     (2..=digits_max)
-        .filter(|&d| match_exp_sum3(d, &power_ninefold, e))
+        .filter(|&d| match_exp_sum3(d, e))
         .sum()
 }

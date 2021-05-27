@@ -23,6 +23,7 @@ pub mod m29;
 pub mod m3;
 pub mod m30;
 pub mod m31;
+pub mod m32;
 pub mod m4;
 pub mod m5;
 pub mod m6;
