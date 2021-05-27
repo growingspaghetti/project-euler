@@ -112,10 +112,10 @@ pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute() -> u64 {
             .map(|&u| format!("{:09}", u))
             .collect::<Vec<String>>()
             .join("")
-    };
+    }
     fn fab(a: u64, b: u64) -> String {
         pow(a, b)
-    };
+    }
 
     use std::collections::HashSet;
     let mut map: HashSet<String> = HashSet::new();
@@ -178,7 +178,7 @@ pub fn distinct_terms_are_in_a_pow_b_for_2_a_100_2_b_100_brute_not_using_string(
     }
     fn fab(a: u64, b: u64) -> Vec<u64> {
         pow(a, b)
-    };
+    }
 
     use std::collections::HashSet;
     let mut map: HashSet<Vec<u64>> = HashSet::new();

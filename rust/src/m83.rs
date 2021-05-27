@@ -1,62 +1,321 @@
-fn row_internal_loop(
-    col: usize,
-    row: usize,
-    table: &[[u32; 80]; 80],
-    determineds: &Vec<u32>,
-) -> u32 {
-    let mut min = u32::MAX;
-    {
-        let mut d = 0u32;
-        for r in (0..row).rev() {
-            d += table[r][col];
-            min = std::cmp::min(min, determineds[r] + d);
-        }
-    }
-    min = std::cmp::min(min, determineds[row]);
-    {
-        let mut d = 0u32;
-        for r in row + 1..table.len() {
-            d += table[r][col];
-            min = std::cmp::min(min, determineds[r] + d);
-        }
-    }
-    min
-}
-
-// 775 us
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 ///
-/// 
+///
+/// ```rust
+/// use self::project_euler::m83::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_small;
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_small(), 2297);
+/// ```
+pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_small() -> u32 {
+    let table = [
+        [131, 673, 234, 103, 18],
+        [201, 96, 342, 965, 150],
+        [630, 803, 746, 422, 111],
+        [537, 699, 497, 121, 956],
+        [805, 732, 524, 37, 331],
+    ];
+    let mut visited = vec![vec![false; table[0].len()]; table.len()];
+    let mut estimations = vec![vec![u32::MAX; table[0].len()]; table.len()];
+
+    estimations[0][0] = table[0][0];
+    let mut y = 0usize;
+    let mut x = 0usize;
+    while !(x == table[0].len() - 1 && y == table.len() - 1) {
+        visited[y][x] = true;
+
+        // adjacent node updates
+        let cost = estimations[y][x];
+        if y > 0 {
+            let t = y - 1;
+            if !visited[t][x] {
+                let e = &mut estimations[t][x];
+                *e = std::cmp::min(*e, table[t][x] + cost);
+                print!("({})", table[t][x]);
+            }
+        }
+        if x < table[0].len() - 1 {
+            let t = x + 1;
+            if !visited[y][t] {
+                let e = &mut estimations[y][t];
+                *e = std::cmp::min(*e, table[y][t] + cost);
+                print!("({})", table[y][t]);
+            }
+        }
+        if y < table.len() - 1 {
+            let t = y + 1;
+            if !visited[t][x] {
+                let e = &mut estimations[t][x];
+                *e = std::cmp::min(*e, table[t][x] + cost);
+                print!("({})", table[t][x]);
+            }
+        }
+        if x > 0 {
+            let t = x - 1;
+            if !visited[y][t] {
+                let e = &mut estimations[y][t];
+                *e = std::cmp::min(*e, table[y][t] + cost);
+                print!("({})", table[y][t]);
+            }
+        }
+        println!("");
+
+        // locomotion
+        // let next = (0..table.len())
+        //     .flat_map(|ny| (0..table[0].len()).map(move |nx| (nx, ny)))
+        //     .filter(|(nx, ny)| !visited[*ny][*nx])
+        //     .reduce(|a, b| {
+        //         if estimations[a.1][a.0] < estimations[b.1][b.0] {
+        //             a
+        //         } else {
+        //             b
+        //         }
+        //     });
+        let mut next: Option<(usize, usize)> = None;
+        let mut minimum_estimation = u32::MAX;
+        for ny in 0..table.len() {
+            for nx in 0..table[0].len() {
+                if visited[ny][nx] {
+                    continue;
+                }
+                if estimations[ny][nx] < minimum_estimation {
+                    minimum_estimation = estimations[ny][nx];
+                    next = Some((nx, ny));
+                }
+            }
+        }
+        if let Some((nx, ny)) = next {
+            x = nx;
+            y = ny;
+        } else {
+            break;
+        }
+    }
+    estimations[table.len() - 1][table[0].len() - 1]
+}
+
+fn suggest_next_vertex_a(
+    table: &[[u32; 80]; 80],
+    visited: &Vec<Vec<bool>>,
+    estimations: &Vec<Vec<u32>>,
+) -> Option<(usize, usize)> {
+    let mut next: Option<(usize, usize)> = None;
+    let mut minimum_estimation = u32::MAX;
+    for y in 0..table.len() {
+        for x in 0..table[0].len() {
+            if visited[y][x] {
+                continue;
+            }
+            if estimations[y][x] < minimum_estimation {
+                minimum_estimation = estimations[y][x];
+                next = Some((x, y));
+            }
+        }
+    }
+    next
+}
+
+fn update_adjacents_a(
+    x: usize,
+    y: usize,
+    table: &[[u32; 80]; 80],
+    visited: &Vec<Vec<bool>>,
+    estimations: &mut Vec<Vec<u32>>,
+) {
+    let cost = estimations[y][x];
+    if y > 0 {
+        let t = y - 1;
+        if !visited[t][x] {
+            let e = &mut estimations[t][x];
+            *e = std::cmp::min(*e, table[t][x] + cost);
+        }
+    }
+    if x < table[0].len() - 1 {
+        let t = x + 1;
+        if !visited[y][t] {
+            let e = &mut estimations[y][t];
+            *e = std::cmp::min(*e, table[y][t] + cost);
+        }
+    }
+    if y < table.len() - 1 {
+        let t = y + 1;
+        if !visited[t][x] {
+            let e = &mut estimations[t][x];
+            *e = std::cmp::min(*e, table[t][x] + cost);
+        }
+    }
+    if x > 0 {
+        let t = x - 1;
+        if !visited[y][t] {
+            let e = &mut estimations[y][t];
+            *e = std::cmp::min(*e, table[y][t] + cost);
+        }
+    }
+}
+
+// 80 ms
 /// ```rust
 /// use self::project_euler::m83::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left;
-/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left(), 260324);
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left(), 425185);
 /// ```
 pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left() -> u32 {
-    // let table = vec![
-    //     vec![131, 673, 234, 103, 18],
-    //     vec![201, 96, 342, 965, 150],
-    //     vec![630, 803, 746, 422, 111],
-    //     vec![537, 699, 497, 121, 956],
-    //     vec![805, 732, 524, 37, 331],
-    // ];
-    let table = //grid();
-    EIGHTY_GRID;
-    //     .iter()
-    //     .map(|r| r.to_vec())
-    //     .collect::<Vec<Vec<u32>>>();
-    let mut determineds = vec![0u32; table.len()]; //table.iter().map(|r| r[0]).collect::<Vec<u32>>();
-    let mut estimations = vec![0u32; table.len()];
-    for col in 0..table[0].len() {
-        for row in 0..table.len() {
-            let min = row_internal_loop(col, row, &table, &mut determineds);
-            estimations[row] = table[row][col] + min;
+    let table = EIGHTY_GRID;
+    let (w, h) = (table[0].len(), table.len());
+    let mut visited = vec![vec![false; w]; h];
+    let mut estimations = vec![vec![u32::MAX; w]; h];
+
+    estimations[0][0] = table[0][0];
+    let is_goal = |x, y| -> bool { x == w - 1 && y == h - 1 };
+    while let Some((x, y)) = suggest_next_vertex_a(&table, &visited, &estimations) {
+        if is_goal(x, y) {
+            return estimations[y][x];
         }
-        determineds.clone_from(&estimations);
+        visited[y][x] = true;
+        update_adjacents_a(x, y, &table, &visited, &mut estimations);
     }
-    *estimations
-        .iter()
-        .min()
-        .expect("the input table must have at least one row")
+    panic!("Goal was unreachable!");
+}
+
+#[derive(Copy, Clone, Eq, PartialEq)]
+struct Vertex {
+    cost: u32,
+    xy: (usize, usize),
+}
+
+impl Ord for Vertex {
+    fn cmp(&self, other: &Self) -> Ordering {
+        other.cost.cmp(&self.cost)
+    }
+}
+
+impl PartialOrd for Vertex {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+fn update_adjacents(
+    v: Vertex,
+    table: &[[u32; 80]; 80],
+    visited: &Vec<Vec<bool>>,
+    estimations: &mut Vec<Vec<u32>>,
+    pq: &mut BinaryHeap<Vertex>,
+) {
+    let Vertex { xy: (x, y), cost } = v;
+    if y > 0 {
+        let t = y - 1;
+        if !visited[t][x] {
+            let e = &mut estimations[t][x];
+            *e = std::cmp::min(*e, table[t][x] + cost);
+            pq.push(Vertex {
+                cost: *e,
+                xy: (x, t),
+            });
+        }
+    }
+    if x < table[0].len() - 1 {
+        let t = x + 1;
+        if !visited[y][t] {
+            let e = &mut estimations[y][t];
+            *e = std::cmp::min(*e, table[y][t] + cost);
+            pq.push(Vertex {
+                cost: *e,
+                xy: (t, y),
+            });
+        }
+    }
+    if y < table.len() - 1 {
+        let t = y + 1;
+        if !visited[t][x] {
+            let e = &mut estimations[t][x];
+            *e = std::cmp::min(*e, table[t][x] + cost);
+            pq.push(Vertex {
+                cost: *e,
+                xy: (x, t),
+            });
+        }
+    }
+    if x > 0 {
+        let t = x - 1;
+        if !visited[y][t] {
+            let e = &mut estimations[y][t];
+            *e = std::cmp::min(*e, table[y][t] + cost);
+            pq.push(Vertex {
+                cost: *e,
+                xy: (t, y),
+            });
+        }
+    }
+    // if y > 0 && !visited[y - 1][x] {
+    //     let e = &mut estimations[y - 1][x];
+    //     *e = std::cmp::min(*e, table[y - 1][x] + cost);
+    //     pq.push(Vertex {
+    //         cost: *e,
+    //         xy: (x, y - 1),
+    //     });
+    // }
+    // if x < table[0].len() - 1 && !visited[y][x + 1] {
+    //     let e = &mut estimations[y][x + 1];
+    //     *e = std::cmp::min(*e, table[y][x + 1] + cost);
+    //     pq.push(Vertex {
+    //         cost: *e,
+    //         xy: (x + 1, y),
+    //     });
+    // }
+    // if y < table.len() - 1 && !visited[y + 1][x] {
+    //     let e = &mut estimations[y + 1][x];
+    //     *e = std::cmp::min(*e, table[y + 1][x] + cost);
+    //     pq.push(Vertex {
+    //         cost: *e,
+    //         xy: (x, y + 1),
+    //     });
+    // }
+    // if x > 0 && !visited[y][x - 1] {
+    //     let e = &mut estimations[y][x - 1];
+    //     *e = std::cmp::min(*e, table[y][x - 1] + cost);
+    //     pq.push(Vertex {
+    //         cost: *e,
+    //         xy: (x - 1, y),
+    //     });
+    // }
+}
+
+fn suggest_next_vertex(pq: &mut BinaryHeap<Vertex>, visited: &Vec<Vec<bool>>) -> Option<Vertex> {
+    loop {
+        match pq.pop() {
+            None => return None,
+            Some(v) if !visited[v.xy.1][v.xy.0] => return Some(v),
+            _ => (),
+        }
+    }
+}
+
+// 1.2 ms
+/// ```rust
+/// use self::project_euler::m83::the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_pqueue;
+/// assert_eq!(the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_pqueue(), 425185);
+/// ```
+pub fn the_minimal_path_sum_from_the_top_left_to_the_up_bottom_right_left_pqueue() -> u32 {
+    let table = EIGHTY_GRID;
+    let (w, h) = (table[0].len(), table.len());
+    let mut visited = vec![vec![false; w]; h];
+    let mut estimations = vec![vec![u32::MAX; w]; h];
+
+    estimations[0][0] = table[0][0];
+    let mut pq = std::collections::BinaryHeap::<Vertex>::new();
+    pq.push(Vertex {
+        cost: estimations[0][0],
+        xy: (0, 0),
+    });
+    let is_goal = |x, y| -> bool { x == w - 1 && y == h - 1 };
+    while let Some(vertex) = suggest_next_vertex(&mut pq, &visited) {
+        let (x, y) = vertex.xy;
+        if is_goal(x, y) {
+            return vertex.cost;
+        }
+        visited[y][x] = true;
+        update_adjacents(vertex, &table, &visited, &mut estimations, &mut pq);
+    }
+    panic!("Goal was unreachable!");
 }
 
 const EIGHTY_GRID: [[u32; 80]; 80] = [

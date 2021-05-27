@@ -272,32 +272,6 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
     }
 }
 
-fn is_prime(n: u64) -> bool {
-    if n < 2 {
-        return false;
-    }
-    if n == 2 || n == 3 || n == 5 || n == 7 {
-        return true;
-    }
-    for d in &[2u64, 3, 5, 7] {
-        if n % *d == 0 {
-            return false;
-        }
-    }
-
-    let side = (n as f64).sqrt() as u64;
-    let mut d = 7u64;
-    for i in [2u64, 2, 2, 4].iter().cycle() {
-        if d > side {
-            break;
-        }
-        d += *i;
-        if n % d == 0 {
-            return false;
-        }
-    }
-    true
-}
 
 fn is_prime_5(n: u64) -> bool {
     if n < 2 {
