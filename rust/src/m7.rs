@@ -227,7 +227,7 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_larger_matrix(nth: u32) ->
 }
 
 fn rule_out(sieve: &mut Vec<bool>, prime: usize) {
-    for i in (prime..sieve.len()).step_by(prime) {
+    for i in (prime * prime..sieve.len()).step_by(prime) {
         sieve[i] = false;
     }
 }
@@ -267,7 +267,7 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
             &primes.push(i);
             rule_out(&mut sieve, i);
         }
-        cursor = sieve.len() - 1;
+        cursor = sieve.len();
         extend(&mut sieve, &primes);
     }
 }
