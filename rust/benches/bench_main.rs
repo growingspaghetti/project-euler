@@ -39,6 +39,7 @@ criterion_main!(
     benchmarks::m36::double_based_palindromes,
     benchmarks::m37::truncatable_primes,
     benchmarks::m38::pandigital_9_digit_number_concatenated_products,
+    benchmarks::m39::right_triangle,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
