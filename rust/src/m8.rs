@@ -127,8 +127,8 @@ pub fn thirteen_adjacent_digits_byte_str(s: &str) -> u64 {
 /// assert_eq!(thirteen_adjacent_digits_byte_ascii(s), 23514624000);
 /// ```
 pub fn thirteen_adjacent_digits_byte_ascii(s: &str) -> u64 {
-    let zero = '0' as u64;
-    let digits = s.chars().map(|c| c as u64 - zero).collect::<Vec<u64>>();
+    let zero = '0' as u8;
+    let digits = s.chars().map(|c| c as u8 - zero).collect::<Vec<u8>>();
     // let mut max = 0u64;
     // for i in 0..digits.len() - 13 {
     //     let tmp = digits[i..i + 13].iter().product();
@@ -138,7 +138,7 @@ pub fn thirteen_adjacent_digits_byte_ascii(s: &str) -> u64 {
     // }
     (0..digits.len() - 13)
         .into_iter()
-        .map(|i| digits[i..i + 13].iter().product())
+        .map(|i| digits[i..i + 13].iter().map(|&d| d as u64).product())
         .reduce(|max, tmp| std::cmp::max(max, tmp))
         .unwrap()
     //max
