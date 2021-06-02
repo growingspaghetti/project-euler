@@ -11,28 +11,10 @@
 
 // Find the first four consecutive integers to have four distinct prime factors each. What is the first of these numbers?
 
-struct Index {
-    i: usize,
-    _ite: Box<dyn Iterator<Item = usize>>,
-}
-
-impl Index {
-    fn increment(&mut self) {
-        self.i += self._ite.next().unwrap();
-    }
-    fn new() -> Self {
-        Self {
-            i: 5,
-            _ite: Box::new(vec![2usize, 4].into_iter().cycle()),
-        }
-    }
-}
-
 struct Sieve {
     _sieve: Vec<bool>,
     _count: Vec<u8>,
     _primes: Vec<usize>,
-    _index: Index,
     _cursor: usize,
 }
 
@@ -43,30 +25,40 @@ impl Sieve {
             self._count[i] += 1;
         }
     }
-    fn clean_sieve(&mut self) {
-        while self._index.i < self._sieve.len() {
-            if self._sieve[self._index.i] {
-                self._primes.push(self._index.i);
-                self.rule_out(self._index.i);
-            }
-            self._index.increment();
+    fn is_start_of_four_consective_nums_with_factors(&self) -> bool {
+        let i = self._cursor;
+        if self._count[i] != 4 {
+            return false;
         }
+        if self._count.len() - 1 < i + 3 {
+            return false;
+        }
+        self._count[i + 1] == 4 && self._count[i + 2] == 4 && self._count[i + 3] == 4
+    }
+    fn clean_sieve_with_exploration(&mut self) -> Option<u32> {
+        while self._cursor < self._sieve.len() {
+            if self._sieve[self._cursor] {
+                self._primes.push(self._cursor);
+                self.rule_out(self._cursor);
+                continue;
+            }
+            if self.is_start_of_four_consective_nums_with_factors() {
+                return Some(self._cursor as u32);
+            }
+            self._cursor += 1;
+        }
+        None
     }
     fn new(below: u32) -> Self {
         assert!(below > 4);
         let sieve = vec![true; below as usize];
         let count = vec![0u8; below as usize];
-        let mut s = Self {
+        Self {
             _sieve: sieve,
             _count: count,
-            _primes: vec![2, 3],
-            _index: Index::new(),
-            _cursor: 1 + 2 * 3 * 5 * 7,
-        };
-        s.rule_out(2);
-        s.rule_out(3);
-        s.clean_sieve();
-        s
+            _primes: vec![],
+            _cursor: 2,
+        }
     }
     fn extend(&mut self) {
         let prev_len = self._sieve.len();
@@ -82,30 +74,10 @@ impl Sieve {
                 self._count[i] += 1;
             }
         }
-        self.clean_sieve();
-    }
-    fn first_of_consective_numbers_with_four_distinct_primes(&mut self) -> Option<u32> {
-        for i in self._cursor..self._count.len() {
-            if self._count[i] != 4 {
-                continue;
-            }
-            if self._count.len() - 1 < i + 1 || self._count[i + 1] != 4 {
-                continue;
-            }
-            if self._count.len() - 1 < i + 2 || self._count[i + 2] != 4 {
-                continue;
-            }
-            if self._count.len() - 1 < i + 3 || self._count[i + 3] != 4 {
-                continue;
-            }
-            return Some(i as u32);
-        }
-        self._cursor = self._count.len() - 3;
-        None
     }
 }
 
-// 148 us
+// 2.7422 ms
 /// ```rust
 /// use self::project_euler::m47::distinct_prime_factors_four_consecutive_integers;
 /// assert_eq!(distinct_prime_factors_four_consecutive_integers(), 134043);
@@ -137,7 +109,7 @@ pub fn distinct_prime_factors_four_consecutive_integers() -> u32 {
 
     let mut sieve = Sieve::new(10_000);
     loop {
-        if let Some(n) = sieve.first_of_consective_numbers_with_four_distinct_primes() {
+        if let Some(n) = sieve.clean_sieve_with_exploration() {
             break n;
         }
         sieve.extend();

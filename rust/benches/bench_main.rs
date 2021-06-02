@@ -47,6 +47,8 @@ criterion_main!(
     benchmarks::m44::pendatonal_diff_sum,
     benchmarks::m45::penta_hexa_identical,
     benchmarks::m46::goldbach_other_conjecture,
+    benchmarks::m47::four_consective_numbers_with_four_primes,
+    benchmarks::m48::conservative_mod_pow,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
