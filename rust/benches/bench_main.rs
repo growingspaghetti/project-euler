@@ -46,6 +46,7 @@ criterion_main!(
     benchmarks::m43::pandigital_divisible,
     benchmarks::m44::pendatonal_diff_sum,
     benchmarks::m45::penta_hexa_identical,
+    benchmarks::m46::goldbach_other_conjecture,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
