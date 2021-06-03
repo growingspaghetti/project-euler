@@ -46,6 +46,7 @@ pub fn self_power_1000() -> u64 {
     sum
 }
 
+// 300 us
 /// ```rust
 /// use self::project_euler::m48::self_power_1000_128;
 /// assert_eq!(self_power_1000_128(), 9110846700);

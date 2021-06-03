@@ -49,6 +49,8 @@ criterion_main!(
     benchmarks::m46::goldbach_other_conjecture,
     benchmarks::m47::four_consective_numbers_with_four_primes,
     benchmarks::m48::conservative_mod_pow,
+    benchmarks::m49::four_digit_circular_prime,
+    benchmarks::m50::consective_prime_million,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,

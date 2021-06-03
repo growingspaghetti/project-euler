@@ -232,10 +232,20 @@ fn rule_out(sieve: &mut Vec<bool>, prime: usize) {
     }
 }
 
+fn rule_out_from_previous_position(sieve: &mut Vec<bool>, prime: usize, pp: usize) {
+    for i in (prime * prime..sieve.len()).step_by(prime) {
+        if i < pp {
+            continue;
+        }
+        sieve[i] = false;
+    }
+}
+
 fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
-    sieve.extend(vec![true; sieve.len()]);
+    let previous_len = sieve.len();
+    sieve.extend(vec![true; previous_len]);
     for &p in primes {
-        rule_out(&mut sieve.as_mut(), p);
+        rule_out_from_previous_position(sieve, p, previous_len);
     }
 }
 
@@ -244,32 +254,38 @@ fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
 //                         change: [-0.7583% +0.0000% +0.7446%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
 
+// the_10001st_prime_number_sieve_of_eratosthenes_extend                                                                            
+//                    time:   [891.48 us 895.87 us 900.69 us]
+//                    change: [-0.8770% +0.0000% +0.8470%] (p = 1.00 > 0.05)
 /// ```rust
 /// use self::project_euler::m7::the_10001st_prime_number_sieve_of_eratosthenes_extend;
 /// assert_eq!(the_10001st_prime_number_sieve_of_eratosthenes_extend(10001), 104743);
 /// ```
 pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
-    let mut counter = 0u32;
+    let mut counter = 2u32;
     let mut sieve = vec![true; 10000];
     let mut primes: Vec<usize> = vec![];
-    sieve[0] = false;
-    sieve[1] = false;
-    let mut cursor = 0usize;
-    loop {
-        for i in cursor..sieve.len() {
-            if !sieve[i] {
+    let mut cursor = 5usize;
+    let n = 'exploration: loop {
+        for i in [2usize, 4].iter().cycle() {
+            if cursor >= sieve.len() {
+                break;
+            }
+            if !sieve[cursor] {
+                cursor += i;
                 continue;
             }
             counter += 1;
-            if counter == nth {
-                return i as u64;
+            if counter == 10001 {
+                break 'exploration cursor as u64;
             }
-            &primes.push(i);
-            rule_out(&mut sieve, i);
+            &primes.push(cursor);
+            rule_out(&mut sieve, cursor);
+            cursor += i;
         }
-        cursor = sieve.len();
         extend(&mut sieve, &primes);
-    }
+    };
+    n
 }
 
 
