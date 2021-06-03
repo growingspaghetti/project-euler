@@ -221,7 +221,8 @@ pub fn consective_prime_million_fermat() -> u32 {
     let mut primes: Vec<usize> = vec![];
     let mut cursor = 5usize;
     'sum_fill: loop {
-        for &i in [2usize, 4].iter().cycle() {
+        let ite = [2usize, 4].iter().cycle();
+        for &i in ite {
             if cursor >= sieve.len() {
                 break;
             }

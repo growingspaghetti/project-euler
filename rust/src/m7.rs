@@ -267,7 +267,8 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
     let mut primes: Vec<usize> = vec![];
     let mut cursor = 5usize;
     let n = 'exploration: loop {
-        for i in [2usize, 4].iter().cycle() {
+        let ite = [2usize, 4].iter().cycle();
+        for i in ite {
             if cursor >= sieve.len() {
                 break;
             }
