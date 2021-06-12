@@ -54,4 +54,5 @@ criterion_main!(
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
+    benchmarks::l69::square_root,
 );
