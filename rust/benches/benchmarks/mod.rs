@@ -50,3 +50,4 @@ pub mod m82;
 pub mod m83;
 pub mod m9;
 pub mod l69;
+pub mod l367;
