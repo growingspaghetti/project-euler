@@ -40,15 +40,14 @@ pub fn is_perfect_square_brute_bench() {
 }
 
 pub fn is_perfect_square_newton(a: u32) -> bool {
-    let mut x = 1f64;
-    let mut x_next: f64;
-    loop {
-        x_next = (x + a as f64 / x) / 2f64;
-        if (x - x_next).abs() < 0.1 {
-            break x_next as u32 * x_next as u32 == a;
-        }
-        x = x_next;
+    let mut x = a / 2 + 1;
+    // while x != 0 && x > a / x {
+    //     x = (a / x + x) / 2;
+    // }
+    while x as u64 * x as u64 > a as u64 {
+        x = (a / x + x) / 2;
     }
+    x * x == a
 }
 
 pub fn is_perfect_square_newton_bench() {
@@ -199,6 +198,50 @@ pub fn is_perfect_square_digit_by_digit_bench() {
     }
 }
 
+pub fn is_perfect_square_difference_sequence(a: u32) -> bool {
+    let mut sum = 0u32;
+    for i in (1..).step_by(2) {
+        if sum == a {
+            return true;
+        }
+        sum += i;
+        if sum > a {
+            break;
+        }
+    }
+    false
+}
+
+pub fn is_perfect_square_difference_sequence_bench() {
+    // for i in 0u32..1000 {
+    //     let sqrt = (i as f64).sqrt() as u32;
+    //     assert_eq!(
+    //         sqrt * sqrt == i,
+    //         is_perfect_square_difference_sequence(i),
+    //         "{}",
+    //         i
+    //     );
+    // }
+    for i in 0u32..100_000 {
+        let sqrt = (i as f64).sqrt() as u32;
+        assert_eq!(
+            sqrt * sqrt == i,
+            is_perfect_square_difference_sequence(i),
+            "{}",
+            i
+        );
+    }
+    // for i in 2_147_390_000u32..2_147_395_601 {
+    //     let sqrt = (i as f64).sqrt() as u32;
+    //     assert_eq!(
+    //         sqrt * sqrt == i,
+    //         is_perfect_square_difference_sequence(i),
+    //         "{}",
+    //         i
+    //     );
+    // }
+}
+
 mod tests {
     //use super::*;
 
@@ -219,11 +262,16 @@ mod tests {
 
     #[test]
     fn test_is_perfect_square_prime() {
-        super::is_perfect_square_prime_bench();
+        //super::is_perfect_square_prime_bench();
     }
 
     #[test]
     fn test_is_perfect_square_digit_by_digit() {
         super::is_perfect_square_digit_by_digit_bench();
+    }
+
+    #[test]
+    fn test_is_perfect_square_difference_sequence() {
+        super::is_perfect_square_difference_sequence_bench();
     }
 }
