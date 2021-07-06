@@ -52,6 +52,8 @@ criterion_main!(
     benchmarks::m49::four_digit_circular_prime,
     benchmarks::m50::consective_prime_million,
     benchmarks::m51::prime_digit_replacements,
+    benchmarks::m52::recurring_digit_6,
+    benchmarks::m53::binom_one_million,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
