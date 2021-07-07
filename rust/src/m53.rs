@@ -38,3 +38,37 @@ pub fn binom_greater_than_one_million() -> u32 {
     //println!("{:?}", line);
     count
 }
+
+// /// ```rust
+// /// use self::project_euler::m53::binom_greater_than_one_million_symmetry;
+// /// assert_eq!(binom_greater_than_one_million_symmetry(), 4075);
+// /// ```
+// pub fn binom_greater_than_one_million_symmetry() -> u32 {
+//     let mut count = 0u32;
+//     let mut prev = [0u32; 101];
+//     let mut line = [0u32; 101];
+//     prev[0] = 1;
+//     for x in 1usize..=100 {
+//         line[0] = 1;
+//         for i in 0..=x / 2 {
+//             let binom = prev[i] + prev[i + 1];
+//             if i == x / 2 && x %2 != 0{
+
+//             } 
+//             line[i + 1] = if binom > ONE_MILLION {
+//                 subtotal += 1;
+//                 ONE_MILLION
+//             } else {
+//                 binom
+//             }
+//         }
+//         count += 2 * subtotal;
+//         if subtotal > 0 && x % 2 != 0 {
+//             count -= 1;
+//         }
+//         println!("{:?}", line);
+//         prev.copy_from_slice(&line);
+//     }
+//     //println!("{:?}", line);
+//     count
+// }
