@@ -134,28 +134,29 @@ impl Game {
             (false, true) => return false,
             _ => (),
         }
-        // if self.histograms[0][0] > 0 && !self.histograms[1][0] > 0 {
-        //     println!("?");
-        //     return true;
-        // }
         let l = self.hands[0].iter().map(|c| c.num).max().unwrap();
         let r = self.hands[1].iter().map(|c| c.num).max().unwrap();
-        dbg!(l, r);
-        l > r
+        if l != r {
+            return l > r;
+        } else {
+            unimplemented!("not only max, need to do further comparison")
+        }
     }
+
     fn is_left_winner(&self) -> bool {
         match (
-            is_royal_flush(&self.hands[0]),
-            is_royal_flush(&self.hands[1]),
+            has_royal_flush(&self.hands[0]),
+            has_royal_flush(&self.hands[1]),
         ) {
             (true, false) => return true,
             (false, true) => return false,
             (false, false) => (),
             (true, true) => panic!(),
         }
+
         match (
-            is_straight_flush(&self.hands[0]),
-            is_straight_flush(&self.hands[1]),
+            has_straight_flush(&self.hands[0]),
+            has_straight_flush(&self.hands[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -168,24 +169,10 @@ impl Game {
                 }
             }
         }
-        // for func in [is_royal_flush, is_straight_flush] {
-        //     match (func(&self.hands[0]), func(&self.hands[1])) {
-        //         (true, false) => return true,
-        //         (false, true) => return false,
-        //         (false, false) => (),
-        //         (true, true) => return self.has_left_higher_card(),
-        //     }
-        // }
-        // if is_royal_flush(&self.hands[0]) && !is_royal_flush(&self.hands[1]) {
-        //     return true;
-        // }
-        // if is_straight_flush(&self.hands[0]) && !is_straight_flush(&self.hands[1]) {
-        //     return true;
-        // }
 
         match (
-            is_four_of_a_kind(&self.histograms[0]),
-            is_four_of_a_kind(&self.histograms[1]),
+            has_four_of_a_kind(&self.histograms[0]),
+            has_four_of_a_kind(&self.histograms[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -202,8 +189,8 @@ impl Game {
         }
 
         match (
-            is_full_house(&self.histograms[0]),
-            is_full_house(&self.histograms[1]),
+            has_full_house(&self.histograms[0]),
+            has_full_house(&self.histograms[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -219,38 +206,35 @@ impl Game {
             }
         }
 
-        // for func in [is_four_of_a_kind, is_full_house] {
-        //     match (func(&self.histograms[0]), func(&self.histograms[1])) {
-        //         (true, false) => return true,
-        //         (false, true) => return false,
-        //         (false, false) => (),
-        //         (true, true) => return self.has_left_higher_card(),
-        //     }
-        // }
-        // if is_four_of_a_kind(&self.histograms[0]) && !is_four_of_a_kind(&self.histograms[1]) {
-        //     return true;
-        // }
-        // if is_full_house(&self.histograms[0]) && !is_full_house(&self.histograms[1]) {
-        //     return true;
-        // }
-        for func in [is_flush, is_straight] {
-            match (func(&self.hands[0]), func(&self.hands[1])) {
-                (true, false) => return true,
-                (false, true) => return false,
-                (false, false) => (),
-                (true, true) => return self.has_left_higher_card(),
+        match (has_flush(&self.hands[0]), has_flush(&self.hands[1])) {
+            (Some(_), None) => return true,
+            (None, Some(_)) => return false,
+            (None, None) => (),
+            (Some(l), Some(r)) => {
+                if l != r {
+                    return l > r;
+                } else {
+                    panic!()
+                }
             }
         }
-        // if is_flush(&self.hands[0]) && !is_flush(&self.hands[1]) {
-        //     return true;
-        // }
-        // if is_straight(&self.hands[0]) && !is_straight(&self.hands[1]) {
-        //     return true;
-        // }
+
+        match (has_straight(&self.hands[0]), has_straight(&self.hands[1])) {
+            (Some(_), None) => return true,
+            (None, Some(_)) => return false,
+            (None, None) => (),
+            (Some(l), Some(r)) => {
+                if l != r {
+                    return l > r;
+                } else {
+                    panic!()
+                }
+            }
+        }
 
         match (
-            is_three_of_a_kind(&self.histograms[0]),
-            is_three_of_a_kind(&self.histograms[1]),
+            has_three_of_a_kind(&self.histograms[0]),
+            has_three_of_a_kind(&self.histograms[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -267,8 +251,8 @@ impl Game {
         }
 
         match (
-            is_two_pairs(&self.histograms[0]),
-            is_two_pairs(&self.histograms[1]),
+            has_two_pairs(&self.histograms[0]),
+            has_two_pairs(&self.histograms[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -287,8 +271,8 @@ impl Game {
         }
 
         match (
-            is_one_pair(&self.histograms[0]),
-            is_one_pair(&self.histograms[1]),
+            has_one_pair(&self.histograms[0]),
+            has_one_pair(&self.histograms[1]),
         ) {
             (Some(_), None) => return true,
             (None, Some(_)) => return false,
@@ -303,42 +287,12 @@ impl Game {
                 }
             }
         }
-        // for func in [is_three_of_a_kind, is_two_pairs, is_one_pair] {
-        //     match (func(&self.histograms[0]), func(&self.histograms[1])) {
-        //         (true, false) => return true,
-        //         (false, true) => return false,
-        //         (false, false) => (),
-        //         (true, true) => return self.has_left_higher_card(),
-        //     }
-        // }
-        // if is_three_of_a_kind(&self.histograms[0]) && !is_three_of_a_kind(&self.histograms[1]) {
-        //     return true;
-        // }
-        // if is_two_pairs(&self.histograms[0]) && !is_two_pairs(&self.histograms[1]) {
-        //     return true;
-        // }
-        // if is_one_pair(&self.histograms[0]) && !is_one_pair(&self.histograms[1]) {
-        //     return true;
-        // }
-        // if self.hands[0].iter().any(|c| c.num == 1) && !self.hands[1].iter().any(|c| c.num == 1) {
-        //     return true;
-        // }
-        // self.hands[0].iter().map(|c| c.num).max().unwrap()
-        //     > self.hands[1].iter().map(|c| c.num).max().unwrap()
+
         self.has_left_higher_card()
     }
 }
 
-// fn is_royal_flush(game: &str) {
-//     let mut iter = game.split_ascii_whitespace();
-//     for _ in 0..5 {
-//         iter.next();
-//     }
-//     for (i, t) in game.split_ascii_whitespace().enumerate() {
-//     }
-// }
-
-fn is_royal_flush(hand: &[Card; 5]) -> bool {
+fn has_royal_flush(hand: &[Card; 5]) -> bool {
     if !Symbol::iterator().any(|s| hand.iter().all(|c| c.symbol == *s)) {
         return false;
     }
@@ -354,44 +308,44 @@ mod tests {
     fn test_is_royal_flush() {
         let mut game = Game::new();
         game.load("TC JC QC KC AC TH JH QH KH AH");
-        assert_eq!(is_royal_flush(&game.hands[0]), true);
-        assert_eq!(is_royal_flush(&game.hands[1]), true);
+        assert_eq!(has_royal_flush(&game.hands[0]), true);
+        assert_eq!(has_royal_flush(&game.hands[1]), true);
         game.load("TC JC QC KC AS TH JH QH KH 9H");
-        assert_eq!(is_royal_flush(&game.hands[0]), false);
-        assert_eq!(is_royal_flush(&game.hands[1]), false);
+        assert_eq!(has_royal_flush(&game.hands[0]), false);
+        assert_eq!(has_royal_flush(&game.hands[1]), false);
     }
 
     #[test]
     fn test_is_straight_flush() {
         let mut game = Game::new();
         game.load("2C 3C 4C 5C 6C 9H TH JH QH KH");
-        assert!(is_straight_flush(&game.hands[0]).is_some());
-        assert!(is_straight_flush(&game.hands[1]).is_some());
+        assert!(has_straight_flush(&game.hands[0]).is_some());
+        assert!(has_straight_flush(&game.hands[1]).is_some());
         game.load("2C 3C 4C 5C 6S 8H TH JH QH KH");
-        assert!(is_straight_flush(&game.hands[0]).is_none());
-        assert!(is_straight_flush(&game.hands[1]).is_none());
+        assert!(has_straight_flush(&game.hands[0]).is_none());
+        assert!(has_straight_flush(&game.hands[1]).is_none());
     }
 
     #[test]
     fn test_is_straight() {
         let mut game = Game::new();
         game.load("6S 2C 3H 4D 5S AS TC JH QD KS");
-        assert_eq!(is_straight(&game.hands[0]), true);
-        assert_eq!(is_straight(&game.hands[1]), true);
+        assert_eq!(has_straight(&game.hands[0]).is_some(), true);
+        assert_eq!(has_straight(&game.hands[1]).is_some(), true);
         game.load("2C 3C 4C 5C 7S 8H TH JH QH KH");
-        assert_eq!(is_straight(&game.hands[0]), false);
-        assert_eq!(is_straight(&game.hands[1]), false);
+        assert_eq!(has_straight(&game.hands[0]).is_some(), false);
+        assert_eq!(has_straight(&game.hands[1]).is_some(), false);
     }
 
     #[test]
     fn test_is_flush() {
         let mut game = Game::new();
         game.load("2C TC 4C 5C 6C 2H TH JH QH KH");
-        assert_eq!(is_flush(&game.hands[0]), true);
-        assert_eq!(is_flush(&game.hands[1]), true);
+        assert_eq!(has_flush(&game.hands[0]).is_some(), true);
+        assert_eq!(has_flush(&game.hands[1]).is_some(), true);
         game.load("2C 3C 4C 5C 6S 9D TH JH QH KH");
-        assert_eq!(is_flush(&game.hands[0]), false);
-        assert_eq!(is_flush(&game.hands[1]), false);
+        assert_eq!(has_flush(&game.hands[0]).is_some(), false);
+        assert_eq!(has_flush(&game.hands[1]).is_some(), false);
     }
 
     #[test]
@@ -399,8 +353,8 @@ mod tests {
         let mut game = Game::new();
         game.load("5H 5C 6S 7S KD 2C 3S 8S 8D TD");
         assert_eq!(game.is_left_winner(), false);
-        assert!(is_one_pair(&game.histograms[0]).is_some());
-        assert!(is_one_pair(&game.histograms[1]).is_some());
+        assert!(has_one_pair(&game.histograms[0]).is_some());
+        assert!(has_one_pair(&game.histograms[1]).is_some());
     }
 
     #[test]
@@ -416,8 +370,8 @@ mod tests {
         let mut game = Game::new();
         game.load("2D 9C AS AH AC 3D 6D 7D TD QD");
         assert_eq!(game.is_left_winner(), false);
-        assert_eq!(is_three_of_a_kind(&game.histograms[0]).is_some(), true);
-        assert_eq!(is_flush(&game.hands[1]), true);
+        assert_eq!(has_three_of_a_kind(&game.histograms[0]).is_some(), true);
+        assert_eq!(has_flush(&game.hands[1]).is_some(), true);
     }
 
     #[test]
@@ -425,8 +379,8 @@ mod tests {
         let mut game = Game::new();
         game.load("4D 6S 9H QH QC 3D 6D 7H QD QS");
         assert_eq!(game.is_left_winner(), true);
-        assert_eq!(is_one_pair(&game.histograms[0]).is_some(), true);
-        assert_eq!(is_one_pair(&game.histograms[1]).is_some(), true);
+        assert_eq!(has_one_pair(&game.histograms[0]).is_some(), true);
+        assert_eq!(has_one_pair(&game.histograms[1]).is_some(), true);
     }
 
     #[test]
@@ -434,8 +388,8 @@ mod tests {
         let mut game = Game::new();
         game.load("2H 2D 4C 4D 4S 3C 3D 3S 9S 9D");
         assert_eq!(game.is_left_winner(), true);
-        assert_eq!(is_full_house(&game.histograms[0]).is_some(), true);
-        assert_eq!(is_full_house(&game.histograms[1]).is_some(), true);
+        assert_eq!(has_full_house(&game.histograms[0]).is_some(), true);
+        assert_eq!(has_full_house(&game.histograms[1]).is_some(), true);
     }
 
     #[test]
@@ -443,8 +397,8 @@ mod tests {
         let mut game = Game::new();
         game.load("5C AD 5D AC 9C 7C 5H 8D TD KS");
         assert_eq!(game.is_left_winner(), true);
-        assert_eq!(is_two_pairs(&game.histograms[0]).is_some(), true);
-        assert_eq!(is_two_pairs(&game.histograms[1]).is_some(), false);
+        assert_eq!(has_two_pairs(&game.histograms[0]).is_some(), true);
+        assert_eq!(has_two_pairs(&game.histograms[1]).is_some(), false);
     }
 
     #[test]
@@ -454,10 +408,9 @@ mod tests {
         assert_eq!(game.is_left_winner(), false);
         assert_eq!(game.has_left_higher_card(), false);
     }
-    
 }
 
-fn is_straight_flush(hand: &[Card; 5]) -> Option<u64> {
+fn has_straight_flush(hand: &[Card; 5]) -> Option<u64> {
     if !Symbol::iterator().any(|s| hand.iter().all(|c| c.symbol == *s)) {
         return None;
     }
@@ -473,8 +426,8 @@ fn is_straight_flush(hand: &[Card; 5]) -> Option<u64> {
     None
 }
 
-// has_four_of_a_kind returns Option<(four, one)>
-fn is_four_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
+/// has_four_of_a_kind returns Option<(four, one)>
+fn has_four_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     let (mut four, mut one) = (None, None);
     for (i, &v) in histogram.iter().enumerate() {
         match v {
@@ -493,7 +446,7 @@ fn is_four_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
 }
 
 /// has_full_house returns Option<(triple, pair)>
-fn is_full_house(histogram: &[u8; 13]) -> Option<(u8, u8)> {
+fn has_full_house(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     let (mut triple, mut pair) = (None, None);
     for (i, &v) in histogram.iter().enumerate() {
         match v {
@@ -509,61 +462,40 @@ fn is_full_house(histogram: &[u8; 13]) -> Option<(u8, u8)> {
         )),
         _ => None,
     }
-    /*  if triple == None || pair == None {
+}
+
+fn has_flush(hand: &[Card; 5]) -> Option<u8> {
+    if !Symbol::iterator().any(|s| hand.iter().all(|c| c.symbol == *s)) {
         return None;
     }
-    Some((
-        triple
-            .map(|i| if i == 0 { u8::MAX } else { i as u8 })
-            .unwrap(),
-        pair.map(|i| if i == 0 { u8::MAX } else { i as u8 })
-            .unwrap(),
-    )) */
+    Some(hand.iter().map(|c| c.num).max().unwrap())
 }
 
-fn is_flush(hand: &[Card; 5]) -> bool {
-    if Symbol::iterator().any(|s| hand.iter().all(|c| c.symbol == *s)) {
-        return true;
-    }
-    false
-}
-
-fn is_straight(hand: &[Card; 5]) -> bool {
+fn has_straight(hand: &[Card; 5]) -> Option<u64> {
     let mut bits = 0u64;
     hand.iter().for_each(|c| bits |= 1u64 << c.num);
     if bits == 0b11110000000010 {
-        return true;
+        return Some(u64::MAX);
     }
     let mut mask = 0b11111000000000u64;
     while mask & 0b01 == 0 {
         if bits == mask {
-            return true;
+            return Some(mask);
         }
         mask >>= 1;
     }
-    false
+    None
 }
 
 /// has_three_of_a_kind returns Option<(three, max(other))>
-fn is_three_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
+fn has_three_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     let (mut triple, mut other) = (None, None);
     for (i, &v) in histogram.iter().enumerate() {
         match v {
             3 => triple = Some(i),
-            _ => {
-                if v == 0 {
-                    continue;
-                }
-                if other.is_none() {
-                    other = Some(i);
-                } else if let Some(o) = other {
-                    if i == 0 && o != 0 {
-                        other.replace(0);
-                    } else if o < i {
-                        other.replace(i);
-                    }
-                }
-            }
+            n if n > 0 && i == 0 => other = Some(0),
+            n if n > 0 => other = std::cmp::max(other, Some(i)),
+            _ => (),
         }
     }
     match (triple, other) {
@@ -573,41 +505,10 @@ fn is_three_of_a_kind(histogram: &[u8; 13]) -> Option<(u8, u8)> {
         )),
         _ => None,
     }
-    // let triple = histogram
-    //     .iter()
-    //     .enumerate()
-    //     .filter(|(_, &c)| c == 3)
-    //     .map(|(i, _)| if i == 0 { u8::MAX } else { i as u8 })
-    //     .next();
-    // if triple.is_none() {
-    //     return None;
-    // }
 }
 
 /// has_two_pairs returns Option<(higher, lower, other)>
-fn is_two_pairs(histogram: &[u8; 13]) -> Option<(u8, u8, u8)> {
-    // let (mut a, mut b, mut other) = (None, None, None);
-    // for (i, &v) in histogram.iter().enumerate() {
-    //     match v {
-    //         3 => triple = Some(i),
-    //         _ => {
-    //             if let Some(o) = other {
-    //                 if i == 0 && o != 0 {
-    //                     other.replace(0);
-    //                 } else if o < i {
-    //                     other.replace(i);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    // match (triple, other) {
-    //     (Some(t), Some(o)) => Some((
-    //         if t == 0 { u8::MAX } else { t as u8 },
-    //         if o == 0 { u8::MAX } else { o as u8 },
-    //     )),
-    //     _ => None,
-    // }
+fn has_two_pairs(histogram: &[u8; 13]) -> Option<(u8, u8, u8)> {
     let mut iter = histogram
         .iter()
         .enumerate()
@@ -616,23 +517,22 @@ fn is_two_pairs(histogram: &[u8; 13]) -> Option<(u8, u8, u8)> {
     let a = iter.next();
     let b = iter.next();
     match (a, b) {
-        (Some(i), Some(j)) => Some((
-            std::cmp::max(i, j),
-            std::cmp::min(i, j),
-            histogram
+        (Some(i), Some(j)) => {
+            let c = histogram
                 .iter()
                 .enumerate()
                 .filter(|(_, &c)| c == 1)
                 .map(|(i, _)| if i == 0 { u8::MAX } else { i as u8 })
                 .next()
-                .unwrap(),
-        )),
+                .unwrap();
+            Some((std::cmp::max(i, j), std::cmp::min(i, j), c))
+        }
         _ => None,
     }
 }
 
-// has_one_pair returns Option<(pair, other)>
-fn is_one_pair(histogram: &[u8; 13]) -> Option<(u8, u8)> {
+/// has_one_pair returns Option<(pair, max(other))>
+fn has_one_pair(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     if histogram.iter().filter(|&c| *c == 2).count() != 1 {
         return None;
     }
@@ -640,20 +540,9 @@ fn is_one_pair(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     for (i, &v) in histogram.iter().enumerate() {
         match v {
             2 => pair = Some(i),
-            _ => {
-                if v == 0 {
-                    continue;
-                }
-                if other.is_none() {
-                    other = Some(i);
-                } else if let Some(o) = other {
-                    if i == 0 && o != 0 {
-                        other.replace(0);
-                    } else if o < i {
-                        other.replace(i);
-                    }
-                }
-            }
+            n if n > 0 && i == 0 => other = Some(0),
+            n if n > 0 => other = std::cmp::max(other, Some(i)),
+            _ => (),
         }
     }
     match (pair, other) {
@@ -665,7 +554,17 @@ fn is_one_pair(histogram: &[u8; 13]) -> Option<(u8, u8)> {
     }
 }
 
-// 11 us
+// if other.is_none() {
+//     other = Some(i);
+// } else if let Some(o) = other {
+//     if i == 0 && o != 0 {
+//         other.replace(0);
+//     } else if o < i {
+//         other.replace(i);
+//     }
+// }
+
+// 812 us
 /// ```rust
 /// use self::project_euler::m54::poker_how_many_hands_does_player_1_win;
 /// assert_eq!(poker_how_many_hands_does_player_1_win(), 376);
@@ -678,8 +577,8 @@ pub fn poker_how_many_hands_does_player_1_win() -> u32 {
         if game.is_left_winner() {
             count += 1;
         }
-        dbg!(i, source);
-        assert_eq!(game.is_left_winner(), RESULTS[i]);
+        //dbg!(i, source);
+        //assert_eq!(game.is_left_winner(), RESULTS[i]);
     }
     count
 }
