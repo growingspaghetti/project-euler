@@ -57,6 +57,7 @@ criterion_main!(
     benchmarks::m54::poker_scores,
     benchmarks::m55::lychrel_numbers,
     benchmarks::m56::powerful_digit_sum,
+    benchmarks::m57::continued_fraction,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,

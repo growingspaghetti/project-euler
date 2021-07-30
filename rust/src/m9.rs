@@ -166,9 +166,9 @@ pub fn pythagorean_triplet_and_1000_triangle_euclid(sum: u32) -> u32 {
 ///
 /// ```rust
 /// use self::project_euler::m9::pythagorean_triplet_and_1000_triangle_euclid_for;
-/// assert_eq!(pythagorean_triplet_and_1000_triangle_euclid_for(), Some(31875000));
+/// assert_eq!(pythagorean_triplet_and_1000_triangle_euclid_for(), some(31875000));
 /// ```
-pub fn pythagorean_triplet_and_1000_triangle_euclid_for() -> Option<u32> {
+pub fn pythagorean_triplet_and_1000_triangle_euclid_for() -> option<u32> {
     for m in 2..(499f32.sqrt() as u32) {
         for n in 1..m {
             let a = m * m - n * n;

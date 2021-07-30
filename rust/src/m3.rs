@@ -251,14 +251,14 @@ fn divide_fully(n: &mut u64, d: u64, side: &mut u64) {
 // 4.27 us
 ///
 /// ```rust
-/// use self::project_euler::m3::largest_prime_factor;
-/// assert_eq!(largest_prime_factor(600851475143u64), 6857);
-/// assert_eq!(largest_prime_factor(60), 5);
-/// assert_eq!(largest_prime_factor(5), 5);
-/// assert_eq!(largest_prime_factor(6), 3);
-/// assert_eq!(largest_prime_factor(15), 5);
-/// assert_eq!(largest_prime_factor(25698751364526), 328513);
-/// assert_eq!(largest_prime_factor(13195), 29);
+/// use self::project_euler::m3::largest_prime_factor_a;
+/// assert_eq!(largest_prime_factor_a(600851475143u64), 6857);
+/// assert_eq!(largest_prime_factor_a(60), 5);
+/// assert_eq!(largest_prime_factor_a(5), 5);
+/// assert_eq!(largest_prime_factor_a(6), 3);
+/// assert_eq!(largest_prime_factor_a(15), 5);
+/// assert_eq!(largest_prime_factor_a(25698751364526), 328513);
+/// assert_eq!(largest_prime_factor_a(13195), 29);
 /// ```
 pub
 fn largest_prime_factor_a(mut n: u64) -> u64 {
