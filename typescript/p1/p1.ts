@@ -1,10 +1,12 @@
 function assert(condition: any, msg?: string): asserts condition {
   if (!condition) {
-    throw new Error(msg);
+    throw new Error(msg)
   }
 }
 
 function arithmeticSeries(n: number): number {
+  assert(Number.isInteger(n));
+  assert(Math.sign(n) === 1, "Tried a negative n or division by zero.");
   const d = 999 / n | 0;
   return n * d * (d + 1) / 2 | 0;
 }
