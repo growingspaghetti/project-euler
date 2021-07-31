@@ -165,9 +165,7 @@ fn merge(factors: &mut [Option<Factor>; 20], b: &[Option<Factor>; 20]) {
     for it in b.iter().zip(factors.iter_mut()) {
         match it {
             (Some(bf), None) => *it.1 = Some(bf.clone()),
-            (Some(bf), Some(f)) if bf.occurrence > f.occurrence =>  {
-                f.occurrence = bf.occurrence
-            },
+            (Some(bf), Some(f)) if bf.occurrence > f.occurrence => f.occurrence = bf.occurrence,
             _ => continue,
         }
     }
@@ -246,15 +244,23 @@ pub fn smallest_positive_number_that_is_evenly_divisible_by_each_20_lcm_gcd() ->
 }
 
 fn gcd(mut a: u64, mut b: u64) -> u64 {
-    if b > a {
-        std::mem::swap(&mut a, &mut b);
+    assert!(a != 0 && b != 0);
+    // let t = &mut 0u64;
+    // while b != 0 {
+    //     *t = a % b;
+    //     a = b;
+    //     b = *t;
+    // }
+    while b != 0 {
+        let r = a % b;
+        a = b;
+        b = r;
     }
-    assert!(b != 0);
-    let r = a % b;
-    if r == 0 {
-        return b;
-    }
-    gcd(b, r)
+    a
+    // if b == 0 {
+    //     return a;
+    // }
+    // gcd(b, a % b)
 }
 
 fn lcm(a: u64, b: u64) -> u64 {

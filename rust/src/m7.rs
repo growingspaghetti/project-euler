@@ -232,19 +232,40 @@ fn rule_out(sieve: &mut Vec<bool>, prime: usize) {
     }
 }
 
+// 928 us
+// fn rule_out_from_previous_position(sieve: &mut Vec<bool>, prime: usize, pp: usize) {
+//     for i in (prime * prime..sieve.len()).step_by(prime) {
+//         if i < pp {
+//             continue;
+//         }
+//         sieve[i] = false;
+//     }
+// }
+
+// 690 us
 fn rule_out_from_previous_position(sieve: &mut Vec<bool>, prime: usize, pp: usize) {
-    for i in (prime * prime..sieve.len()).step_by(prime) {
-        if i < pp {
-            continue;
-        }
+    use std::cmp::max;
+    let begin = max((((pp - 1) / prime) + 1) * prime, prime * prime);
+    for i in (begin..sieve.len()).step_by(prime) {
         sieve[i] = false;
     }
 }
+
+// 704 us
+// fn rule_out_from_previous_position(sieve: &mut Vec<bool>, prime: usize, pp: usize) {
+//     use std::cmp::max;
+//     let begin = max(pp - 1 - (pp - 1) % prime + prime, prime * prime);
+//     for i in (begin..sieve.len()).step_by(prime) {
+//         sieve[i] = false;
+//     }
+// }
 
 fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
     let previous_len = sieve.len();
     sieve.extend(vec![true; previous_len]);
     for &p in primes {
+        // 860 us
+        //rule_out(sieve, p);
         rule_out_from_previous_position(sieve, p, previous_len);
     }
 }
@@ -254,7 +275,7 @@ fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
 //                         change: [-0.7583% +0.0000% +0.7446%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
 
-// the_10001st_prime_number_sieve_of_eratosthenes_extend                                                                            
+// the_10001st_prime_number_sieve_of_eratosthenes_extend
 //                    time:   [891.48 us 895.87 us 900.69 us]
 //                    change: [-0.8770% +0.0000% +0.8470%] (p = 1.00 > 0.05)
 /// ```rust
@@ -264,16 +285,16 @@ fn extend(sieve: &mut Vec<bool>, primes: &Vec<usize>) {
 pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
     let mut counter = 2u32;
     let mut sieve = vec![true; 10000];
-    let mut primes: Vec<usize> = vec![];
+    let mut primes: Vec<usize> = vec![];//Vec::with_capacity(10000); 740 us
     let mut cursor = 5usize;
+    let mut ite = [2usize, 4].iter().cycle();
     let n = 'exploration: loop {
-        let ite = [2usize, 4].iter().cycle();
-        for i in ite {
+        loop {
             if cursor >= sieve.len() {
                 break;
             }
             if !sieve[cursor] {
-                cursor += i;
+                cursor += ite.next().unwrap();
                 continue;
             }
             counter += 1;
@@ -282,13 +303,12 @@ pub fn the_10001st_prime_number_sieve_of_eratosthenes_extend(nth: u32) -> u64 {
             }
             &primes.push(cursor);
             rule_out(&mut sieve, cursor);
-            cursor += i;
+            cursor += ite.next().unwrap();
         }
         extend(&mut sieve, &primes);
     };
     n
 }
-
 
 fn is_prime_5(n: u64) -> bool {
     if n < 2 {
@@ -302,14 +322,13 @@ fn is_prime_5(n: u64) -> bool {
             return false;
         }
     }
-
     let side = (n as f64).sqrt() as u64;
     let mut d = 5u64;
     for i in [2, 4].iter().cycle() {
+        d += *i;
         if d > side {
             break;
         }
-        d += *i;
         if n % d == 0 {
             return false;
         }
@@ -317,7 +336,7 @@ fn is_prime_5(n: u64) -> bool {
     true
 }
 
-// the_10001st_prime_number_mod3_syntax                                                                             
+// the_10001st_prime_number_mod3_syntax
 //                         time:   [4.8235 ms 4.8504 ms 4.8790 ms]
 //                         change: [-0.7991% +0.0000% +0.8361%] (p = 1.00 > 0.05)
 //                         No change in performance detected.
