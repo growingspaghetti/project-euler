@@ -1,4 +1,4 @@
-function assert(condition: any, msg?: string): asserts condition {
+export function assert(condition: any, msg?: string): asserts condition {
   if (!condition) {
     throw new Error(msg)
   }
@@ -47,4 +47,4 @@ while (i.b <= 4_000_000) {
   i.multiplyMatrix(c);
 } 
 console.log(sum);
-assert(sum == 4613732);
+assert(sum === 4613732);

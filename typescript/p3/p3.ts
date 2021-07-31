@@ -1,4 +1,4 @@
-function assert(condition: any, msg?: string): asserts condition {
+export function assert(condition: any, msg?: string): asserts condition {
   if (!condition) {
     throw new Error(msg);
   }
@@ -54,4 +54,4 @@ function largestPrimeFactor(n: number): number {
 
 let a = largestPrimeFactor(600851475143);
 console.log(a);
-assert(a == 6857);
+assert(a === 6857);
