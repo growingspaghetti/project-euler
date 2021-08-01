@@ -239,7 +239,7 @@ pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_pri
 }
 
 fn divide_fully(n: &mut u64, d: u64, side: &mut u64) {
-    if  *n % d == 0 {
+    if *n % d == 0 {
         while {
             *n /= d;
             *n % d == 0
@@ -261,22 +261,21 @@ fn divide_fully(n: &mut u64, d: u64, side: &mut u64) {
 /// assert_eq!(largest_prime_factor_a(13195), 29);
 /// ```
 pub
-fn largest_prime_factor_a(mut n: u64) -> u64 {
+fn largest_prime_factor(mut n: u64) -> u64 {
     assert!(n > 1);
     let mut side = (n as f64).sqrt() as u64;
-    let basic_primes = [2u64, 3, 5];
-    for &d in &basic_primes {
+    for &d in &[2u64, 3, 5] {
         divide_fully(&mut n, d, &mut side);
         if n == 1 {
             return d;
         }
     }
     let mut divisor = 5u64;
-    for i in [2u64, 4].iter().cycle() {
+    for &i in [2u64, 4].iter().cycle() {
+        divisor += i;
         if divisor > side {
             break;
         }
-        divisor += *i;
         divide_fully(&mut n, divisor, &mut side);
         if n == 1 {
             return divisor;
@@ -288,7 +287,33 @@ fn largest_prime_factor_a(mut n: u64) -> u64 {
         n
     }
 }
-
+// ///
+// /// ```rust
+// /// use self::project_euler::m3::largest_prime_factor_b;
+// /// assert_eq!(largest_prime_factor_b(), 6857);
+// /// ```
+// pub fn largest_prime_factor_b() -> u64 {
+//     let n = 600_851_475_143u64;
+//     let mut sieve = vec![true; (n + 1) as usize];
+//     let side = (n as f64).sqrt() as usize;
+//     let mut cursor = 5usize;
+//     for &i in [2usize, 4].iter().cycle() {
+//         cursor += i;
+//         if cursor > side {
+//             break;
+//         }
+//         if !sieve[cursor] {
+//             continue;
+//         }
+//         for j in cursor * cursor..sieve.len() {
+//             sieve[j] = false;
+//         }
+//     }
+//     if let Some((p, _)) = sieve.iter().enumerate().rev().find(|&(_, &b)| b == true) {
+//         return p as u64;
+//     }
+//     0
+// }
 // 17 us
 // pub fn largest_prime_factor_of_the_number_600851475143_skip_4_6_8_10_12_n_ab_primes(
 //     mut n: u64,
