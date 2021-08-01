@@ -8,6 +8,7 @@ criterion_group!(
     bench_thirteen_adjacent_digits_byte_ascii_memo,
     bench_thirteen_adjacent_digits_byte_ascii_memo_arr,
     bench_thirteen_adjacent_digits_byte_ascii_rayon,
+    bench_thirteen_adjacent_digits_byte_ascii_memo2,
 );
 
 use project_euler::m8::*;
@@ -38,7 +39,6 @@ fn bench_thirteen_adjacent_digits_byte_ascii_memo(c: &mut Criterion) {
     });
 }
 
-
 fn bench_thirteen_adjacent_digits_byte_ascii_memo_arr(c: &mut Criterion) {
     c.bench_function("thirteen_adjacent_digits_byte_ascii_memo_arr", |b| {
         b.iter(|| thirteen_adjacent_digits_byte_ascii_memo_arr(black_box(DIGITS_1000)))
@@ -51,4 +51,8 @@ fn bench_thirteen_adjacent_digits_byte_ascii_rayon(c: &mut Criterion) {
     });
 }
 
-
+fn bench_thirteen_adjacent_digits_byte_ascii_memo2(c: &mut Criterion) {
+    c.bench_function("thirteen_adjacent_digits_byte_ascii_memo2", |b| {
+        b.iter(|| thirteen_adjacent_digits_byte_ascii_memo2(black_box(DIGITS_1000)))
+    });
+}

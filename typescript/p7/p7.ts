@@ -17,7 +17,7 @@ class Index {
   }
 }
 
-function ruleout_from_position(
+function ruleoutFromPosition(
   sieve: boolean[],
   prime: number,
   position: number,
@@ -39,7 +39,7 @@ function extend(sieve: boolean[], primes: number[]) {
   const previousLen = sieve.length;
   sieve.push(...Array(previousLen).fill(true));
   for (const p of primes) {
-    ruleout_from_position(sieve, p, previousLen);
+    ruleoutFromPosition(sieve, p, previousLen);
   }
 }
 

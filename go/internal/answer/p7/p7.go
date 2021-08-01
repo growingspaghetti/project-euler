@@ -1,5 +1,7 @@
 package p7
 
+import "fmt"
+
 type Index struct {
 	i int
 	f uint8
@@ -16,7 +18,7 @@ func ruleout(sieve []bool, p int) {
 	}
 }
 
-func ruleout_from_position(sieve []bool, prime, position int) {
+func ruleoutFromPosition(sieve []bool, prime, position int) {
 	pos := (((position - 1) / prime) + 1) * prime
 	sq := prime * prime
 	if pos < sq {
@@ -31,7 +33,7 @@ func extend(sieve *[]bool, primes []int) {
 	previousLen := len(*sieve)
 	*sieve = append(*sieve, make([]bool, previousLen)...)
 	for _, p := range primes {
-		ruleout_from_position(*sieve, p, previousLen)
+		ruleoutFromPosition(*sieve, p, previousLen)
 	}
 }
 
@@ -57,6 +59,6 @@ Exploration:
 		}
 		extend(&sieve, primes)
 	}
-	//fmt.Println(i.i)
+	fmt.Println(i.i)
 	// Output: 104743
 }
