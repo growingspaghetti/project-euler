@@ -261,7 +261,7 @@ fn divide_fully(n: &mut u64, d: u64, side: &mut u64) {
 /// assert_eq!(largest_prime_factor_a(13195), 29);
 /// ```
 pub
-fn largest_prime_factor(mut n: u64) -> u64 {
+fn largest_prime_factor_a(mut n: u64) -> u64 {
     assert!(n > 1);
     let mut side = (n as f64).sqrt() as u64;
     for &d in &[2u64, 3, 5] {

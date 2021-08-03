@@ -48,6 +48,7 @@ impl Fraction {
 /// use self::project_euler::m57::fractions_contain_a_numerator_with_more_digits;
 /// assert_eq!(fractions_contain_a_numerator_with_more_digits(), 153);
 /// ```
+/// 10000 1508 100000 15052 1000000 150520 150519? 10000000 1505158
 pub fn fractions_contain_a_numerator_with_more_digits() -> u32 {
     let mut count = 0u32;
     let mut frac = Fraction::new();
@@ -57,7 +58,7 @@ pub fn fractions_contain_a_numerator_with_more_digits() -> u32 {
         }
         frac.increment();
         //dbg!(frac.n, frac.deno, frac.nume);
-        frac.n <= 1000
+        frac.n <= 10
     } {}
     count
 }
@@ -127,6 +128,34 @@ pub fn fractions_contain_a_numerator_with_more_digits_u64() -> u32 {
         //dbg!(frac.n, frac.deno, frac.nume);
         frac.n <= 1000
     } {}
+    count
+}
+
+// 22 us 3.8 us
+/// ```rust
+/// use self::project_euler::m57::fractions_contain_a_numerator_with_more_digits_linear;
+/// assert_eq!(fractions_contain_a_numerator_with_more_digits_linear(), 153);
+/// ```
+pub fn fractions_contain_a_numerator_with_more_digits_linear() -> u32 {
+    let r1 = 1f64 + 2f64.sqrt();
+    let r2 = 1f64 - 2f64.sqrt();
+    let deno_c = 1.5f64 * 2f64.log10();
+    let nume_c = 2f64.log10();
+    let log10_r1 = r1.log10();
+    //let r2_over_r1 = r2 / r1;
+
+    let mut count = 0u32;
+    //let mut pow = r2_over_r1.clone();
+    for n in 2u32..=1001 {
+        //pow *= r2_over_r1;
+        //let deno_digit = (n as f64 * log10_r1 + (1f64 - pow).log10() - deno_c) as u32;
+        //let nume_digit = (n as f64 * log10_r1 + (1f64 + pow).log10() - nume_c) as u32;
+        let deno_digit = (n as f64 * log10_r1 - deno_c) as u32;
+        let nume_digit = (n as f64 * log10_r1 - nume_c) as u32;
+        if nume_digit > deno_digit {
+            count += 1;
+        }
+    }
     count
 }
 
@@ -236,7 +265,7 @@ pub fn fractions_contain_a_numerator_with_more_digits_bignum() -> u32 {
         }
         frac.increment();
         //dbg!(frac.n, frac.deno, frac.nume);
-        frac.n <= 1000000
+        frac.n <= 1000
     } {}
     count
 }
