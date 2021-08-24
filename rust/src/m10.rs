@@ -244,7 +244,7 @@ pub fn sum_of_all_the_primes_below_two_million_bit_vec() -> u64 {
     sum
 }
 
-fn rule_out(sieve: &mut [bool; 2_000_000], prime: usize) {
+fn rule_out(sieve: &mut [bool; 2_000_001], prime: usize) {
     for i in (prime..sieve.len()).step_by(prime) {
         sieve[i] = false;
     }
@@ -256,7 +256,7 @@ fn rule_out(sieve: &mut [bool; 2_000_000], prime: usize) {
 /// assert_eq!(sum_of_all_the_primes_below_two_million_sieve(), 142913828922);
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_sieve() -> u64 {
-    let mut sieve = [true; 2_000_000];
+    let mut sieve = [true; 2_000_001];
     let cursor_max = sieve.len() - 1;
     rule_out(&mut sieve, 7);
     rule_out(&mut sieve, 9);
@@ -282,7 +282,7 @@ pub fn sum_of_all_the_primes_below_two_million_sieve() -> u64 {
 /// assert_eq!(sum_of_all_the_primes_below_two_million_sieve_step(), 142913828922);
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_sieve_step() -> u64 {
-    let mut sieve = [true; 2_000_000];
+    let mut sieve = [true; 2_000_001];
     let sqrt = (sieve.len() as f64).sqrt().ceil() as usize;
     let cursor_max = sieve.len() - 1;
     rule_out(&mut sieve, 7);
@@ -367,7 +367,7 @@ pub fn sum_of_all_the_primes_below_two_million_sieve_step() -> u64 {
     sum
 }
 
-fn rule_out_square(sieve: &mut [bool; 2_000_000], prime: usize) {
+fn rule_out_square(sieve: &mut [bool; 2_000_001], prime: usize) {
     for i in (prime * prime..sieve.len()).step_by(prime) {
         sieve[i] = false;
     }
@@ -379,7 +379,7 @@ fn rule_out_square(sieve: &mut [bool; 2_000_000], prime: usize) {
 /// assert_eq!(sum_of_all_the_primes_below_two_million_sieve_step_23(), 142913828922);
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_sieve_step_23() -> u64 {
-    let mut sieve = [true; 2_000_000];
+    let mut sieve = [true; 2_000_001];
     let sqrt = (sieve.len() as f64).sqrt().ceil() as usize;
     let cursor_max = sieve.len() - 1;
     rule_out_square(&mut sieve, 3);
@@ -470,7 +470,7 @@ pub fn sum_of_all_the_primes_below_two_million_sieve_step_23() -> u64 {
 /// assert_eq!(sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter(), 142913828922);
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter() -> u64 {
-    let mut matrix = [true; 2_000_000]; // n: 2_000_001 i: 0..=2_000_000
+    let mut matrix = [true; 2_000_001]; // n: 2_000_001 i: 0..=2_000_000
     let sqrt = ((matrix.len() - 1) as f64).sqrt().ceil() as usize;
     let mut sum = 5u64; // because the first primes sum([2,3]) are skipped and starts with [5,
     matrix[0] = false;
@@ -524,7 +524,7 @@ impl Index {
 /// assert_eq!(sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter_2(), 142913828922);
 /// ```
 pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailcut_iter_2() -> u64 {
-    let mut matrix = [true; 2_000_000];
+    let mut matrix = [true; 2_000_001];
     let sqrt = (matrix.len() as f64).sqrt().ceil() as usize;
     let mut sum = 2u64 + 3;
     let mut index = Index::new();
@@ -548,4 +548,45 @@ pub fn sum_of_all_the_primes_below_two_million_modified_skip3_as_well_sqrt_tailc
         index.increment();
     }
     sum
+}
+
+mod index {
+    pub struct Index {
+        pub i: usize,
+        ite: Box<dyn Iterator<Item = usize>>,
+    }
+    impl Index {
+        pub fn increment(&mut self) {
+            self.i += self.ite.next().unwrap();
+        }
+        pub fn new() -> Self {
+            Self {
+                i: 5,
+                ite: Box::new(vec![2usize, 4].into_iter().cycle()),
+            }
+        }
+    }
+}
+
+pub fn p10() {
+    let mut sieve = [true; 2_000_001];
+    let sqrt = ((sieve.len() - 1) as f64).sqrt() as usize;
+    let mut sum = 2u64 + 3;
+    let mut index = index::Index::new();
+    while index.i <= sqrt {
+        if sieve[index.i] {
+            sum += index.i as u64;
+            rule_out(&mut sieve, index.i);
+        }
+        index.increment();
+    }
+    while index.i < sieve.len() {
+        if sieve[index.i] {
+            sum += index.i as u64;
+        }
+        index.increment();
+    }
+
+    println!("{}", sum);
+    assert_eq!(sum, 142913828922);
 }

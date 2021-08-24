@@ -142,16 +142,18 @@ pub fn fractions_contain_a_numerator_with_more_digits_linear() -> u32 {
     let deno_c = 1.5f64 * 2f64.log10();
     let nume_c = 2f64.log10();
     let log10_r1 = r1.log10();
-    //let r2_over_r1 = r2 / r1;
+    let r2_over_r1 = r2 / r1;
 
     let mut count = 0u32;
-    //let mut pow = r2_over_r1.clone();
+    let mut pow = r2_over_r1.clone();
     for n in 2u32..=1001 {
-        //pow *= r2_over_r1;
-        //let deno_digit = (n as f64 * log10_r1 + (1f64 - pow).log10() - deno_c) as u32;
-        //let nume_digit = (n as f64 * log10_r1 + (1f64 + pow).log10() - nume_c) as u32;
-        let deno_digit = (n as f64 * log10_r1 - deno_c) as u32;
-        let nume_digit = (n as f64 * log10_r1 - nume_c) as u32;
+        pow *= r2_over_r1;
+        let nlog10r1 = n as f64 * log10_r1;
+        let deno_digit = (nlog10r1 + (1f64 - pow).log10() - deno_c) as u32;
+        let nume_digit = (nlog10r1 + (1f64 + pow).log10() - nume_c) as u32;
+        
+        //let deno_digit = (nlog10r1 - deno_c) as u32;
+        //let nume_digit = (nlog10r1 - nume_c) as u32;
         if nume_digit > deno_digit {
             count += 1;
         }
