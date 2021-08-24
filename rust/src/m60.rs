@@ -65,8 +65,88 @@ mod tests {
     }
 }
 
-
 use std::time::{SystemTime, UNIX_EPOCH};
+
+fn pairing(
+    a: u32,
+    primes: &[u32],
+    sieve: &sieve::Sieve,
+    rand: &mut rand::MinStdRand,
+) -> Option<Vec<u32>> {
+    let mut pairs: Option<Vec<u32>> = None;
+    for &b in primes {
+        if !is_pair(a, b, sieve, rand) {
+            continue;
+        }
+        if let Some(vec) = pairs.as_mut() {
+            vec.push(b);
+        } else {
+            pairs.insert(vec![b]);
+        }
+    }
+    pairs
+}
+
+// primes
+//     .iter()
+//     .filter(|&b| is_pair(a, *b, &sieve, &mut rand))
+//     .for_each(|&b| {
+//         if let Some(vec) = pairs.as_mut() {
+//             vec.push(b);
+//         } else {
+//             pairs.insert(vec![b]);
+//         }
+//     });
+
+// fn explore_graph(p: u32, pairs: &[u32], history: &HashMap<u32, Vec<u32>>, angle: usize) {
+//     if pairs.len() < angle - 1 {
+//         return None;
+//     }
+//     dig(&pairs, &history, vec![p], angle - 2);
+// }
+//&mut Vec<u32>,
+fn dig_to_bottom(
+    candidates: &[u32],
+    pair_table: &HashMap<u32, Vec<u32>>,
+    drain: &[u32],
+    angle: usize,
+) -> Result<Vec<u32>, ()> {
+    if angle == 1 {
+        let set = std::iter::once(candidates.get(0).unwrap())
+            .chain(drain.iter())
+            .map(|&n| n)
+            .collect::<Vec<u32>>();
+        return Ok(set);
+    }
+    for p in candidates.iter() {
+        let pairs = pair_table.get(p);
+        let pairs = if pairs.is_none() {
+            continue;
+        } else {
+            pairs.unwrap()
+        };
+        if pairs.len() < angle - 1 {
+            continue;
+        }
+        let pairs = pairs
+            .iter()
+            .filter(|&e| candidates.binary_search(e).is_ok())
+            .map(|e| *e)
+            .collect::<Vec<u32>>();
+        if pairs.len() < angle - 1 {
+            continue;
+        }
+        let drain = std::iter::once(p)
+            .chain(drain.iter())
+            .map(|&n| n)
+            .collect::<Vec<u32>>();
+        let result = dig_to_bottom(&pairs, pair_table, &drain, angle - 1);
+        if result.is_ok() {
+            return result;
+        }
+    }
+    return Err(());
+}
 
 // 316 ms
 /// ```rust
@@ -74,6 +154,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 /// assert_eq!(prime_set_1(), 26033);
 /// ```
 pub fn prime_set_1() -> u32 {
+    let angle = 5usize;
     let mut primes = vec![];
     let mut sieve = sieve::Sieve::new(1000);
     let seed = SystemTime::now()
@@ -81,36 +162,49 @@ pub fn prime_set_1() -> u32 {
         .unwrap()
         .subsec_nanos();
     let mut rand = rand::MinStdRand::new(seed);
-    let mut prime_pairs: HashMap<u32, Vec<u32>> = HashMap::new();
+    //let mut drain = Vec::<u32>::with_capacity(angle);
+    let mut pair_table: HashMap<u32, Vec<u32>> = HashMap::new();
     sieve.next_prime(); // discard 2
     loop {
-        let mut pairs: Option<Vec<u32>> = None;
-        let a = sieve.next_prime();
-        for &b in &primes {
-            if is_pair(a, b, &sieve, &mut rand) {
-                if let Some(vec) = pairs.as_mut() {
-                    vec.push(b);
-                } else {
-                    pairs.insert(vec![b]);
-                }
-            }
+        let p = sieve.next_prime();
+        let pairs = pairing(p, &primes, &sieve, &mut rand);
+        primes.push(p);
+        let pairs = if pairs.is_none() {
+            continue;
+        } else {
+            pairs.unwrap()
+        };
+        if pairs.len() < angle - 1 {
+            continue;
         }
-        if let Some(vec) = pairs {
-            if vec.len() >= 4 {
-                if let Some(ans) = dig(&vec, &prime_pairs, &vec![a], 3) {
-                    println!("{:?}", ans);
-                    break ans.iter().sum();
-                }
-                // rec
-            }
-            //break;
-            prime_pairs.insert(a, vec);
+        //drain.push(a);
+        if let Ok(ans) = dig_to_bottom(&pairs, &pair_table, &vec![p], angle - 1) {
+            println!("{:?}", ans);
+            break ans.iter().sum();
         }
-        primes.push(a);
+        //drain.pop();
+        pair_table.insert(p, pairs);
+        // if let Some(vec) = pairs {
+        //     explore_graph(a, &vec, &prime_pairs, angle);
+        //     prime_pairs.insert(a, vec);
+        // }
+
+        // if let Some(vec) = pairs {
+        //     if vec.len() < angle - 1 {
+        //         continue;
+        //     }
+        //     drain.push(a);
+        //     if let Some(ans) = dig(&vec, &prime_pairs, &mut drain, angle - 2) {
+        //         println!("{:?}", ans);
+        //         break ans.iter().sum();
+        //     }
+        //     drain.pop();
+        //     prime_pairs.insert(a, vec);
+        // }
     }
 }
 
-/// finds the k*2^e form of given n 
+/// finds the k*2^e form of given n
 fn coefficient_and_exponent_of_two(mut n: u32) -> (u32, u32) {
     let mut exp = 0u32;
     while n % 2 == 0 {
@@ -127,7 +221,7 @@ fn is_probable_prime(n: u32, rand: &mut rand::MinStdRand) -> bool {
     if n % 2 == 0 {
         return n == 2;
     }
-    let (d, s) = coefficient_and_exponent_of_two(n - 1); 
+    let (d, s) = coefficient_and_exponent_of_two(n - 1);
     'next_trial: for _ in 0..3 {
         let a = 2 + rand.next(n - 2);
         let mut x = mod_pow(a, d, n);
@@ -192,41 +286,6 @@ fn mod_pow(a: u32, exp: u32, m: u32) -> u32 {
         a = a * a % m;
     }
     result as u32
-}
-
-fn dig(
-    candidates: &[u32],
-    lookup_table: &HashMap<u32, Vec<u32>>,
-    drain: &[u32],
-    angles: usize,
-) -> Option<Vec<u32>> {
-    //println!("{:?} {:?} {}", candidates, drain, angles);
-    if angles == 0 {
-        let mut a = drain.to_vec();
-        a.push(*candidates.get(0).unwrap());
-        return Some(a);
-    }
-    for p in candidates.iter() {
-        if let Some(vec) = lookup_table.get(p) {
-            if vec.len() >= angles {
-                let elements = vec
-                    .iter()
-                    .filter(|&e| candidates.binary_search(e).is_ok())
-                    .map(|e| *e)
-                    .collect::<Vec<u32>>();
-                let mut next_container = drain.clone().to_vec();
-                next_container.push(*p);
-                if elements.len() >= angles {
-                    let satisfactory_set =
-                        dig(&elements, lookup_table, &next_container, angles - 1);
-                    if satisfactory_set.is_some() {
-                        return satisfactory_set;
-                    }
-                }
-            }
-        }
-    }
-    return None;
 }
 
 mod index {
