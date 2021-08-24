@@ -436,7 +436,7 @@ fn is_probable_prime(n: u32, rand: &mut MinStdRand) -> bool {
     // }
     let (d, s) = coefficient_and_exponent_of_two(n - 1); 
     //let nmm = (n - 1) as u64;
-    'NEXT_TRIAL: for _ in 0..7 {
+    'NEXT_TRIAL: for _ in 0..3 {
         // 2 <= a < n
         let a = 2 + rand.next(n - 2);
         // if check_composite(n, a, d, s) {

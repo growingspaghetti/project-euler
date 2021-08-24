@@ -51,6 +51,7 @@ pub mod m57;
 pub mod m58;
 pub mod m5;
 pub mod m6;
+pub mod m60;
 pub mod m7;
 pub mod m8;
 pub mod m81;

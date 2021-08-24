@@ -59,6 +59,7 @@ criterion_main!(
     benchmarks::m56::powerful_digit_sum,
     benchmarks::m57::continued_fraction,
     benchmarks::m58::spiral_primes,
+    benchmarks::m60::prime_pair_sets,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,
