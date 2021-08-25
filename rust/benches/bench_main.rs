@@ -60,6 +60,7 @@ criterion_main!(
     benchmarks::m57::continued_fraction,
     benchmarks::m58::spiral_primes,
     benchmarks::m60::prime_pair_sets,
+    benchmarks::m61::polygonal_cyclical_numbers,
     benchmarks::m81::path_sum_two_ways,
     benchmarks::m82::path_sum_three_ways,
     benchmarks::m83::path_sum_four_ways,

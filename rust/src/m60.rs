@@ -175,6 +175,7 @@ pub fn prime_set_1() -> u32 {
             pairs.unwrap()
         };
         if pairs.len() < angle - 1 {
+            pair_table.insert(p, pairs);
             continue;
         }
         //drain.push(a);
@@ -310,7 +311,7 @@ mod sieve {
         sieve: Vec<bool>,
         index: super::index::Index,
         primes: Vec<usize>,
-        queue: std::collections::VecDeque<usize>,
+        queue_cursor: usize,
     }
 
     impl Sieve {
@@ -321,10 +322,8 @@ mod sieve {
                 sieve: sieve,
                 index: super::index::Index::new(),
                 primes: vec![],
-                queue: std::collections::VecDeque::new(),
+                queue_cursor: 0,
             };
-            s.queue.push_back(2);
-            s.queue.push_back(3);
             s.clean_sieve();
             s
         }
@@ -348,7 +347,6 @@ mod sieve {
             while self.index.i <= side {
                 if self.sieve[self.index.i] {
                     self.primes.push(self.index.i);
-                    self.queue.push_back(self.index.i);
                     self.rule_out(self.index.i);
                 }
                 self.index.increment();
@@ -356,7 +354,6 @@ mod sieve {
             while self.index.i < self.sieve.len() {
                 if self.sieve[self.index.i] {
                     self.primes.push(self.index.i);
-                    self.queue.push_back(self.index.i);
                 }
                 self.index.increment();
             }
@@ -371,8 +368,17 @@ mod sieve {
         }
         pub fn next_prime(&mut self) -> u32 {
             loop {
-                if let Some(p) = self.queue.pop_front() {
-                    return p as u32;
+                if self.queue_cursor == 0 {
+                    self.queue_cursor += 1;
+                    return 2;
+                }
+                if self.queue_cursor == 1 {
+                    self.queue_cursor += 1;
+                    return 3;
+                }
+                if self.queue_cursor - 2 < self.primes.len() {
+                    self.queue_cursor += 1;
+                    return self.primes[self.queue_cursor - 3] as u32;
                 }
                 self.extend();
             }
